@@ -3,7 +3,7 @@ body{
   margin: 0px;
 }
 nav{
-  height: 100px;
+  height: fit-content;
   width: auto;
   background-color: #0067b1;
   display: grid;
@@ -29,9 +29,9 @@ nav{
   left: 10px;
 }
 .nav_links{
-  display: flex;
-  margin: auto;
-  column-gap: 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
 }
 .nav_links a{
   text-decoration: none;
@@ -83,11 +83,78 @@ nav{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
+  height: 800px;
   align-items: center;
-  height: 1000px;
+  column-gap: 50px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 .page_box{
-  width: 60%;
-  height: 50%;
-  margin: auto;
+  min-width: 400px;
+  max-width: 600px;
+  min-height: 400px;
+  max-height: 600px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #0067b1;
+  border-radius: 20px;
+}
+.fill_in_box{
+  width: 100%;
+  height: 100%;
+}
+@media only screen and (max-width: 1350px) {
+  nav{
+    grid-template-columns: 300px auto auto;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  nav{
+    grid-template-columns: 300px 1.5fr;
+    grid-template-rows: auto 50px;
+  }
+  .nav_links{
+    grid-area: 2/2;
+    margin: auto;
+    margin-bottom: 100%;
+  }
+}
+@media only screen and (max-width: 730px) {
+  nav{
+    grid-template-columns: auto;
+    grid-template-rows: auto auto 40px;
+  }
+  .nav_links{
+    grid-area: 3/1;
+  }
+  .nav_logo{
+    margin: auto;
+    left: 40%;
+    top: 0px;
+    height: 60px;
+    width: 150px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+  .nav_logo_Button{
+    width: 100%;
+    height: 100%;
+    bottom: 0px;
+    right: 0px;
+  }
+  .nav_logo_DarkBlueCircle{
+    border-radius: 0%;
+    height: 100%;
+    bottom: 0px;
+    width: 100%;
+    right: 0px;
+    border-width: 0px;
+  }
+  .nav_logo_Button:hover + .nav_logo_DarkBlueCircle{
+    bottom: -10px;
+    height: calc(100% + 10px);
+  }
+  .page_title{
+    font-size: 30px;
+  }
 }
