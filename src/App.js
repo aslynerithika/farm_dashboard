@@ -1,3 +1,5 @@
+import AdjustSoilCon from '../src/AppComponenets/AdjustSoilConFolder/AdjustSoilCon.js';
+
 function NavHeader(){
   return(
     <>
@@ -24,6 +26,14 @@ function App() {
   return(
     <>
       <NavHeader></NavHeader>
+      <div class="page_content">
+        <div class="adjust_soil_conditions">
+          <AdjustSoilCon></AdjustSoilCon>
+        </div>
+        <div class="suitable_crops">
+
+        </div>
+      </div>
     </>
   );
 }

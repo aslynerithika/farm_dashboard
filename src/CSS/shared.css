@@ -79,3 +79,10 @@ nav{
 .page_icon{
   height: 80px;
 }
+.page_content{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  align-items: center;
+  height: 1000px;
+}
