@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function NavHeader(){
   return(
     <>
@@ -12,8 +14,8 @@ function NavHeader(){
           <h1 class="page_title">FARM DASHBOARD</h1>
         </div>
         <div class="nav_links">
-          <a href="">Home</a>
-          <a href="">Land Plots</a>
+          <a><Link to="/">Home</Link></a>
+          <a><Link to="/landplots">Land Plots</Link></a>
         </div>
       </nav>
     </>

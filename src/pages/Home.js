@@ -1,7 +1,6 @@
-import AdjustSoilCon from '../src/AppComponenets/AdjustSoilConFolder/AdjustSoilCon.js';
-import SuitableCrops from '../src/AppComponenets/SuitableCropsFolder/SuitableCrops.js';
-import NavHeader from '../src/AppComponenets/NavHeaderFolder/NavHeader.js';
-
+import AdjustSoilCon from '../AppComponenets/AdjustSoilConFolder/AdjustSoilCon.js';
+import SuitableCrops from '../AppComponenets/SuitableCropsFolder/SuitableCrops.js';
+import '../../src/CSS/index.css';
 
 const AdjustSoilConBoxStyle = {
   marginLeft: "auto"
@@ -13,10 +12,9 @@ const SuitableCropsBoxStyle = {
   maxHeight: "600px",
   marginRight: "auto"
 }
-function App() {
+function Home() {
   return(
     <>
-      <NavHeader></NavHeader>
       <div class="page_content">
         <div style={AdjustSoilConBoxStyle} class="page_box">
           <AdjustSoilCon></AdjustSoilCon>
@@ -29,4 +27,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
