@@ -1,10 +1,10 @@
-import '../src/AppComponents/AdjustSoilConFolder/AdjustSoilCon.css';
+import './AdjustSoilCon.css';
 
 function AdjustSoilCon(){
   return(
     <>
       <div class="adjust_soil_box">
-          <a>MY WORKSPACE</a>
+        <a>MY WORKSPACE</a>
       </div>
     </>
   );

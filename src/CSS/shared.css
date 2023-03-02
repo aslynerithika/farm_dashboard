@@ -86,3 +86,8 @@ nav{
   align-items: center;
   height: 1000px;
 }
+.page_box{
+  width: 60%;
+  height: 50%;
+  margin: auto;
+}

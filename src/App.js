@@ -1,4 +1,5 @@
 import AdjustSoilCon from '../src/AppComponenets/AdjustSoilConFolder/AdjustSoilCon.js';
+import SuitableCrops from '../src/AppComponenets/SuitableCropsFolder/SuitableCrops.js';
 
 function NavHeader(){
   return(
@@ -27,11 +28,11 @@ function App() {
     <>
       <NavHeader></NavHeader>
       <div class="page_content">
-        <div class="adjust_soil_conditions">
+        <div class="page_box">
           <AdjustSoilCon></AdjustSoilCon>
         </div>
-        <div class="suitable_crops">
-
+        <div class="page_box">
+          <SuitableCrops></SuitableCrops>
         </div>
       </div>
     </>
