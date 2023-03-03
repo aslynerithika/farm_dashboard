@@ -1,0 +1,60 @@
+.adjust_soil_box{
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100px 1fr 100px;
+  align-items: center;
+  justify-items: center;
+}
+.adjust_soil_box h1{
+  font-family: "Microsoft Yahei";
+  font-size: 40px;
+}
+.slider_container{
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 50px auto 50px;
+  justify-items: center;
+}
+.slider_container a{
+  align-self: center;
+}
+.MuiSlider-root{
+  width: 80px !important;
+  margin: 0px !important;
+}
+.MuiInputBase-root{
+  height: fit-content;
+  align-self: center;
+}
+.slider_input_container{
+  display: flex;
+  column-gap: 5px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+.slider_input_container img{
+  width: 30px;
+  height: 30px;
+  align-self: center;
+}
+.slider_title{
+  font-family: "Microsoft Yahei";
+}
+.MuiSlider-markLabel{
+  left: 60px !important;
+  color: white !important;
+  visibility: hidden;
+}
+.MuiSlider-mark{
+  left: 55px !important;
+  visibility: hidden;
+}
+.MuiSlider-rail{
+  border-radius: 20px 20px 40px 40px !important;
+}
+.MuiSlider-track{
+  border-radius: 20px 20px 40px 40px !important;
+}
