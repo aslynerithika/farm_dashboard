@@ -83,7 +83,7 @@ nav{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
-  height: 800px;
+  height: 900px;
   align-items: center;
   column-gap: 50px;
   margin-right: 10px;

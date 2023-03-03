@@ -16,7 +16,7 @@ const ChartStyle = {
   maxWidth: "900px"
 }
 const section_1 = {
-  height: "300px",
+  height: "200px",
   marginTop: "30px"
 }
 const section_2 = {
