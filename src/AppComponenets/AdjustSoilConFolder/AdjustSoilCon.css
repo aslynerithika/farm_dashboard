@@ -58,3 +58,17 @@
 .MuiSlider-track{
   border-radius: 20px 20px 40px 40px !important;
 }
+@media only screen and (max-width: 900px){
+  .MuiSlider-root{
+    width: 70px !important;
+  }
+  .MuiSlider-markLabel{
+    left: 50px !important;
+  }
+  .MuiSlider-mark{
+    left: 45px !important;
+  }
+  .adjust_soil_box{
+    grid-template-rows: 50px 1fr 50px;
+  }
+}

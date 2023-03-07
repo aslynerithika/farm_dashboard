@@ -12,6 +12,104 @@ const phDefaultValue = 7;
 const SunlightDefaultValue = 30;
 const TempDefaultValue = 23;
 
+//const requestURL = 'https://sampledata.elancoapps.com/data';
+
+// let headers = new Headers();
+
+// headers.append('Content-Type', 'application/json');
+// headers.append('Accept', 'application/json');
+
+// headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
+// //headers.append('Access-Control-Allow-Credentials', 'true');
+
+// headers.append('GET', 'POST', 'OPTIONS');
+
+// headers.append('Authorization', 'Basic ');
+
+// fetch(requestURL, {
+//     //mode: 'no-cors',
+//     //credentials: 'include',
+//     method: 'GET',
+//     headers: headers
+//   })
+//   .then(response => response.json())
+//   .then(json => console.log(json))
+//   .catch(error => console.log('Authorization failed : ' + error.message));
+
+// const requestURL = 'https://sampledata.elancoapps.com/data';
+// fetch(requestURL, {
+//   headers: {
+//     Accept: "application/json",
+//   },
+//   method: "GET"
+// })
+
+// var request = new XMLHttpRequest()
+// request.open('GET', requestURL, true)
+// request.onload = function () {
+//   // begin accessing JSON data here
+// }
+// request.send()
+
+
+// fetch(requestURL)
+//    .then(response => response.json())
+//    .then(json => console.log(JSON.stringify(json)))
+
+// var landPlotMinData = {"PH":0, "Temp_C":0, "AVG_Humidity__":0, "AVG_Light__":0};
+// var landPlotMaxData = {"PH":0, "Temp_C":0, "AVG_Humidity__":0, "AVG_Light__":0};
+
+// let PHvalues  = landPlotsData.map(function(v) {
+//   return v.PH;
+// });
+// var min = Math.min.apply( null, PHvalues );
+// console.log(min)
+
+const minAndMaxValues = {
+  1 : {"min":0, "max":100},
+  2 : {"min":1, "max":14},
+  3 : {"min":0, "max":100},
+  4 : {"min":0, "max":50}
+}
+
+window.addEventListener("resize", function() {
+  var sliders = document.getElementsByClassName("MuiSlider-root");
+  var sliderInputs = document.getElementsByClassName("MuiInputBase-input");
+  if (!window.matchMedia("(min-width: 900px)").matches){
+    for(var i = 0; i < sliders.length; i++){
+      var slider = sliders[i];
+      var markLabels = slider.querySelectorAll(".MuiSlider-markLabel");
+      var markPoints = slider.querySelectorAll(".MuiSlider-mark");
+      
+      var count = 0;
+      markLabels.forEach(function(){
+        if(count % 2 != 0){
+          markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: hidden !important");
+          markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: hidden !important");
+        }
+        count++;
+      });
+    }
+  }else{
+    for(var i = 1; i < sliderInputs.length+1; i++){
+      onChangeFunc(i, parseFloat(sliderInputs[i-1].value));
+    }
+  }
+})
+window.addEventListener("load", (event) => {
+  var sliderInputs = document.getElementsByClassName("MuiInputBase-input");
+  //var sliders = document.getElementsByClassName("MuiSlider-root");
+  for(var i = 1; i < sliderInputs.length+1; i++){
+    onChangeFunc(i, parseFloat(sliderInputs[i-1].value));
+  }
+
+  // for(var i = 0; i < sliderInputs.length; i++){
+  //   console.log(i);
+  //   sliderInputs[i].value = 0;
+  //   //onChangeFunc(i+1, 0);
+  // }
+});
+
 const tempGradient = new Gradient()
   .setColorGradient("#00d3ff", "#8200ff", "#ff0000")
   .setMidpoint(50);
@@ -61,32 +159,42 @@ const Input = styled(MuiInput)`width: 42px;`;
 
 function onChangeFunc(slideNum, sliderValue){
   var slider = document.getElementById("slider_"+slideNum);
+  var sliderValue = parseFloat(sliderValue);
+  var colorSliderValue = sliderValue;
+  if(!sliderValue || sliderValue <= 0){
+    colorSliderValue = (minAndMaxValues[slideNum]["min"] <= 0? 1 : minAndMaxValues[slideNum]["min"]);
+  }
   if(slideNum == 1){
-    slider.style.color = moistGradient.getColor(sliderValue);
+    slider.style.color = moistGradient.getColor(colorSliderValue);
   }else if(slideNum == 2){
-    slider.style.color = phGradient.getColor(sliderValue);
+    slider.style.color = phGradient.getColor(colorSliderValue);
   }else if(slideNum == 3){
-    slider.style.color = sunlightGradient.getColor(sliderValue);
+    slider.style.color = sunlightGradient.getColor(colorSliderValue);
   }else if(slideNum == 4){
-    slider.style.color = tempGradient.getColor(sliderValue);
+    slider.style.color = tempGradient.getColor(colorSliderValue);
   }
   var markLabels = slider.querySelectorAll(".MuiSlider-markLabel");
   var markPoints = slider.querySelectorAll(".MuiSlider-mark");
   var count = 0;
   markLabels.forEach(function(markLabel){
     var markLabelNum = markLabel.textContent.match(/\d+/g);
-    //var markLabelNumString = markLabelNum.toString();
     if(markLabelNum[1]){
       markLabelNum = markLabelNum[0]+"."+markLabelNum[1];
     }
-    console.log(markLabelNum);
-    if(markLabelNum <= sliderValue){
-      //console.log(sliderMarks[slideNum][markLabelNum].value.toString());
-
+    if(parseFloat(markLabelNum) <= sliderValue){
       // MOST RECENT markLabels[count].setAttribute("style","bottom:"+sliderMarks[slideNum][count].value.toString()+"%; "+"visibility: visible !important");
-      //console.log(markLabels[count].style.bottom);
-      markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
-      markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
+      if (!window.matchMedia("(min-width: 900px)").matches){
+        if(count % 2 == 0){
+          markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
+          markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
+        }else{
+          markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: hidden !important");
+          markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: hidden !important");
+        }
+      }else{
+        markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
+        markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
+      }
 
       //markLabels[count].style.setProperty("visibility","visible","!important");
     }else{
@@ -111,12 +219,6 @@ function AdjustSoilCon(){
     2 : [phValue, setphValue, phDefaultValue],
     3 : [SunlightValue, setSunlightValue, SunlightDefaultValue],
     4 : [TempValue, setTempValue, TempDefaultValue]
-  }
-  const minAndMaxValues = {
-    1 : {"min":0, "max":100},
-    2 : {"min":1, "max":14},
-    3 : {"min":0, "max":100},
-    4 : {"min":0, "max":50}
   }
   const inputStepValues = {
     1 : 10,
@@ -207,7 +309,7 @@ function AdjustSoilCon(){
           <Input
             value={SliderVars[i][0]}
             size="small"
-            onChange={(event) => SliderVars[i][1](event.target.value)}
+            onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value)}
             inputProps={{
               step: inputStepValues[i],
               min: minAndMaxValues[i]["min"],
