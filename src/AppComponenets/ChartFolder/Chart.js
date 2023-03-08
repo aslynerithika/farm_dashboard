@@ -21,7 +21,7 @@ const BarChart = () => {
         backgroundColor: 'rgba(54, 162, 235, 1)',
         borderColor: "rgb(255, 99, 235)",
         data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
-        borderWidth: 1
+        borderWidth: 2
 
       },
     ],
