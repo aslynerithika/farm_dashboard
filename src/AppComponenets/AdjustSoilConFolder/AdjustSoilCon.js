@@ -36,13 +36,29 @@ const TempDefaultValue = 23;
 //   .then(json => console.log(json))
 //   .catch(error => console.log('Authorization failed : ' + error.message));
 
-// const requestURL = 'https://sampledata.elancoapps.com/data';
 // fetch(requestURL, {
 //   headers: {
 //     Accept: "application/json",
 //   },
 //   method: "GET"
 // })
+
+//const requestURL = 'https://sampledata.elancoapps.com/data';
+
+// async function getData() {
+//   const response = await fetch(requestURL, { 
+//     method: 'GET', 
+//   })
+// }
+
+// const url = 'https://sampledata.elancoapps.com/data';
+// async function getData() {
+//     const response = await fetch(url);
+//     const data = await response.json()
+//     console.log(data);
+// }
+// getData();
+
 
 // var request = new XMLHttpRequest()
 // request.open('GET', requestURL, true)
