@@ -13,9 +13,11 @@ export default function App() {
   useEffect(() => {
     fetch('https://sampledata.elancoapps.com/data',{
       method: "GET",
+      mode: 'no-cors',
       headers: {
-        "Access-Control-Allow-Origin" : "http://localhost:3000",
-        "Origin" : "http://localhost:3000"
+            "Access-Control-Allow-Headers" : "Content-Type",
+            "Access-Control-Allow-Origin": "http://localhost:3000",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
       }
     })
        .then((response) => response.json())
