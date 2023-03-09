@@ -6,71 +6,12 @@ import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import Gradient from "javascript-color-gradient";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import useFetchLandPlotsData from '../../CustomHooks/FetchData.js';
 
 const MoistDefaultValue = 30;
 const phDefaultValue = 7;
 const SunlightDefaultValue = 30;
 const TempDefaultValue = 23;
-
-//const requestURL = 'https://sampledata.elancoapps.com/data';
-
-// let headers = new Headers();
-
-// headers.append('Content-Type', 'application/json');
-// headers.append('Accept', 'application/json');
-
-// headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
-// //headers.append('Access-Control-Allow-Credentials', 'true');
-
-// headers.append('GET', 'POST', 'OPTIONS');
-
-// headers.append('Authorization', 'Basic ');
-
-// fetch(requestURL, {
-//     //mode: 'no-cors',
-//     //credentials: 'include',
-//     method: 'GET',
-//     headers: headers
-//   })
-//   .then(response => response.json())
-//   .then(json => console.log(json))
-//   .catch(error => console.log('Authorization failed : ' + error.message));
-
-// const requestURL = 'https://sampledata.elancoapps.com/data';
-// fetch(requestURL, {
-//   headers: {
-//     Accept: "application/json",
-//   },
-//   method: "GET"
-// })
-
-// var request = new XMLHttpRequest()
-// request.open('GET', requestURL, true)
-// request.onload = function () {
-//   // begin accessing JSON data here
-// }
-// request.send()
-
-
-// fetch(requestURL)
-//    .then(response => response.json())
-//    .then(json => console.log(JSON.stringify(json)))
-
-// var landPlotMinData = {"PH":0, "Temp_C":0, "AVG_Humidity__":0, "AVG_Light__":0};
-// var landPlotMaxData = {"PH":0, "Temp_C":0, "AVG_Humidity__":0, "AVG_Light__":0};
-
-// let PHvalues  = landPlotsData.map(function(v) {
-//   return v.PH;
-// });
-// var min = Math.min.apply( null, PHvalues );
-// console.log(min)
-
-const minAndMaxValues = {
-  1 : {"min":0, "max":100},
-  2 : {"min":1, "max":14},
-  3 : {"min":0, "max":100},
-  4 : {"min":0, "max":50}
-}
 
 window.addEventListener("resize", function() {
   var sliders = document.getElementsByClassName("MuiSlider-root");
@@ -157,7 +98,7 @@ const theme = createTheme({
 
 const Input = styled(MuiInput)`width: 42px;`;
 
-function onChangeFunc(slideNum, sliderValue){
+function onChangeFunc(slideNum, sliderValue, minAndMaxValues){
   var slider = document.getElementById("slider_"+slideNum);
   var sliderValue = parseFloat(sliderValue);
   var colorSliderValue = sliderValue;
@@ -208,6 +149,16 @@ function onChangeFunc(slideNum, sliderValue){
 };
 
 function AdjustSoilCon(){
+  const [landPlotsData] = useFetchLandPlotsData();
+  console.log(landPlotsData);
+
+  const minAndMaxValues = {
+    1 : {"min":0, "max":100},
+    2 : {"min":1, "max":14},
+    3 : {"min":0, "max":100},
+    4 : {"min":0, "max":50}
+  }
+
   const [MoistValue, setMoistValue] = useState(MoistDefaultValue);
   const [phValue, setphValue] = useState(phDefaultValue);
   const [SunlightValue, setSunlightValue] = useState(SunlightDefaultValue);
@@ -297,7 +248,7 @@ function AdjustSoilCon(){
           marks={sliderMarks[i]}
 
           value={SliderVars[i][0]}
-          onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value)}
+          onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
         />
       </ThemeProvider>
     );
@@ -309,7 +260,7 @@ function AdjustSoilCon(){
           <Input
             value={SliderVars[i][0]}
             size="small"
-            onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value)}
+            onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
             inputProps={{
               step: inputStepValues[i],
               min: minAndMaxValues[i]["min"],
