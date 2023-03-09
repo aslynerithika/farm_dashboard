@@ -1,8 +1,6 @@
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1000px) {
   .page_content{
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: 1fr 1fr;
+    flex-direction: column;
     margin-top: 40px;
     column-gap: 0px;
     row-gap: 40px;

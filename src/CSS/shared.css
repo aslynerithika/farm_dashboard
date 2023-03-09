@@ -80,9 +80,7 @@ nav{
   height: 80px;
 }
 .page_content{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
+  display: flex;
   height: 900px;
   align-items: center;
   column-gap: 50px;
@@ -159,5 +157,10 @@ body {
   }
   .page_title{
     font-size: 30px;
+  }
+}
+@media only screen and (max-height: 850px){
+  .page_content{
+    height: 650px;
   }
 }
