@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import Gradient from "javascript-color-gradient";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useFetchData from '../../CustomHooks/FetchData.js';
+import useFetchLandPlotsData from '../../CustomHooks/FetchData.js';
 
 const MoistDefaultValue = 30;
 const phDefaultValue = 7;
