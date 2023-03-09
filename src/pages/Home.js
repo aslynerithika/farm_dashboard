@@ -12,12 +12,12 @@ const SuitableCropsBoxStyle = {
   maxHeight: "600px",
   marginRight: "auto"
 }
-function Home() {
+function Home(parms){
   return(
     <>
       <div class="page_content">
         <div style={AdjustSoilConBoxStyle} class="page_box">
-          <AdjustSoilCon></AdjustSoilCon>
+          <AdjustSoilCon disableAdjustSoilCon={parms.disableAdjustSoilCon !== "true"? "false" : "true"}></AdjustSoilCon>
         </div>
         <div style={SuitableCropsBoxStyle} class="page_box">
           <SuitableCrops></SuitableCrops>

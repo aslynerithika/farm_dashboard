@@ -36,7 +36,7 @@ function LandPlots() {
           <Chart></Chart>
         </div>
       </div>
-      <Home></Home>
+      <Home disableAdjustSoilCon="true"></Home>
     </>
   );
 }

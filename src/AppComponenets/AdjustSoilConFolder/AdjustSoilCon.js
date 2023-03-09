@@ -3,7 +3,7 @@ import Slider from '@mui/material/Slider';
 import Button from '@mui/material/Button';
 import MuiInput from '@mui/material/Input';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Gradient from "javascript-color-gradient";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useFetchLandPlotsData from '../../CustomHooks/FetchData.js';
@@ -12,6 +12,13 @@ const MoistDefaultValue = 30;
 const phDefaultValue = 7;
 const SunlightDefaultValue = 30;
 const TempDefaultValue = 23;
+
+const minAndMaxValues = {
+  1 : {"min":0, "max":100},
+  2 : {"min":1, "max":14},
+  3 : {"min":0, "max":100},
+  4 : {"min":0, "max":50}
+}
 
 window.addEventListener("resize", function() {
   var sliders = document.getElementsByClassName("MuiSlider-root");
@@ -37,19 +44,6 @@ window.addEventListener("resize", function() {
     }
   }
 })
-window.addEventListener("load", (event) => {
-  var sliderInputs = document.getElementsByClassName("MuiInputBase-input");
-  //var sliders = document.getElementsByClassName("MuiSlider-root");
-  for(var i = 1; i < sliderInputs.length+1; i++){
-    onChangeFunc(i, parseFloat(sliderInputs[i-1].value));
-  }
-
-  // for(var i = 0; i < sliderInputs.length; i++){
-  //   console.log(i);
-  //   sliderInputs[i].value = 0;
-  //   //onChangeFunc(i+1, 0);
-  // }
-});
 
 const tempGradient = new Gradient()
   .setColorGradient("#00d3ff", "#8200ff", "#ff0000")
@@ -98,10 +92,11 @@ const theme = createTheme({
 
 const Input = styled(MuiInput)`width: 42px;`;
 
-function onChangeFunc(slideNum, sliderValue, minAndMaxValues){
+function onChangeFunc(slideNum, sliderValue){
   var slider = document.getElementById("slider_"+slideNum);
   var sliderValue = parseFloat(sliderValue);
   var colorSliderValue = sliderValue;
+
   if(!sliderValue || sliderValue <= 0){
     colorSliderValue = (minAndMaxValues[slideNum]["min"] <= 0? 1 : minAndMaxValues[slideNum]["min"]);
   }
@@ -148,15 +143,22 @@ function onChangeFunc(slideNum, sliderValue, minAndMaxValues){
   });
 };
 
-function AdjustSoilCon(){
-  const [landPlotsData] = useFetchLandPlotsData();
-  console.log(landPlotsData);
+function AdjustSoilCon(params){
 
-  const minAndMaxValues = {
-    1 : {"min":0, "max":100},
-    2 : {"min":1, "max":14},
-    3 : {"min":0, "max":100},
-    4 : {"min":0, "max":50}
+  const [landPlotsData] = useFetchLandPlotsData();
+
+  useEffect(() => {
+    var sliderInputs = document.getElementsByClassName("MuiInputBase-input");
+    for(var i = 1; i < sliderInputs.length+1; i++){
+      onChangeFunc(i, parseFloat(sliderInputs[i-1].value));
+    }
+  });
+
+  var classToAdd;
+  if(params.disableAdjustSoilCon === "true"){
+    classToAdd = " disabled";
+  }else{
+    classToAdd = "";
   }
 
   const [MoistValue, setMoistValue] = useState(MoistDefaultValue);
@@ -237,7 +239,7 @@ function AdjustSoilCon(){
   for (let i = 1; i <= 4; i++){
     Sliders.push(
       <ThemeProvider theme={theme}>
-        <Slider id={"slider_"+i}
+        <Slider id={"slider_"+i} 
           orientation="vertical"
           defaultValue={SliderVars[i][2]}
           valueLabelDisplay="auto"
@@ -248,7 +250,7 @@ function AdjustSoilCon(){
           marks={sliderMarks[i]}
 
           value={SliderVars[i][0]}
-          onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
+          onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value)}
         />
       </ThemeProvider>
     );
@@ -260,7 +262,7 @@ function AdjustSoilCon(){
           <Input
             value={SliderVars[i][0]}
             size="small"
-            onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
+            onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value)}
             inputProps={{
               step: inputStepValues[i],
               min: minAndMaxValues[i]["min"],
@@ -275,7 +277,7 @@ function AdjustSoilCon(){
     
     SlidersTitles.push(
       <>
-        <div class="slider_input_container">
+        <div class={"slider_input_container"}>
           <img src={"/Images/App/"+sliderImgSrc[i]+".png"}></img>
           <a class="slider_title">{sliderTitles[i]}</a>
         </div>
@@ -285,7 +287,7 @@ function AdjustSoilCon(){
 
   return(
     <>
-      <div class="adjust_soil_box fill_in_box">
+      <div class={"adjust_soil_box fill_in_box" + classToAdd}>
         <h1>Adjust soil conditions</h1>
         <div class="slider_container">
           {SlidersTitles}

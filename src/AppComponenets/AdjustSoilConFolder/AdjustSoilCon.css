@@ -72,3 +72,19 @@
     grid-template-rows: 50px 1fr 50px;
   }
 }
+.disabled .MuiSlider-root{
+  pointer-events: none;
+}
+.disabled .MuiButtonBase-root{
+  display: none;
+}
+.disabled .slider_container .MuiSlider-thumb{
+  display: none;
+}
+.disabled .slider_container .MuiInputBase-root{
+  pointer-events: none;
+  width: 25px;
+}
+.disabled .slider_container .MuiInputBase-root:before{
+  border-bottom: 0px !important;
+}
