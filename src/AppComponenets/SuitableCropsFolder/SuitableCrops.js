@@ -51,16 +51,25 @@ function SuitableCrops(){
     const oats = Crop('Oats','6.2','6.6','15','25','25',
         '75','10','40','80','300','30')
     
+    const cropArray = {wheat, rice, corn, barley, oats};
+    
     
   return(
     <>
       <div class="suitable_crops_box fill_in_box">
         <a></a>
           <div class ="cropInfoBox">
-            <p class = "cropInfo">
-              {wheat.name}<br></br>
-              "PH: {wheat.lowerPHLimit} - {wheat.upperPHLimit} | Humidity: {wheat.lowerHumidityLimit}% - {wheat.upperHumidityLimit}"
-            </p>
+              <div class="column cropRank"></div>
+              <div className="column cropImage"></div>
+              <div className="column cropInfo">
+                  <p className="cropInfo">
+                      {wheat.name}<br></br>
+                      PH: {wheat.lowerPHLimit} - {wheat.upperPHLimit} | Humidity: {wheat.lowerHumidityLimit}%
+                      - {wheat.upperHumidityLimit}
+                  </p>
+              </div>
+                
+            
           </div>
       </div>
     </>

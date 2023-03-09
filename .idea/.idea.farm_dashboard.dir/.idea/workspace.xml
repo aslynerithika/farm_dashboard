@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59def36c-c1c3-43c7-8dd4-c9df0949c1ca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.js" afterDir="false" />
@@ -47,7 +44,7 @@
       <option name="presentableId" value="Default" />
       <updated>1678097800355</updated>
       <workItem from="1678097801453" duration="5963000" />
-      <workItem from="1678348320350" duration="2644000" />
+      <workItem from="1678348320350" duration="4372000" />
     </task>
     <servers />
   </component>
