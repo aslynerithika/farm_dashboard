@@ -11,23 +11,15 @@ import CropView from "./pages/CropView";
 export default function App() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fetch('https://sampledata.elancoapps.com/data',{
-      method: "GET",
-      mode: 'no-cors',
-      headers: {
-            "Access-Control-Allow-Headers" : "Content-Type",
-            "Access-Control-Allow-Origin": "http://localhost:3000",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-      }
+    fetch('https://sampledata.elancoapps.com/data')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      setPosts(data);
     })
-       .then((response) => response.json())
-       .then((data) => {
-          console.log(data);
-          setPosts(data);
-       })
-       .catch((err) => {
-          console.log(err.message);
-       });
+    .catch((err) => {
+      console.log(err.message);
+    });
   }, []);
   return (
     <BrowserRouter>
