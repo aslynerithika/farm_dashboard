@@ -1,5 +1,29 @@
 Footer{
-  border: 2px solid blue;
-  width: 100%;
-  height: 100px;
-}
+  background-color: #0067b1;
+   width: 100%;
+   height: 100px;
+ }
+ 
+ .mediaLinks {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 10px;
+   color: aliceblue;
+   text-decoration: none;
+   
+ }
+ 
+ .mediaLinks i {
+   font-size: 30px;
+   margin: 30px 45px;
+   text-decoration: none;
+   color:white;
+   
+   
+ 
+ }
+ 
+ .mediaLinks h1 {
+   font-size: 20px;
+ }
