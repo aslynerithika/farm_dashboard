@@ -44,12 +44,12 @@
   font-family: "Microsoft Yahei";
 }
 .MuiSlider-markLabel{
-  left: 60px !important;
+  left: 55px !important;
   color: white !important;
   visibility: hidden;
 }
 .MuiSlider-mark{
-  left: 55px !important;
+  left: 50px !important;
   visibility: hidden;
 }
 .MuiSlider-rail{
@@ -83,7 +83,7 @@
 }
 .disabled .slider_container .MuiInputBase-root{
   pointer-events: none;
-  width: 25px;
+  width: 38px;
 }
 .disabled .slider_container .MuiInputBase-root:before{
   border-bottom: 0px !important;
