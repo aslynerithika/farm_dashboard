@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import Gradient from "javascript-color-gradient";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useFetchLandPlotsData from '../../CustomHooks/FetchData.js';
+import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
 
 const MoistDefaultValue = 30;
 const phDefaultValue = 7;
@@ -85,7 +85,7 @@ const theme = createTheme({
 
 const Input = styled(MuiInput)`width: 42px;`;
 
-function onChangeFunc(slideNum, sliderValue){
+function onChangeFunc(slideNum, sliderValue, minAndMaxValues, markLabelsArray){
   var slider = document.getElementById("slider_"+slideNum);
   var sliderValue = parseFloat(sliderValue);
   var colorSliderValue = sliderValue;
@@ -110,37 +110,39 @@ function onChangeFunc(slideNum, sliderValue){
   var markPoints = slider.querySelectorAll(".MuiSlider-mark");
   var count = 0;
   markLabels.forEach(function(markLabel){
-    var markLabelNum = markLabel.textContent.match(/\d+/g);
+    var markLabelNum = markLabelsArray && markLabelsArray[slideNum][count]? markLabelsArray[slideNum][count]["value"] : markLabel.textContent.match(/\d+/g);
     if(markLabelNum[1]){
-      markLabelNum = markLabelNum[0]+"."+markLabelNum[1];
+      markLabelNum = markLabelNum[0]+"."+markLabelNum[markLabelsArray? 2 : 1];
     }
     if(parseFloat(markLabelNum) <= sliderValue){
-      if (!window.matchMedia("(min-width: 900px)").matches){
-        if(count % 2 == 0){
-          markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
-          markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
-        }else{
-          markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: hidden !important");
-          markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: hidden !important");
-        }
-      }else{
-        markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
-        markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
-      }
+      markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
+      markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: visible !important");
     }else{
       markLabels[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: hidden !important");
       markPoints[count].setAttribute("style","bottom:"+markLabels[count].style.bottom+"; "+"visibility: hidden !important");
     }
     count++;
   });
+
+  var maxdiff = minAndMaxValues[slideNum].max - minAndMaxValues[slideNum].min;
+  var sliderRail = slider.querySelector(".MuiSlider-rail");
+  //console.log(sliderValue + " / " + maxdiff + " = " + ((sliderValue - minAndMaxValues[slideNum].min)/maxdiff));
+  var sliderValuePrecentage = ((sliderValue - minAndMaxValues[slideNum].min)/maxdiff)*100;
+  if(sliderValuePrecentage <= 10 && sliderValuePrecentage >= 5){
+    sliderRail.setAttribute("style", "border-radius: 20px 20px 20px 20px !important;");
+  }else if(sliderValuePrecentage < 5){
+    sliderRail.setAttribute("style", "border-radius: 20px 20px 0px 0px !important;");
+  }else{
+    sliderRail.setAttribute("style", "border-radius: 20px 20px 40px 40px !important;");
+  }
 };
 
 function AdjustSoilCon(params){
 
-  const [MoistMaxAndMin, setMoistMaxAndMin] = useState({min:null, max:null});
-  const [phMaxAndMin, setphMaxAndMin] = useState({min:null, max:null});
-  const [SunlightMaxAndMin, setSunlightMaxAndMin] = useState({min:null, max:null});
-  const [TempMaxAndMin, setTempMaxAndMin] = useState({min:null, max:null});
+  const [MoistMaxAndMin, setMoistMaxAndMin] = useState({min:0, max:250});
+  const [phMaxAndMin, setphMaxAndMin] = useState({min:0, max:60});
+  const [SunlightMaxAndMin, setSunlightMaxAndMin] = useState({min:0, max:250});
+  const [TempMaxAndMin, setTempMaxAndMin] = useState({min:0, max:200});
 
   const minAndMaxValues = {
     1 : MoistMaxAndMin,
@@ -175,73 +177,72 @@ function AdjustSoilCon(params){
     4 : setTempMarks
   }
 
-  const landPlotsData = useFetchLandPlotsData();
-  landPlotsData.then((successData) => {
-    var soilVariablesList = {
-      1 : {"min" : null, "max" : null},
-      2 : {"min" : null, "max" : null},
-      3 : {"min" : null, "max" : null},
-      4 : {"min" : null, "max" : null}
-    };
-    const API_SOIL_VARS = {1:"AVG_Humidity__", 2:"PH", 3:"AVG_Light__", 4:"Temp_C"};
-    for(var i = 0; i < successData.length; i++){
-      for(var j = 1; j <= Object.keys(soilVariablesList).length; j++){
-        if(soilVariablesList[j]["max"] == null || successData[i][API_SOIL_VARS[j]] > soilVariablesList[j]["max"]){
-          soilVariablesList[j]["max"] = successData[i][API_SOIL_VARS[j]];
-        }
-        if(soilVariablesList[j]["min"] == null || successData[i][API_SOIL_VARS[j]] < soilVariablesList[j]["min"]){
-          soilVariablesList[j]["min"] = successData[i][API_SOIL_VARS[j]];
-        }
-      }
-    }
-    //console.log(soilVariablesList);
-    for(var soilVarIndex = 1; soilVarIndex <= Object.keys(soilVariablesList).length; soilVarIndex++){
-      SetminAndMaxValues[soilVarIndex]({min:soilVariablesList[soilVarIndex]["min"], max:soilVariablesList[soilVarIndex]["max"]});
-
-      //console.log("YAALLL"+soilVariablesList[3]["max"]);
-      var markLabelsAmount = 6;
-      var markLabelsArray = [];
-      for(var markLabelCount = 1; markLabelCount < markLabelsAmount; markLabelCount++){
-        //console.log("index:"+ soilVarIndex+ " " +soilVariablesList[soilVarIndex]["max"]+" / "+ markLabelsAmount+" = "+soilVariablesList[soilVarIndex]["max"]/markLabelsAmount);
-        var maxdiff = soilVariablesList[soilVarIndex]["max"] - soilVariablesList[soilVarIndex]["min"];
-        var numToAdd = (maxdiff/markLabelsAmount)*markLabelCount;
-        var markValue = soilVariablesList[soilVarIndex]["min"] + numToAdd;
-        if(soilVarIndex != 2){
-          markValue = Math.trunc(markValue);
-        }else{
-          markValue = markValue.toFixed(1);
-        }
-        var addOnList = {value: markValue, label: markValue+sliderInputUnitMeasure[soilVarIndex]};
-        //console.log(i+" num"+minAndMaxValues[i].max);
-        markLabelsArray.push(addOnList);
-      }
-      //console.log(markLabelsArray);
-      SetsliderMarks[soilVarIndex](markLabelsArray);
-    }
-    //console.log(sliderMarks);
-    // console.log(minAndMaxValues);
-    // for(var i = 1; i <= Object.keys(minAndMaxValues).length; i++){
-    //   var markLabelsAmount = 6;
-    //   var markLabelsArray = [];
-    //   for(var markLabelCount = 1; markLabelCount < markLabelsAmount; markLabelCount++){
-    //     var addOnList = {value: (minAndMaxValues[i].max/markLabelsAmount)*markLabelCount, label: (minAndMaxValues[i].max/markLabelsAmount)*markLabelCount+sliderInputUnitMeasure[i]};
-    //     //console.log(i+" num"+minAndMaxValues[i].max);
-    //     markLabelsArray.push(addOnList);
-    //   }
-    //   SetsliderMarks[i](markLabelsArray);
-    // }
-    //console.log(sliderMarks);
-  })
-  .catch((failMsg) => {
-    console.log(failMsg);
-  });
-
   useEffect(() => {
-    var sliderInputs = document.getElementsByClassName("MuiInputBase-input");
-    for(var i = 1; i < sliderInputs.length+1; i++){
-      onChangeFunc(i, parseFloat(sliderInputs[i-1].value));
-    }
-  });
+    const landPlotsData = fetchLandPlotsData();
+    landPlotsData.then((successData) => {
+      var soilVariablesList = {
+        1 : {min : null, max : null},
+        2 : {min : null, max : null},
+        3 : {min : null, max : null},
+        4 : {min : null, max : null}
+      };
+      const API_SOIL_VARS = {1:"AVG_Humidity__", 2:"PH", 3:"AVG_Light__", 4:"Temp_C"};
+      for(var i = 0; i < successData.length; i++){
+        for(var j = 1; j <= Object.keys(soilVariablesList).length; j++){
+          if(soilVariablesList[j].max == null || successData[i][API_SOIL_VARS[j]] > soilVariablesList[j].max){
+            soilVariablesList[j].max = successData[i][API_SOIL_VARS[j]];
+          }
+          if(soilVariablesList[j].min == null || successData[i][API_SOIL_VARS[j]] < soilVariablesList[j].min){
+            soilVariablesList[j].min = successData[i][API_SOIL_VARS[j]];
+          }
+        }
+      }
+
+      var sliderMarksList = {
+        1 : null,
+        2 : null,
+        3 : null,
+        4 : null
+      };
+      for(var soilVarIndex = 1; soilVarIndex <= Object.keys(soilVariablesList).length; soilVarIndex++){
+        SetminAndMaxValues[soilVarIndex]({min:soilVariablesList[soilVarIndex].min, max:soilVariablesList[soilVarIndex].max});
+        var markLabelsArray = [];
+        var markLabelsAmount = 6;
+        for(var markLabelCount = 1; markLabelCount < markLabelsAmount; markLabelCount++){
+          var maxdiff = soilVariablesList[soilVarIndex].max - soilVariablesList[soilVarIndex].min;
+          var numToAdd = (maxdiff/markLabelsAmount)*markLabelCount;
+          var markValue = soilVariablesList[soilVarIndex].min + numToAdd;
+          if(soilVarIndex != 2){
+            markValue = Math.trunc(markValue);
+          }else{
+            markValue = markValue.toFixed(1);
+          }
+          var addOnList = {value: markValue, label: markValue+sliderInputUnitMeasure[soilVarIndex]};
+          markLabelsArray.push(addOnList);
+        }
+        SetsliderMarks[soilVarIndex](markLabelsArray);
+        sliderMarksList[soilVarIndex] = markLabelsArray;
+      }
+
+      var sliderInputs = document.getElementsByClassName("MuiInputBase-input");
+      for(var i = 1; i < sliderInputs.length+1; i++){
+        onChangeFunc(i, parseFloat(sliderInputs[i-1].value), soilVariablesList, sliderMarksList);
+      }
+      var sliderContainer = document.getElementsByClassName("slider_container")[0];
+      sliderContainer.setAttribute("style", "pointer-events: unset !important");
+    })
+    .catch((failMsg) => {
+      console.log(failMsg);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("test");
+  //   var sliderInputs = document.getElementsByClassName("MuiInputBase-input");
+  //   for(var i = 1; i < sliderInputs.length+1; i++){
+  //     onChangeFunc(i, parseFloat(sliderInputs[i-1].value), minAndMaxValues);
+  //   }
+  // }, [2]);
 
   var classToAdd;
   if(params.disableAdjustSoilCon === "true"){
@@ -296,7 +297,6 @@ function AdjustSoilCon(params){
   const SliderInputs = [];
   const SlidersTitles = [];
   const Sliders = [];
-
   for (let i = 1; i <= 4; i++){
     Sliders.push(
       <ThemeProvider theme={theme}>
@@ -311,7 +311,7 @@ function AdjustSoilCon(params){
           marks={sliderMarks[i]}
 
           value={SliderVars[i][0]}
-          onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value)}
+          onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
         />
       </ThemeProvider>
     );
@@ -323,7 +323,7 @@ function AdjustSoilCon(params){
           <Input
             value={SliderVars[i][0]}
             size="small"
-            onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value)}
+            onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
             inputProps={{
               step: inputStepValues[i],
               min: minAndMaxValues[i].min,

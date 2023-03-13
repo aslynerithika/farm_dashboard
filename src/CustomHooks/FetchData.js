@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-const useFetchLandPlotsData = () => {
+const fetchLandPlotsData = () => {
   //const [landPlotsData, setlandPlotsData] = useState([]);
   return new Promise((success, fail) => {
     fetch('https://sampledata.elancoapps.com/data')
@@ -16,4 +16,4 @@ const useFetchLandPlotsData = () => {
   //return landPlotsData;
 }
 
-export default useFetchLandPlotsData;
+export default fetchLandPlotsData;
