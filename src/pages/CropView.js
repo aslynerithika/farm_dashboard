@@ -17,7 +17,7 @@ function CropView() {
     <>
       <div class="page_content">
         <div style={AdjustSoilConBoxStyle} class="page_box">
-          <AdjustSoilCon></AdjustSoilCon>
+          <AdjustSoilCon disableAdjustSoilCon="true"></AdjustSoilCon>
         </div>
         <div style={CropInfoBoxStyle} class="page_box">
           <CropInfo></CropInfo>
