@@ -2,11 +2,13 @@ import './Chart.css';
 import Chart from "chart.js/auto";
 import { Bar, Line } from "react-chartjs-2";
 import { useState } from 'react';
+import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
 
 //export default ChartDisplay;
 
        
 const BarChart = () => {
+  //console.log(fetchLandPlotsData);
   const labels = ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"];
   
   const [selectedOutcome, setSelectedOutcome] = useState('Temperature'); 

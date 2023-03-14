@@ -178,7 +178,8 @@ function AdjustSoilCon(params){
   }
 
   useEffect(() => {
-    const landPlotsData = fetchLandPlotsData();
+    const landPlotsData = fetchLandPlotsData;
+    //console.log(landPlotsData);
     landPlotsData.then((successData) => {
       var soilVariablesList = {
         1 : {min : null, max : null},
