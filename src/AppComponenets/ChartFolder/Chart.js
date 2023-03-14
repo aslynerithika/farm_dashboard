@@ -18,7 +18,7 @@ const BarChart = () => {
       {
         label: 'Temperature', 
         backgroundColor: 'rgba(54, 162, 235, 1)',
-        borderColor: "rgb(255, 99, 235)",
+        borderColor: "rgba(54, 162, 235, 1)",
         data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
         borderWidth: 2
       },
@@ -31,7 +31,7 @@ const BarChart = () => {
       {
         label: 'Moisture', 
         backgroundColor: 'rgba(54, 162, 235, 1)',
-        borderColor: "rgb(255, 99, 235)",
+        borderColor: "rgba(54, 162, 235, 1)",
         data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
         borderWidth: 2
       },
@@ -44,7 +44,7 @@ const BarChart = () => {
       {
         label: 'PH Level', 
         backgroundColor: 'rgba(54, 162, 235, 1)',
-        borderColor: "rgb(255, 99, 235)",
+        borderColor: "rgba(54, 162, 235, 1)",
         data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
         borderWidth: 2
       },
@@ -57,7 +57,7 @@ const BarChart = () => {
       {
         label: 'Sunlight', 
         backgroundColor: 'rgba(54, 162, 235, 1)',
-        borderColor: "rgb(255, 99, 235)",
+        borderColor: "rgba(54, 162, 235, 1)",
         data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
         borderWidth: 2
       },
