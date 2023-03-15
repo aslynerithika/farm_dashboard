@@ -15,6 +15,7 @@ let cropYield;
 let growthTime;
 let name;
 let cropScore
+let imageURL
 
 const Crop =
     (name,
@@ -29,26 +30,27 @@ const Crop =
      costAndMaintainance,
      cropYield,
      growthTime,
-     cropScore) => { return { name: name, lowerPHLimit: lowerPHLimit, upperPHLimit: upperPHLimit, lowerTempLimit: lowerTempLimit,
+     cropScore,
+     imageURL) => { return { name: name, lowerPHLimit: lowerPHLimit, upperPHLimit: upperPHLimit, lowerTempLimit: lowerTempLimit,
         upperTempLimit:upperTempLimit, lowerHumidityLimit: lowerHumidityLimit, upperHumidityLimit:upperHumidityLimit,
         lowerLightLimit: lowerLightLimit, upperLightLimit: upperLightLimit, costAndMaintainance: costAndMaintainance, cropYield: cropYield,
-        growthTime: growthTime, cropScore: cropScore
+        growthTime: growthTime, cropScore: cropScore, imageURL: imageURL
     }}
 
 const wheat = Crop('Wheat','6','6.8','20','30','40',
-    '60','35','65','100','450','45','3');
+    '60','35','65','100','450','45','3', 'Wheat.jpeg');
 
 const rice = Crop('Rice', '6', '6.7', '20', '27', '45',
-    '75','50','70', '50', '250', '30','4')
+    '75','50','70', '50', '250', '30','4', 'Rice.jpeg')
 
 const corn = Crop('Corn', '5.5', '7', '26', '30', '50',
-    '80', '35', '85','75','400','90', '1')
+    '80', '35', '85','75','400','90', '1', 'Corn.jpeg')
 
 const barley = Crop('Barley','6.5','7','14','20','30',
-    '60','20','50','150','500','60', '2')
+    '60','20','50','150','500','60', '2','Barley.jpeg')
 
 const oats = Crop('Oats','6.2','6.6','15','25','25',
-    '75','10','40','80','300','30','5')
+    '75','10','40','80','300','30','5','Oats.jpeg')
 
 const cropArray= [wheat, rice, corn, barley, oats];
 let bestCropArray = cropArray;
@@ -57,7 +59,7 @@ function GetBestCrops(moisture, ph, sunlight, temperature){
     
     ScoreCrops(moisture,ph,sunlight,temperature);
     
-    bestCropArray.sort((b,a) => b.cropScore - a.cropScore);
+    bestCropArray.sort((a,b) => b.cropScore - a.cropScore);
 
     for (let i = 0; i < bestCropArray.length; i++) {
         console.log(bestCropArray[i].cropScore, bestCropArray[i].name);
@@ -67,19 +69,25 @@ function GetBestCrops(moisture, ph, sunlight, temperature){
 }
 
 function ScoreCrops(moisture, ph, sunlight, temperature){
+    console.log("click");
+    console.log("moisture = " + moisture + ", PH = " + ph + ", sunlight = " + sunlight + ", Temp = "  +temperature) 
     for (let i = 0; i < 5; i++) {
         let score = 0;
         if ((moisture >= cropArray[i].lowerHumidityLimit) && (moisture <= cropArray[i].upperHumidityLimit)) {
             score ++
+            console.log(cropArray[i].name + " humid score")
         }
         if ((ph >= cropArray[i].lowerPHLimit) && (moisture <= cropArray[i].upperPHLimit)) {
             score ++
+            console.log(cropArray[i].name + " ph score")
         }
         if ((sunlight >= cropArray[i].lowerLightLimit) && (moisture <= cropArray[i].upperLightLimit)) {
             score ++
+            console.log(cropArray[i].name + " light score")
         }
-        if ((temperature >= cropArray[i].lowerTempLimit) && (moisture <= cropArray[i].upperTempLimit)) {
+        if ((temperature >= cropArray[i].lowerTempLimit) && (temperature <= cropArray[i].upperTempLimit)) {
             score ++
+            console.log(cropArray[i].name + " temp score")
         }
         cropArray[i].cropScore = score;
     }
@@ -95,7 +103,7 @@ function CreateCropInfoBox(crop, key){
                     <p> £{crop.cropYield}</p>
                 </div>
                 <div className="column cropImage">
-                    <img src="#" alt={crop.name}></img>
+                    <img src={"/Images/Cropimages/"+crop.imageURL} width="100%" height="100%" alt={crop.name}></img>
                 </div>
                 <div className="column cropInfo">
                     <p className="cropInfo">
