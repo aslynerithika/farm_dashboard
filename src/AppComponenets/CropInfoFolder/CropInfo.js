@@ -11,6 +11,8 @@ import cropList from '../../CustomHooks/FetchCropInfo';
 // function changeCropinfo(cropname){
 //   cropName = cropList[cropname].name;
 // }
+
+
 function CropInfo(){
   const CropName = "Wheat";
   const crop = cropList[CropName]
@@ -18,7 +20,6 @@ function CropInfo(){
     <>
       <div class="CropInfo_box fill_in_box">
          <div class="Cropshow-container">
-        <div class="numbertext"></div>
         <div class="Caption"> 
         <h1>{crop.name}</h1>
           <p>{crop.desc}</p>
@@ -27,9 +28,10 @@ function CropInfo(){
               <li>The yield potential of {crop.name} crops: {crop.Yield}</li>
               <li>The The typical duration of a {crop.name} growth: {crop.GrowTime}</li>
             </ul> 
+        
             </div>  
-            <img src={crop.image} alt="Image of wheat"></img>
-         </div>
+            <img src={crop.image} alt="Image of wheat"></img> 
+         </div> 
         </div>
     </>
   );

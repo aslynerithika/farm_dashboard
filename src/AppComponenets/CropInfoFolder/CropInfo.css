@@ -1,36 +1,25 @@
 .Cropshow-container img {
-    max-width: 30%;
-    height: auto;
-    margin-top: 5rem;
+  max-width: 40%;
+  height: auto;
+  right: 20px;
 }
 
+
+.Caption h1 {
+  font-size: 30px;
+  margin-bottom: 1rem;
+  text-align: center;
+
+}
+
+.Cropshow-container {
+  text-align: center;
+  font-size: 15px;
+}
+
+.Caption li {
+  text-align: left;
+  margin: 30px;
   
-
-
- .Caption h1 {
-    font-size: 35px;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-
-  .Cropshow-container {
-    display: inline-block;
-    text-align: left;
-    text-align: center;
-    border: 0;
-    height: 1px;
-    background: black;
-    width: 100%;
-
-  }
-
-  .Caption li {
-   list-style: none;
-   margin-top: 1rem;
-  }
-
-
-
-
+}
   

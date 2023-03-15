@@ -11,7 +11,6 @@ function Footer(){
     <>
       <footer>
         <div class = "mediaLinks">
-          <h1> Connect with Elanco : </h1>
           <a href='https://www.instagram.com/weareelanco/' target="_Blank"><i class="fa-brands fa-instagram"></i></a> 
         <a href='https://twitter.com/Elanco/' target="_Blank" ><i class="fa-brands fa-twitter"></i></a> 
         <a href='https://www.facebook.com/elancoanimalhealth/' target="_Blank" ><i class="fa-brands fa-facebook"></i></a>
