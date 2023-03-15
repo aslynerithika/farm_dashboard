@@ -1,4 +1,19 @@
 import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: "#FFFFFF",
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: '#11cb5f',
+    },
+  },
+});
 
 function NavHeader(){
   return(
@@ -14,8 +29,10 @@ function NavHeader(){
           <h1 class="page_title">FARM DASHBOARD</h1>
         </div>
         <div class="nav_links">
-          <a><Link to="/">Home</Link></a>
-          <a><Link to="/landplots">Land Plots</Link></a>
+          <ThemeProvider theme={theme}>
+            <Link to="/"><Button>Home</Button></Link>
+            <Link to="/landplots"><Button>Land Plots</Button></Link>
+          </ThemeProvider>
         </div>
       </nav>
     </>

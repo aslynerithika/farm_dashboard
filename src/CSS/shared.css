@@ -33,14 +33,14 @@ nav{
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
 }
+.nav_links a button{
+  font-size: 20px;
+  font-family: "Microsoft Yahei";
+}
 .nav_links a{
   text-decoration: none;
   color: white;
-  font-family: "Microsoft Yahei";
-  font-size: 20px;
-}
-.nav_links a:hover{
-  text-decoration: underline;
+  width: fit-content;
 }
 .nav_logo_container{
   position: relative;
