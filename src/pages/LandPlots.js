@@ -27,7 +27,7 @@ function LandPlots() {
   return(
     <>
       <div class="section" style={section_1}>
-        <div style={LandPlotSelectStyle} class="page_box">
+        <div style={LandPlotSelectStyle} class="page_box border_none">
           <LandPlotSelect></LandPlotSelect>
         </div>
       </div>
