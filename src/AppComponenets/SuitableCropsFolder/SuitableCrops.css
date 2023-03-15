@@ -27,3 +27,12 @@
     margin: auto;
     padding-top: 20px;
 }
+
+.cropRank {
+    text-align: center;
+}
+
+.cropRankValue{
+    margin-top: 0;
+    padding-top: 0;
+}
