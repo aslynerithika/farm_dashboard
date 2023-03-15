@@ -1,11 +1,36 @@
-.Maininfo{
-    font-size: 14px;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 20px;
-   
+.Cropshow-container img {
+    max-width: 30%;
+    height: auto;
+    margin-top: 5rem;
 }
 
-.Maininfo img {
- display: flex;
-}
+  
 
+
+ .Caption h1 {
+    font-size: 35px;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+
+  .Cropshow-container {
+    display: inline-block;
+    text-align: left;
+    text-align: center;
+    border: 0;
+    height: 1px;
+    background: black;
+    width: 100%;
+
+  }
+
+  .Caption li {
+   list-style: none;
+   margin-top: 1rem;
+  }
+
+
+
+
+  
