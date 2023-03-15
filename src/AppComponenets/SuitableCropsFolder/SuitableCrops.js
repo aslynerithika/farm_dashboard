@@ -1,5 +1,5 @@
 import './SuitableCrops.css';
-
+import React, { useEffect, useState } from 'react';
 
 
 let lowerPHLimit;
@@ -113,7 +113,28 @@ function CreateCropInfoBox(crop, key){
 }
 function SuitableCrops(){
 
-const bestCropArray = GetBestCrops(0,0,0,0);
+    const [moistValue, setmoistValue] = useState(30);
+    const [phValue, setphValue] = useState(7);
+    const [sunlightValue, setsunlightValue] = useState(30);
+    const [tempValue, settempValue] = useState(23);
+
+    useEffect(() => {
+        const setSoilVariableArray = [
+            setmoistValue, setphValue, setsunlightValue, settempValue
+        ];
+
+        const search_crops_btn = document.getElementById("search_crops_btn");
+        const [moisture, pH, sunlight, temp] = document.getElementsByTagName("input");
+
+        search_crops_btn.addEventListener("click", () => {
+            var SoilVariableArray = [
+                moisture.value, pH.value, sunlight.value, temp.value
+            ];
+            setSoilVariableArray.map((setSoilVar, indexNum) => {setSoilVar(SoilVariableArray[indexNum])})
+        });
+    }, []);
+
+    const bestCropArray = GetBestCrops(moistValue,phValue,sunlightValue,tempValue);
 
   return(
     <>

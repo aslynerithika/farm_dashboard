@@ -356,7 +356,7 @@ function AdjustSoilCon(params){
           {Sliders}
           {SliderInputs}
         </div>
-        <Button variant="contained">Search crops</Button>
+        <Button id="search_crops_btn" variant="contained">Search crops</Button>
       </div>
     </>
   );
