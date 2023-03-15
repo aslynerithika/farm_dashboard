@@ -26,7 +26,7 @@ function CropInfo(){
             <ul>
               <li>The expenses and upkeep required for cultivating {crop.name}: {crop.Cost} </li>
               <li>The yield potential of {crop.name} crops: {crop.Yield}</li>
-              <li>The The typical duration of a {crop.name} growth: {crop.GrowTime}</li>
+              <li>The typical duration of a {crop.name} growth: {crop.GrowTime}</li>
             </ul> 
         
             </div>  
