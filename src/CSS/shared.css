@@ -169,3 +169,6 @@ body {
     height: 900px !important;
   }
 }
+.border_none{
+  border: unset;
+}
