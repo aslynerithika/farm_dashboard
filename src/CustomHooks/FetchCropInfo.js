@@ -19,7 +19,7 @@ const cropList = {
     },
     "Corn"  : {
       name  : "Corn",
-      desc  : "Rice is a staple food for more than half of the world's population, particularly in Asia. It is a cereal grain that grows in paddies, and is commonly eaten boiled or steamed as a side dish or base for many dishes",
+      desc  : "Corn, also known as maize, is a cereal grain that is a member of the grass family, Poaceae. It is one of the most widely cultivated crops in the world, and it is used for a variety of purposes such as food, animal feed, and fuel",
       Yield : "£400",
       Cost  : "£75",
       GrowTime : "30 Days",
