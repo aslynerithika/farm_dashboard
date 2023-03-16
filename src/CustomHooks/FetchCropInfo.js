@@ -23,7 +23,7 @@ const cropList = {
       Yield : "£400",
       Cost  : "£75",
       GrowTime : "30 Days",
-      image : "../Images/Cropimages/Cron.jpeg"
+      image : "../Images/Cropimages/Corn.jpeg"
   
     },
     "Barley" : {
