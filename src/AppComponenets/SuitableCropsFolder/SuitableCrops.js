@@ -55,6 +55,7 @@ const oats = Crop('Oats','6.2','6.6','15','25','25',
 const cropArray= [wheat, rice, corn, barley, oats];
 let bestCropArray = cropArray;
 
+
 function GetBestCrops(moisture, ph, sunlight, temperature){
     
     ScoreCrops(moisture,ph,sunlight,temperature);
@@ -92,14 +93,35 @@ function ScoreCrops(moisture, ph, sunlight, temperature){
         cropArray[i].cropScore = score;
     }
 }
+
+function GetRankExtension(key){
+    let extension;
+    
+    switch (key){
+        case 0:
+            extension = "st"
+            break;
+        case 1:
+            extension = "nd"
+            break;
+        case 2:
+            extension = "rd"
+            break;
+        default:
+            extension = "th"
+            break;
+    }
+    return extension
+}
 function CreateCropInfoBox(crop, key){
 
     return(
         <>
+
             <div className ="cropInfoBox">
 
                 <div className="column cropRank">
-                    <h3 className = "cropRankValue">{key + 1}</h3>
+                    <h3 className = {'cropRankValue' + key}>{key + 1}{GetRankExtension(key)} </h3>
                     <p> £{crop.cropYield}</p>
                 </div>
                 <div className="column cropImage">
@@ -107,9 +129,10 @@ function CreateCropInfoBox(crop, key){
                 </div>
                 <div className="column cropInfo">
                     <p className="cropInfo">
-                        {crop.name}<br></br>
-                        PH: {crop.lowerPHLimit} - {crop.upperPHLimit} | Humidity: {crop.lowerHumidityLimit}%
-                        - {crop.upperHumidityLimit} | {crop.lowerTempLimit}°C - {crop.upperTempLimit}°C
+                        <h3>{crop.name}</h3>
+                        <p>This is a description of the crops. The crop description will be shown here.</p>
+                        <p className = "cropIdealConditions">PH: {crop.lowerPHLimit} - {crop.upperPHLimit} | Humidity: {crop.lowerHumidityLimit}%
+                            - {crop.upperHumidityLimit}% | {crop.lowerTempLimit}°C - {crop.upperTempLimit}°C</p>
                     </p>
 
                 </div>

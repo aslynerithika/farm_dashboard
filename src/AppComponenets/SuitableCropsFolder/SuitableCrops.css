@@ -1,38 +1,85 @@
 .cropInfo {
 }
 
+body{
+    font-family: Microsoft Yahei, serif;
+}
+
 .cropInfoBox{
     width: 80%;
     margin-left: 10%;
     border: 1px solid black;
-    border-radius: 10px;
-    height: 60px;
+    border-radius: 20px;
+    height: 95px;
     margin-top: 2.5%;
 }
 .column {
     float: left;
-    height: 60px;
+    height: 95px;
 }
 
 .cropRank, .cropImage{
-    width: 10%;
+    width: 90px;
     border-right: 1px solid black;
 }
 
 .cropInfo {
-    width: 70%;
+    width: 65%;
+    padding-left: 2.5%;
+}
+.cropInfo h3{
+    margin-top:  0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    
+    
+}
+.cropInfo p {
+    float: left;
+    width: 100%;
+    margin: auto;
+    padding-bottom: 5px;
+    clear-after: end;
 }
 
-.cropInfo p {
-    margin: auto;
-    padding-top: 20px;
+.cropIdealConditions{
+    font-size: 0.8em;
 }
+
 
 .cropRank {
     text-align: center;
+    /*background-color: #007aff;*/
+    border-radius: 18px  0  0 18px;
+
 }
 
-.cropRankValue{
-    margin-top: 0;
-    padding-top: 0;
+/*.cropRank h3{
+    text-shadow:
+            -1.5px -1px 0 #000,
+            1.5px -1px 0 #000,
+            -1.5px 1px 0 #000,
+            1.5px 1px 0 #000;
+}*/
+
+/* sets colours for ranks. Need to find better solution */
+.cropRankValue0{
+
+    color:#23EB00;
+}
+.cropRankValue1{
+
+    color:#B0FA00;
+}
+.cropRankValue2{
+
+    color:#D4EB00;
+}
+.cropRankValue3{
+
+    color:#EBA900;
+}
+.cropRankValue4{
+
+    color:#F05001;
 }
