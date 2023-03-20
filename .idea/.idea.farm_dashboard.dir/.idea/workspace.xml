@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="59def36c-c1c3-43c7-8dd4-c9df0949c1ca" name="Changes" comment="" />
+    <list default="true" id="59def36c-c1c3-43c7-8dd4-c9df0949c1ca" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/public/Images/App/information.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,6 +48,8 @@
       <workItem from="1678348320350" duration="10283000" />
       <workItem from="1678698880602" duration="1776000" />
       <workItem from="1678867595254" duration="11893000" />
+      <workItem from="1678983891859" duration="8357000" />
+      <workItem from="1679324395864" duration="5661000" />
     </task>
     <servers />
   </component>

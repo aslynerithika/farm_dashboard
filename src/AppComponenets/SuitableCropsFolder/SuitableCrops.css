@@ -12,6 +12,7 @@ body{
     border-radius: 20px;
     height: 95px;
     margin-top: 2.5%;
+    position: relative;
 }
 .column {
     float: left;
@@ -82,4 +83,27 @@ body{
 .cropRankValue4{
 
     color:#F05001;
+}
+
+.test {
+    float: left;
+    width: 200px;
+    background-color: white;
+    z-index: 9;
+    position: absolute;
+    border: solid #0067b1;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px 2px;
+}
+.test p{
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 3px;
+    padding-right: 3px;
+    
+    
+}
+
+.suitable_crops_box{
+    overflow: scroll;
 }
