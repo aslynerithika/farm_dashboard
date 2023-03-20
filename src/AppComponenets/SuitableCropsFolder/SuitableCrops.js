@@ -1,5 +1,6 @@
 import './SuitableCrops.css';
 import React, { useEffect, useState } from 'react';
+import {Container} from "@mui/material";
 
 
 let lowerPHLimit;
@@ -113,16 +114,37 @@ function GetRankExtension(key){
     }
     return extension
 }
-function CreateCropInfoBox(crop, key){
 
+function CreatePopup(){
+    return(       
+        <>
+             <div className={"test"}>
+                 <p>The value shown is the maintainance cost for the crop</p>
+            </div>
+        </>
+    )
+}
+
+function GetOpacity(key){
+    let test;
+    
+    test = 1 - ((key*100)/25)/50;
+    console.log("opacity test" + test);
+    return {opacity: test};
+}
+
+function CreateCropInfoBox(crop, key){
+    const [isShown, showInformation] = useState(false);
     return(
         <>
-
-            <div className ="cropInfoBox">
-
+ 
+            <div className ="cropInfoBox" style={GetOpacity(key)} >
                 <div className="column cropRank">
                     <h3 className = {'cropRankValue' + key}>{key + 1}{GetRankExtension(key)} </h3>
-                    <p> £{crop.cropYield}</p>
+                    <p><img src={"/Images/App/information.png"}
+                            onMouseEnter={() => showInformation(true)}
+                            onMouseLeave={() => showInformation(false)}
+                        ></img>   £{crop.cropYield}</p>
                 </div>
                 <div className="column cropImage">
                     <img src={"/Images/Cropimages/"+crop.imageURL} width="100%" height="100%" alt={crop.name}></img>
@@ -138,6 +160,12 @@ function CreateCropInfoBox(crop, key){
                 </div>
 
 
+            </div>
+
+            <div>
+                {isShown && (CreatePopup()
+
+                )}
             </div>
         </>
     );
