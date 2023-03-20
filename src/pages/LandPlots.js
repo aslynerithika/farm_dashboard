@@ -2,6 +2,8 @@ import LandPlotSelect from '../AppComponenets/LandPlotSelectFolder/LandPlotSelec
 import Chart from '../AppComponenets/ChartFolder/Chart.js';
 import Home from './Home.js';
 import '../../src/CSS/landplots.css';
+import React, {useState} from 'react';
+export const selectedLandPlotContext = React.createContext(0);
 
 const LandPlotSelectStyle = {
   minHeight: "unset",
@@ -24,19 +26,22 @@ const section_2 = {
   marginTop: "30px"
 }
 function LandPlots() {
+  const [selectedLandPlot, setSelectedLandPlot] = useState(1);
   return(
     <>
-      <div class="section" style={section_1}>
-        <div style={LandPlotSelectStyle} class="page_box border_none">
-          <LandPlotSelect></LandPlotSelect>
+      <selectedLandPlotContext.Provider value={{selectedLandPlot: selectedLandPlot, setSelectedLandPlot: setSelectedLandPlot}}>
+        <div class="section" style={section_1}>
+          <div style={LandPlotSelectStyle} class="page_box border_none">
+            <LandPlotSelect></LandPlotSelect>
+          </div>
         </div>
-      </div>
-      <div class="section" style={section_2}>
-        <div style={ChartStyle} class="page_box">
-          <Chart></Chart>
+        <div class="section" style={section_2}>
+          <div style={ChartStyle} class="page_box">
+            <Chart></Chart>
+          </div>
         </div>
-      </div>
-      <Home disableAdjustSoilCon="true"></Home>
+        <Home disableAdjustSoilCon="true" mode="landPlot"></Home>
+      </selectedLandPlotContext.Provider>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import './LandPlotSelect.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { selectedLandPlotContext } from '../../pages/LandPlots';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -20,8 +21,9 @@ import slide_image_8 from "./assets/P8.jpg";
 import slide_image_9 from "./assets/P9.jpg";
 import slide_image_10 from "./assets/P10.jpg";
 
-
 function LandPlotSelect(){
+  const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
+  console.log(selectedLandPlot);
   return(
     <div class="LandPlotSelect_box fill_in_box">
       <Swiper
@@ -30,6 +32,7 @@ function LandPlotSelect(){
         centeredSlides={ true }
         loop={ true }
         slidesPerView={ 'auto' }
+        onRealIndexChange={(swiper) => {setSelectedLandPlot(swiper.realIndex+1)}}
         coverflowEffect={
           {
             rotate: 0,
@@ -83,7 +86,6 @@ function LandPlotSelect(){
         <div className="swiper-button-next slider-arrow">
           <img src="/Images/App/right_arrow.png" name="arrow-forward"></img>
         </div>
-        <div className="swiper-pagination"></div>
       </div>
       </Swiper>
     </div>

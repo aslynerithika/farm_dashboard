@@ -3,10 +3,11 @@ import Slider from '@mui/material/Slider';
 import Button from '@mui/material/Button';
 import MuiInput from '@mui/material/Input';
 import { styled } from '@mui/material/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Gradient from "javascript-color-gradient";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
+import { selectedLandPlotContext } from '../../pages/LandPlots';
 
 const MoistDefaultValue = 30;
 const phDefaultValue = 7;
@@ -84,6 +85,14 @@ const theme = createTheme({
 });
 
 const Input = styled(MuiInput)`width: 42px;`;
+var fetchedData = null;
+
+const API_SOIL_VARS = {
+  1:"AVG_Humidity__",
+  2:"PH", 
+  3:"AVG_Light__", 
+  4:"Temp_C"
+};
 
 function onChangeFunc(slideNum, sliderValue, minAndMaxValues, markLabelsArray){
   var slider = document.getElementById("slider_"+slideNum);
@@ -137,7 +146,55 @@ function onChangeFunc(slideNum, sliderValue, minAndMaxValues, markLabelsArray){
   }
 };
 
+function getPlotData(fetchedData, selectedLandPlot){
+  var plotData = [];
+  for(var i = 0; i < fetchedData.length; i++){
+    for(var j = 1; j <= 4; j++){
+      if(fetchedData[i]["Plot"] == "plot"+selectedLandPlot){
+        plotData.push(fetchedData[i]);
+      }
+    }
+  }
+  return plotData;
+}
+
+function getSoilVarsAvg(plotData){
+  var soilVarsTotal = {
+    1 : 0,
+    2 : 0,
+    3 : 0,
+    4 : 0
+  }
+  for(var i = 0; i < plotData.length; i++){
+    for(var j = 1; j <= 4; j++){
+      soilVarsTotal[j] += plotData[i][API_SOIL_VARS[j]];
+    }
+  }
+  for(let i = 1; i <= 4; i++){
+    soilVarsTotal[i] = (soilVarsTotal[i]/plotData.length);
+    if(i != 2){
+      soilVarsTotal[i] = Math.trunc(soilVarsTotal[i]);
+    }else{
+      soilVarsTotal[i] = soilVarsTotal[i].toFixed(1);
+    }
+  }
+  return soilVarsTotal;
+}
+
+class AvgText extends React.Component{
+  render(){
+    var titleTextHtml = (null);
+    if(this.props.enabled){
+      const titleText = "Average values*";
+      titleTextHtml = <a>{titleText}</a>;
+    }
+    return titleTextHtml;
+  }
+}
+
 function AdjustSoilCon(params){
+  var soil_box_title = "Adjust";
+  const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
 
   const [MoistMaxAndMin, setMoistMaxAndMin] = useState({min:0, max:250});
   const [phMaxAndMin, setphMaxAndMin] = useState({min:0, max:60});
@@ -176,18 +233,17 @@ function AdjustSoilCon(params){
     3 : setSunlightMarks,
     4 : setTempMarks
   }
-
   useEffect(() => {
     const landPlotsData = fetchLandPlotsData;
     //console.log(landPlotsData);
     landPlotsData.then((successData) => {
+      fetchedData = successData;
       var soilVariablesList = {
         1 : {min : null, max : null},
         2 : {min : null, max : null},
         3 : {min : null, max : null},
         4 : {min : null, max : null}
       };
-      const API_SOIL_VARS = {1:"AVG_Humidity__", 2:"PH", 3:"AVG_Light__", 4:"Temp_C"};
       for(var i = 0; i < successData.length; i++){
         for(var j = 1; j <= Object.keys(soilVariablesList).length; j++){
           if(soilVariablesList[j].max == null || successData[i][API_SOIL_VARS[j]] > soilVariablesList[j].max){
@@ -298,6 +354,30 @@ function AdjustSoilCon(params){
   const SliderInputs = [];
   const SlidersTitles = [];
   const Sliders = [];
+
+  const SliderVarsLandPlot = {
+    1 : {value:30},
+    2 : {value:7},
+    3 : {value:50},
+    4 : {value:20}
+  }
+  var soilBoxStyle = (null);
+  if(params.mode === "landPlot"){
+    if(fetchedData){
+      // For average soil text
+      soilBoxStyle = {gridTemplateRows: "80px 20px 1fr 100px"};
+      //const soil_box = document.getElementsByClassName("adjust_soil_box")[0];
+      //soil_box.setAttribute.gridTemplateRows = "grid-template-rows: 80px 20px 1fr 100px";
+
+      soil_box_title = "Annual"
+      const plotData = getPlotData(fetchedData, selectedLandPlot);
+      var soilVarsAvg = getSoilVarsAvg(plotData);
+      for(let i = 1; i <= 4; i++){
+        SliderVarsLandPlot[i].value = soilVarsAvg[i];
+        onChangeFunc(i, SliderVarsLandPlot[i].value, minAndMaxValues, sliderMarks);
+      }
+    }
+  }
   for (let i = 1; i <= 4; i++){
     Sliders.push(
       <ThemeProvider theme={theme}>
@@ -311,7 +391,7 @@ function AdjustSoilCon(params){
           color={"slider_"+i}
           marks={sliderMarks[i]}
 
-          value={SliderVars[i][0]}
+          value={params.mode === "landPlot"? SliderVarsLandPlot[i].value : SliderVars[i][0]}
           onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
         />
       </ThemeProvider>
@@ -322,7 +402,7 @@ function AdjustSoilCon(params){
         <div class="slider_input_container">
           <a>{sliderInputUnitMeasure[i]}</a>
           <Input
-            value={SliderVars[i][0]}
+            value={params.mode === "landPlot"? SliderVarsLandPlot[i].value : SliderVars[i][0]}
             size="small"
             onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
             inputProps={{
@@ -349,8 +429,9 @@ function AdjustSoilCon(params){
 
   return(
     <>
-      <div class={"adjust_soil_box fill_in_box" + classToAdd}>
-        <h1>Adjust soil conditions</h1>
+      <div class={"adjust_soil_box fill_in_box" + classToAdd} style={soilBoxStyle}>
+        <h1>{soil_box_title} soil conditions</h1>
+        <AvgText enabled={params.mode === "landPlot"? true : false}></AvgText>
         <div class="slider_container">
           {SlidersTitles}
           {Sliders}
