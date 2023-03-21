@@ -3,10 +3,13 @@ import Chart from "chart.js/auto";
 import { Bar, Line } from "react-chartjs-2";
 import { useState, useEffect, useContext } from 'react';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
-//export default ChartDisplay;
-
+import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
        
-const BarChart = () => {
+const Chart = () => {
+
+  //console.log(fetchLandPlotsData);
+
+  
   const labels = ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"];
   
   // Initializes states for selected outcomes
@@ -109,4 +112,4 @@ const BarChart = () => {
 };
 
   
-export default BarChart;
+export default Chart;
