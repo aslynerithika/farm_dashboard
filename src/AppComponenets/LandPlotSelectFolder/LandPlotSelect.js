@@ -50,35 +50,64 @@ function LandPlotSelect(){
       >
       <SwiperSlide>
         <img src={slide_image_1} alt="slide_image" />
+        <figcaption>
+            Land Plot 1
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_2} alt="slide_image" />
+        <figcaption>
+            Land Plot 2
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_3} alt="slide_image" />
+        <figcaption>
+            Land Plot 3
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_4} alt="slide_image" />
+        <figcaption>
+            Land Plot 4
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_5} alt="slide_image" />
+        <figcaption>
+            Land Plot 5
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_6} alt="slide_image" />
+        <figcaption>
+            Land Plot 6
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_7} alt="slide_image" />
+        <figcaption>
+            Land Plot 7
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_8} alt="slide_image" />
+        <figcaption>
+            Land Plot 8
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_9} alt="slide_image" />
+        <figcaption>
+            Land Plot 9
+        </figcaption>
       </SwiperSlide>
       <SwiperSlide>
         <img src={slide_image_10} alt="slide_image" />
+        <figcaption>
+            Land Plot 10
+        </figcaption>
       </SwiperSlide>
-
       <div className="slider-controler">
         <div className="swiper-button-prev slider-arrow">
           <img src="/Images/App/right_arrow.png" name="arrow-back"></img>
