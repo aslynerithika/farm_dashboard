@@ -1,27 +1,27 @@
 import './Chart.css';
 import Chart from "chart.js/auto";
 import { Bar, Line } from "react-chartjs-2";
-import { useState } from 'react';
-import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
-
+import { useState, useEffect, useContext } from 'react';
+import { selectedLandPlotContext } from '../../pages/LandPlots';
 //export default ChartDisplay;
 
        
 const BarChart = () => {
-  //console.log(fetchLandPlotsData);
   const labels = ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"];
   
+  // Initializes states for selected outcomes
+  const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
   const [selectedOutcome, setSelectedOutcome] = useState('Temperature'); 
-  const [selectedChartType, setSelectedChartType] = useState('Bar') // Initializes states for selected outcomes
+  const [selectedChartType, setSelectedChartType] = useState('Bar') 
   
   const dataForTemperature = {
     labels: labels,
     datasets: [
       {
-        label: 'Temperature', 
+        label: `Temperature - Plot ${selectedLandPlot}`, 
         backgroundColor: 'rgba(54, 162, 235, 1)',
         borderColor: "rgba(54, 162, 235, 1)",
-        data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
+        data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25], 
         borderWidth: 2
       },
     ],
@@ -31,10 +31,10 @@ const BarChart = () => {
     labels: labels,
     datasets: [
       {
-        label: 'Moisture', 
+        label: `Moisture - Plot ${selectedLandPlot}`, 
         backgroundColor: 'rgba(54, 162, 235, 1)',
         borderColor: "rgba(54, 162, 235, 1)",
-        data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
+        data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25], 
         borderWidth: 2
       },
     ],
@@ -44,10 +44,10 @@ const BarChart = () => {
     labels: labels,
     datasets: [
       {
-        label: 'PH Level', 
+        label: `PH Level - Plot ${selectedLandPlot}`, 
         backgroundColor: 'rgba(54, 162, 235, 1)',
         borderColor: "rgba(54, 162, 235, 1)",
-        data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
+        data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25], 
         borderWidth: 2
       },
     ],
@@ -57,10 +57,10 @@ const BarChart = () => {
     labels: labels,
     datasets: [
       {
-        label: 'Sunlight', 
+        label: `Sunlight - Plot ${selectedLandPlot}`, 
         backgroundColor: 'rgba(54, 162, 235, 1)',
         borderColor: "rgba(54, 162, 235, 1)",
-        data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25],
+        data: [5, 10, 5, 2, 20, 30, 45, 40, 35, 20, 15, 25], 
         borderWidth: 2
       },
     ],
