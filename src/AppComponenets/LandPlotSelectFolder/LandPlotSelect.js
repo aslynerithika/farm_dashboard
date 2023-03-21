@@ -110,10 +110,10 @@ function LandPlotSelect(){
       </SwiperSlide> 
       <div className="slider-controler">
         <div className="swiper-button-prev slider-arrow">
-          <img src="/Images/App/right_arrow.png" name="arrow-back"></img>
+          <img src="/Images/App/rightArrow.png" name="arrow-back"></img>
         </div>
         <div className="swiper-button-next slider-arrow">
-          <img src="/Images/App/right_arrow.png" name="arrow-forward"></img>
+          <img src="/Images/App/rightArrow.png" name="arrow-forward"></img>
         </div>
       </div>
       </Swiper>
