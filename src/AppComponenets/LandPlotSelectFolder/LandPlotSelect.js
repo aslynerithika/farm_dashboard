@@ -107,7 +107,7 @@ function LandPlotSelect(){
         <figcaption>
             Land Plot 10
         </figcaption>
-      </SwiperSlide>
+      </SwiperSlide> 
       <div className="slider-controler">
         <div className="swiper-button-prev slider-arrow">
           <img src="/Images/App/right_arrow.png" name="arrow-back"></img>
