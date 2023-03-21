@@ -69,3 +69,12 @@
 .swiper-button-prev{
   transform: rotate(180deg) !important;
 }
+
+figcaption{
+  position: absolute;
+  top: 0.5rem;
+  left: 3.5rem;
+  color: black;
+  font-size: 1.3em;
+  background-color: rgb(243, 230, 213);
+}
