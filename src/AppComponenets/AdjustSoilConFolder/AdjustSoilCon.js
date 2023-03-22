@@ -8,6 +8,7 @@ import Gradient from "javascript-color-gradient";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
+import { getPlotData, getSoilVarsAvg } from './FilterData';
 
 const MoistDefaultValue = 30;
 const phDefaultValue = 7;
@@ -145,41 +146,6 @@ function onChangeFunc(slideNum, sliderValue, minAndMaxValues, markLabelsArray){
     sliderRail.setAttribute("style", "border-radius: 20px 20px 40px 40px !important;");
   }
 };
-
-function getPlotData(fetchedData, selectedLandPlot){
-  var plotData = [];
-  for(var i = 0; i < fetchedData.length; i++){
-    for(var j = 1; j <= 4; j++){
-      if(fetchedData[i]["Plot"] == "plot"+selectedLandPlot){
-        plotData.push(fetchedData[i]);
-      }
-    }
-  }
-  return plotData;
-}
-
-function getSoilVarsAvg(plotData){
-  var soilVarsTotal = {
-    1 : 0,
-    2 : 0,
-    3 : 0,
-    4 : 0
-  }
-  for(var i = 0; i < plotData.length; i++){
-    for(var j = 1; j <= 4; j++){
-      soilVarsTotal[j] += plotData[i][API_SOIL_VARS[j]];
-    }
-  }
-  for(let i = 1; i <= 4; i++){
-    soilVarsTotal[i] = (soilVarsTotal[i]/plotData.length);
-    if(i != 2){
-      soilVarsTotal[i] = Math.trunc(soilVarsTotal[i]);
-    }else{
-      soilVarsTotal[i] = soilVarsTotal[i].toFixed(1);
-    }
-  }
-  return soilVarsTotal;
-}
 
 class AvgText extends React.Component{
   render(){
