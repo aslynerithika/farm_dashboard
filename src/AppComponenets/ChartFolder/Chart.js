@@ -1,11 +1,11 @@
 import './Chart.css';
-import Chart from "chart.js/auto";
+import "chart.js/auto";
 import { Bar, Line } from "react-chartjs-2";
 import { useState, useEffect, useContext } from 'react';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
 import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
        
-const Chart = () => {
+function Chart(){
 
   //console.log(fetchLandPlotsData);
 
