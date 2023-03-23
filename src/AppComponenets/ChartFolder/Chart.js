@@ -32,7 +32,7 @@ var months = {
   "12": {monthName:"December", avgVals:{}}
 }
 var valuesToDisplay = []
-var clicked = false;
+var weeksAvgs = [];
 function Chart(params){
 
   const monthLabels = ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"];
@@ -80,6 +80,7 @@ function Chart(params){
     });
   }, []);
 
+  var clicked = false;
   if(params.refresh === "true"){
     if(fetchedData && clicked == false){
       console.log("hey");
@@ -98,8 +99,11 @@ function Chart(params){
         valuesToDisplay = monthsSoilVar;
         valuesToPlot = valuesToDisplay;
       }
-    }else{
-
+    }else if(clicked==true){
+      var myvar = selectedDate;
+      console.log(myvar);
+      var index = selectedSoilVarIndex -1;
+      valuesToPlot = [myvar[0][index],myvar[1][index],myvar[2][index],myvar[3][index]];
     }
   }
   console.log(valuesToPlot);
@@ -125,30 +129,11 @@ function Chart(params){
   const onClick = (event) => {
     clicked = true;
     var chartIndex = getElementsAtEvent(chartRef.current, event)[0].index + 1;
-    //console.log(getElementsAtEvent(chartRef.current, event)[0].index);
     var monthIndex = chartIndex < 10? "0"+chartIndex : chartIndex.toString();
     var plotdata = getPlotData(fetchedData, selectedLandPlot);
     var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
 
-    //console.log(plotMonthData.length);
-    var monthDayUpper = 0;
-    //console.log(plotMonthData);
-    for(var i = 0; i < plotMonthData.length; i++){
-      var dayNum = parseInt(plotMonthData[i]["Date"].value.split("-")[2]);
-      if(dayNum > monthDayUpper){
-        monthDayUpper = dayNum;
-      }
-    }
-    //console.log(monthDayUpper);
-
-    //Initialize the the weeks array that will have days pushed into
-    var weekCount = monthDayUpper/7;
     var monthDays = [];
-    // for(var i=1; i <= weekCount.length; i++){
-    //   var newWeek = [];
-    //   monthDays.push(newWeek);
-    // }
-    //console.log(monthDays);
 
     const SOIL_VARS = {
       1:"moisture",
@@ -206,8 +191,11 @@ function Chart(params){
         }
       });
       var soilVarsTotalArr = [soilVarsTotal[1], soilVarsTotal[2], soilVarsTotal[3], soilVarsTotal[4]];
+      weeksAvgs.push(soilVarsTotalArr);
       weekAvgs.push(soilVarsTotalArr[selectedSoilVarIndex-1]);
     }
+    setSelectedDate(weeksAvgs);
+    console.log(selectedDate);
     console.log(weekAvgs);
     setValuesToPlotState(weekAvgs);
     setLabels(weekLabels);
@@ -235,7 +223,7 @@ function Chart(params){
               label: `Temperature - Plot ${selectedLandPlot}`, 
               backgroundColor: 'rgba(54, 162, 235, 1)',
               borderColor: "rgba(54, 162, 235, 1)",
-              data: fetchedData && clicked == false? valuesToPlot : valuesToPlotState,
+              data: fetchedData? valuesToPlot : valuesToPlotState,
               borderWidth: 2
             },
           ],
