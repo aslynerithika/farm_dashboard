@@ -8,10 +8,8 @@ const API_SOIL_VARS = {
 function getPlotData(fetchedData, selectedLandPlot){
   var plotData = [];
   for(var i = 0; i < fetchedData.length; i++){
-    for(var j = 1; j <= 4; j++){
-      if(fetchedData[i]["Plot"] == "plot"+selectedLandPlot){
-        plotData.push(fetchedData[i]);
-      }
+    if(fetchedData[i]["Plot"] == "plot"+selectedLandPlot){
+      plotData.push(fetchedData[i]);
     }
   }
   return plotData;
@@ -43,11 +41,9 @@ function getSoilVarsAvg(plotData){
 function getMonthDataFromPlot(data, selectedDate){
   var plotMonthData = [];
   for(var i = 0; i < data.length; i++){
-    for(var j = 1; j <= 4; j++){
-      var month = data[i]["Date"].value.split("-")[1];
-      if(month == selectedDate[0]){
-        plotMonthData.push(data[i]);
-      }
+    var month = data[i]["Date"].value.split("-")[1];
+    if(month == selectedDate[0]){
+      plotMonthData.push(data[i]);
     }
   }
   return plotMonthData;
