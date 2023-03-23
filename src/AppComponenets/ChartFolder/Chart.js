@@ -121,7 +121,34 @@ function Chart(params){
 
   const chartRef = useRef();
   const onClick = (event) => {
-    console.log(getElementsAtEvent(chartRef.current, event)[0]);
+    var chartIndex = getElementsAtEvent(chartRef.current, event)[0].index;
+    console.log(getElementsAtEvent(chartRef.current, event)[0].index);
+    var monthIndex = chartIndex < 10? "0"+chartIndex : chartIndex.toString();
+    var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
+
+    var weekCount = 0;
+    console.log(plotMonthData.length);
+    var monthDayUpper = 0;
+    var monthDays = [];
+    for(var i = 0; i < plotMonthData.length; i++){
+      if(dayNum > monthDayUpper){
+        monthDayUpper = dayNum;
+      }
+    }
+    console.log(monthDayUpper);
+    weekCount = monthDayUpper/7;
+    for(var i=0; i < weekCount; i++){
+      monthDays.push(i = {});
+    }
+    console.log(monthDays);
+    for(var i = 0; i < plotMonthData.length; i++){
+      var dayNum = parseInt(plotMonthData[i]["Date"].value.split("-")[2]);
+      if(!monthDays.includes(dayNum)){
+        monthDays.push(dayNum);
+      }
+    }
+    console.log(monthDays);
+    console.log(weekCount);
   };
 
   return (
