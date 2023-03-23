@@ -127,78 +127,82 @@ function Chart(params){
 
   const chartRef = useRef();
   const onClick = (event) => {
-    clicked = true;
-    var chartIndex = getElementsAtEvent(chartRef.current, event)[0].index + 1;
-    var monthIndex = chartIndex < 10? "0"+chartIndex : chartIndex.toString();
-    var plotdata = getPlotData(fetchedData, selectedLandPlot);
-    var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
 
-    var monthDays = [];
+    if(getElementsAtEvent(chartRef.current, event)[0] && selectedDate[0] == "02"){
+      clicked = true;
+      var chartIndex = getElementsAtEvent(chartRef.current, event)[0].index + 1;
+      var monthIndex = chartIndex < 10? "0"+chartIndex : chartIndex.toString();
+      var plotdata = getPlotData(fetchedData, selectedLandPlot);
+      var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
 
-    const SOIL_VARS = {
-      1:"moisture",
-      2:"PH", 
-      3:"sunlight", 
-      4:"temp"
-    };    
+      var monthDays = [];
 
-    for(var i = 0; i < plotMonthData.length; i++){
-      var dayNum = parseInt(plotMonthData[i]["Date"].value.split("-")[2]);
-      var daySoilVars = []
-      Object.keys(API_SOIL_VARS).forEach((index, key) => {
-        daySoilVars.push(plotMonthData[i][API_SOIL_VARS[index]]);
-      });
-      monthDays.push({"day":dayNum, "soilVars":{"moisture":daySoilVars[0],"PH":daySoilVars[1],"sunlight":daySoilVars[2],"temp":daySoilVars[3]}});
-    }
-    var sortedMonthDays = monthDays.sort((a,b)=>(a.day-b.day));
-    //console.log(sortedMonthDays);
-    //console.log(weekCount);
-    var weeks = [];
-    var c = 0;
-    for(var i = 0; i < monthDays.length; i++){
-      if(!weeks[c]){
-        weeks.push([]);
-      }
-      //console.log(weeks);
-      weeks[c].push(monthDays[i]);
-      if((i+1)%7 == 0){
-        c++;
-      }
-    }
-    
-    var weekAvgs = [];
-    for(var i=0; i<weeks.length; i++){
-      var soilVarsTotal = {
-        1 : 0,
-        2 : 0,
-        3 : 0,
-        4 : 0
-      }
-      weekLabels.push("Week "+(i+1));
-      Object.keys(weeks[i]).forEach((day, key) => {
-        Object.keys(soilVarsTotal).forEach((value, index) => {
-          //console.log(weeks[i][day].soilVars[SOIL_VARS[value]]);
-          soilVarsTotal[value] += weeks[i][day].soilVars[SOIL_VARS[value]];
+      const SOIL_VARS = {
+        1:"moisture",
+        2:"PH", 
+        3:"sunlight", 
+        4:"temp"
+      };    
+
+      for(var i = 0; i < plotMonthData.length; i++){
+        var dayNum = parseInt(plotMonthData[i]["Date"].value.split("-")[2]);
+        var daySoilVars = []
+        Object.keys(API_SOIL_VARS).forEach((index, key) => {
+          daySoilVars.push(plotMonthData[i][API_SOIL_VARS[index]]);
         });
-      });
-
-      Object.keys(soilVarsTotal).forEach((value,index) =>{
-        var avgVal = soilVarsTotal[value]/weeks[i].length;
-        if(value != 2){
-          soilVarsTotal[value] = Math.trunc(avgVal);
-        }else{
-          soilVarsTotal[value] = parseFloat(avgVal.toFixed(1));
+        monthDays.push({"day":dayNum, "soilVars":{"moisture":daySoilVars[0],"PH":daySoilVars[1],"sunlight":daySoilVars[2],"temp":daySoilVars[3]}});
+      }
+      var sortedMonthDays = monthDays.sort((a,b)=>(a.day-b.day));
+      //console.log(sortedMonthDays);
+      //console.log(weekCount);
+      var weeks = [];
+      var c = 0;
+      for(var i = 0; i < monthDays.length; i++){
+        if(!weeks[c]){
+          weeks.push([]);
         }
-      });
-      var soilVarsTotalArr = [soilVarsTotal[1], soilVarsTotal[2], soilVarsTotal[3], soilVarsTotal[4]];
-      weeksAvgs.push(soilVarsTotalArr);
-      weekAvgs.push(soilVarsTotalArr[selectedSoilVarIndex-1]);
+        //console.log(weeks);
+        weeks[c].push(monthDays[i]);
+        if((i+1)%7 == 0){
+          c++;
+        }
+      }
+      
+      var weekAvgs = [];
+      for(var i=0; i<weeks.length; i++){
+        var soilVarsTotal = {
+          1 : 0,
+          2 : 0,
+          3 : 0,
+          4 : 0
+        }
+        weekLabels.push("Week "+(i+1));
+        Object.keys(weeks[i]).forEach((day, key) => {
+          Object.keys(soilVarsTotal).forEach((value, index) => {
+            //console.log(weeks[i][day].soilVars[SOIL_VARS[value]]);
+            soilVarsTotal[value] += weeks[i][day].soilVars[SOIL_VARS[value]];
+          });
+        });
+
+        Object.keys(soilVarsTotal).forEach((value,index) =>{
+          var avgVal = soilVarsTotal[value]/weeks[i].length;
+          if(value != 2){
+            soilVarsTotal[value] = Math.trunc(avgVal);
+          }else{
+            soilVarsTotal[value] = parseFloat(avgVal.toFixed(1));
+          }
+        });
+        var soilVarsTotalArr = [soilVarsTotal[1], soilVarsTotal[2], soilVarsTotal[3], soilVarsTotal[4]];
+        weeksAvgs.push(soilVarsTotalArr);
+        weekAvgs.push(soilVarsTotalArr[selectedSoilVarIndex-1]);
+      }
+      setSelectedDate(weeksAvgs);
+      console.log(selectedDate);
+      console.log(weekAvgs);
+      setValuesToPlotState(weekAvgs);
+      setLabels(weekLabels);
+
     }
-    setSelectedDate(weeksAvgs);
-    console.log(selectedDate);
-    console.log(weekAvgs);
-    setValuesToPlotState(weekAvgs);
-    setLabels(weekLabels);
   };
 
   return (
