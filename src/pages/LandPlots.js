@@ -41,7 +41,7 @@ function LandPlots() {
           </div>
           <div class="section" style={section_2}>
             <div style={ChartStyle} class="page_box">
-              <Chart></Chart>
+              <Chart refresh="true"></Chart>
             </div>
           </div>
           <Home disableAdjustSoilCon="true" mode="landPlot"></Home>

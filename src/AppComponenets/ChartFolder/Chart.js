@@ -15,54 +15,39 @@ const API_SOIL_VARS = {
   4:"Temp_C"
 };
 
-function Chart(){
+var fetchedData = null;
+
+var months = {
+  "01": {monthName:"January", avgVals:{}},
+  "02": {monthName:"February", avgVals:{}},
+  "03": {monthName:"March", avgVals:{}},
+  "04": {monthName:"April", avgVals:{}},
+  "05": {monthName:"May", avgVals:{}},
+  "06": {monthName:"June", avgVals:{}},
+  "07": {monthName:"July", avgVals:{}},
+  "08": {monthName:"August", avgVals:{}},
+  "09": {monthName:"September", avgVals:{}},
+  "10": {monthName:"October", avgVals:{}},
+  "11": {monthName:"November", avgVals:{}},
+  "12": {monthName:"December", avgVals:{}}
+}
+var valuesToDisplay = []
+
+function Chart(params){
 
   const labels = ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"];
+  const weekLabels = [];
   
   // Initializes states for selected outcomes
   const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
   const {selectedDate, setSelectedDate} = useContext(selectedDateContext);
-  const [selectedOutcome, setSelectedOutcome] = useState('Temperature'); 
-  const [selectedChartType, setSelectedChartType] = useState('Bar') 
+  const [selectedOutcome, setSelectedOutcome] = useState('Temperature');
+  const [selectedChartType, setSelectedChartType] = useState('Bar');
 
-  var months = {
-    "01": {monthName:"January", avgVals:{}},
-    "02": {monthName:"February", avgVals:{}},
-    "03": {monthName:"March", avgVals:{}},
-    "04": {monthName:"April", avgVals:{}},
-    "05": {monthName:"May", avgVals:{}},
-    "06": {monthName:"June", avgVals:{}},
-    "07": {monthName:"July", avgVals:{}},
-    "08": {monthName:"August", avgVals:{}},
-    "09": {monthName:"September", avgVals:{}},
-    "10": {monthName:"October", avgVals:{}},
-    "11": {monthName:"November", avgVals:{}},
-    "12": {monthName:"December", avgVals:{}}
-  }
 
-  var valuesToDisplay = [
-
-  ]
-
-  fetchLandPlotsData.then((successData) => {
-    var plotdata = getPlotData(successData, selectedLandPlot);
-    for(var i=1; i<12; i++){
-      var monthIndex = i < 10? "0"+i : i.toString();
-      var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
-      var plotMonthSoilVarAvgs = getSoilVarsAvg(plotMonthData);
-      months[monthIndex].avgVals = plotMonthSoilVarAvgs;
-    }
-    console.log(months);
-  });
-
-  const handleOutcomeChange = (event) => {
-    setSelectedOutcome(event.target.value); // Update the outcome when user changes dropdown
-  };
-
-  const handleChartTypeChange = (event) => {
-    setSelectedChartType(event.target.value); // Updates the type of chart shown when user changes the outcome
-  }
-
+  const [valuesToPlotState, setValuesToPlotState] = useState([2,2,2,2,2,2,2,2,2,2,2,2]);
+  var valuesToPlot = [2,2,2,2,2,2,2,2,2,2,2,2];
+  
   var selectedSoilVarIndex;
   if (selectedOutcome === 'Temperature') {
     selectedSoilVarIndex = 4;
@@ -74,13 +59,55 @@ function Chart(){
     selectedSoilVarIndex = 3;
   }
 
-  var monthsSoilVar = [];
-  for(var i = 1; i<12; i++){
-    var monthIndex = i < 10? "0"+i : i.toString();
-    console.log(months[monthIndex]); // months[monthIndex][1] dont work?!
-    monthsSoilVar.push(months[monthIndex].avgVals[selectedSoilVarIndex]);
-    valuesToDisplay = monthsSoilVar;
-    console.log(valuesToDisplay);
+  useEffect(() => {
+    fetchLandPlotsData.then((successData) => {
+      fetchedData = successData;
+      var plotdata = getPlotData(successData, selectedLandPlot);
+      for(var i=1; i<12; i++){
+        var monthIndex = i < 10? "0"+i : i.toString();
+        var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
+        var plotMonthSoilVarAvgs = getSoilVarsAvg(plotMonthData);
+        months[monthIndex].avgVals = plotMonthSoilVarAvgs;
+      }
+      var monthsSoilVar = [];
+      for(var i = 1; i<12; i++){
+        var monthIndex = i < 10? "0"+i : i.toString();
+        monthsSoilVar.push(months[monthIndex].avgVals[selectedSoilVarIndex]);
+        valuesToDisplay = monthsSoilVar;
+        valuesToPlot = valuesToDisplay;
+        setValuesToPlotState(valuesToDisplay);
+      }
+    });
+  }, []);
+
+  if(params.refresh === "true"){
+    if(fetchedData){
+      console.log("hey");
+
+      var plotdata = getPlotData(fetchedData, selectedLandPlot);
+      for(var i=1; i<12; i++){
+        var monthIndex = i < 10? "0"+i : i.toString();
+        var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
+        var plotMonthSoilVarAvgs = getSoilVarsAvg(plotMonthData);
+        months[monthIndex].avgVals = plotMonthSoilVarAvgs;
+      }
+      var monthsSoilVar = [];
+      for(var i = 1; i<12; i++){
+        var monthIndex = i < 10? "0"+i : i.toString();
+        monthsSoilVar.push(months[monthIndex].avgVals[selectedSoilVarIndex]);
+        valuesToDisplay = monthsSoilVar;
+        valuesToPlot = valuesToDisplay;
+      }
+    }
+  }
+  console.log(valuesToPlot);
+
+  const handleOutcomeChange = (event) => {
+    setSelectedOutcome(event.target.value); // Update the outcome when user changes dropdown
+  };
+
+  const handleChartTypeChange = (event) => {
+    setSelectedChartType(event.target.value); // Updates the type of chart shown when user changes the outcome
   }
   
   // Array.from(months).forEach((month, key) => {
@@ -89,19 +116,6 @@ function Chart(){
   //   console.log(monthsSoilVar);
   //   valuesToDisplay = monthsSoilVar;
   // });
-
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: `Temperature - Plot ${selectedLandPlot}`, 
-        backgroundColor: 'rgba(54, 162, 235, 1)',
-        borderColor: "rgba(54, 162, 235, 1)",
-        data: valuesToDisplay,
-        borderWidth: 2
-      },
-    ],
-  };
 
   const ChartComponent = selectedChartType === 'Bar' ? Bar : Line;
 
@@ -125,7 +139,18 @@ function Chart(){
         </select>
       </div>
       <ChartComponent 
-        data={data}
+        data={{
+          labels: labels,
+          datasets: [
+            {
+              label: `Temperature - Plot ${selectedLandPlot}`, 
+              backgroundColor: 'rgba(54, 162, 235, 1)',
+              borderColor: "rgba(54, 162, 235, 1)",
+              data: fetchedData? valuesToPlot : valuesToPlotState,
+              borderWidth: 2
+            },
+          ],
+        }}
         onClick={onClick}
         ref = {chartRef}
        />
