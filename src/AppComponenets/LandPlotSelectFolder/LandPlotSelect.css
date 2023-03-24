@@ -77,5 +77,5 @@ figcaption{
   left: 3.5rem;
   color: black;
   font-size: 1.3em;
-  background-color: rgb(243, 230, 213);
+  backdrop-filter: blur(20px);  
 }
