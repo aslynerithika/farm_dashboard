@@ -163,6 +163,10 @@ function updateColumnColours(columnValues, selectedChartType){
   }
   columnValues.forEach((value,index)=>{
     var colortopush;
+
+    if(value <= 0){
+      value = 1;
+    }
     if(selectedSoilVarIndex == 1){
       colortopush = moistGradient.getColor(value);
     }else if(selectedSoilVarIndex == 2){
