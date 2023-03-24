@@ -63,6 +63,7 @@ function reOrganizeDays(plotMonthData){
     });
     monthDays.push({"day":dayNum, "soilVars":{"moisture":daySoilVars[0],"PH":daySoilVars[1],"sunlight":daySoilVars[2],"temp":daySoilVars[3]}});
   }
+  monthDays = monthDays.sort((a,b) => (a.day > b.day) ? 1 : -1);
   return monthDays;
 }
 
@@ -166,6 +167,10 @@ function Chart(params){
 
           var monthDays = reOrganizeDays(plotMonthData);
           var weeks = createWeeks(monthDays);
+          //debugging purposes
+          // if(j==2 && i==12){
+          //   console.log(weeks);
+          // }
           var weekAvgs = getWeekSoilVarAvgs(weeks);
           plots_of_land[j-1]["months"][monthIndex].weeks = weekAvgs;
 
@@ -198,6 +203,7 @@ function Chart(params){
         var weekLabels = [];
         var weekAvgSoilVars = [];
         //console.log(plots_of_land[selectedLandPlot-1]["months"][selectedDate].weeks);
+        console.log(plots_of_land[selectedLandPlot-1]["months"][selectedDate].weeks);
         plots_of_land[selectedLandPlot-1]["months"][selectedDate].weeks.forEach((value, i) => {
           weekLabels.push("Week "+(i+1));
           weekAvgSoilVars.push(value[selectedSoilVarIndex-1]);
