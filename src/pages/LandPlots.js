@@ -16,14 +16,14 @@ const ChartStyle = {
   minHeight: "unset",
   minWidth: "400px",
   maxHeight: "unset",
-  maxWidth: "900px"
+  maxWidth: "1000px"
 }
 const section_1 = {
   height: "200px",
   marginTop: "30px"
 }
 const section_2 = {
-  height: "600px",
+  height: "570px",
   marginTop: "30px"
 }
 function LandPlots() {

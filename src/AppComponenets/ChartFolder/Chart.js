@@ -7,6 +7,7 @@ import { selectedDateContext } from '../../pages/LandPlots';
 import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
 import { getPlotData, getMonthDataFromPlot, getSoilVarsAvg } from '../AdjustSoilConFolder/FilterData.js';
 import React from 'react';
+import Gradient from "javascript-color-gradient";
 
 const API_SOIL_VARS = {
   1:"AVG_Humidity__",
@@ -119,6 +120,65 @@ function getWeekSoilVarAvgs(weeks){
   return weekAvgs;
 }
 
+var columnColours = [];
+var lineColors = [];
+const tempGradient = new Gradient()
+  .setColorGradient("#00d3ff", "#8200ff", "#ff0000")
+  .setMidpoint(30);
+const sunlightGradient = new Gradient()
+  .setColorGradient("#fff500", "#ff8300")
+  .setMidpoint(100);
+const phGradient = new Gradient()
+  .setColorGradient("#ee1c25", "#f16824","#f8c511","#f5ed1c","#b5d335","#83c241","#4db749","#33a94b","#22b46b","#09bab4","#4690cd","#3853a4","#5a51a2","#63459d")
+  .setMidpoint(14);
+const moistGradient = new Gradient()
+  .setColorGradient("#00e8ff", "#006cff")
+  .setMidpoint(100);
+var maxAndMinValues;
+function getMaxAndMinValues(successData){
+  var soilVariablesList = {
+    1 : {min : null, max : null},
+    2 : {min : null, max : null},
+    3 : {min : null, max : null},
+    4 : {min : null, max : null}
+  };
+  for(var i = 0; i < successData.length; i++){
+    for(var j = 1; j <= Object.keys(soilVariablesList).length; j++){
+      if(soilVariablesList[j].max == null || successData[i][API_SOIL_VARS[j]] > soilVariablesList[j].max){
+        soilVariablesList[j].max = successData[i][API_SOIL_VARS[j]];
+      }
+      if(soilVariablesList[j].min == null || successData[i][API_SOIL_VARS[j]] < soilVariablesList[j].min){
+        soilVariablesList[j].min = successData[i][API_SOIL_VARS[j]];
+      }
+    }
+  }
+  return soilVariablesList;
+}
+
+var selectedSoilVarIndex;
+function updateColumnColours(columnValues, selectedChartType){
+  columnColours = [];
+  if(selectedChartType != "Bar"){
+    lineColors = [];
+  }
+  columnValues.forEach((value,index)=>{
+    var colortopush;
+    if(selectedSoilVarIndex == 1){
+      colortopush = moistGradient.getColor(value);
+    }else if(selectedSoilVarIndex == 2){
+      colortopush = phGradient.getColor(value);
+    }else if(selectedSoilVarIndex == 3){
+      colortopush = sunlightGradient.getColor(value);
+    }else if(selectedSoilVarIndex == 4){
+      colortopush = tempGradient.getColor(value);
+    }
+    columnColours.push(colortopush);
+    if(selectedChartType != "Bar"){
+      lineColors.push(colortopush);
+    }
+  });
+}
+
 //var weeksAvgs = [];
 function Chart(params){
 
@@ -134,7 +194,6 @@ function Chart(params){
   var valuesToPlot = [2,2,2,2,2,2,2,2,2,2,2,2];
   var labels = monthLabels;
   
-  var selectedSoilVarIndex;
   if (selectedOutcome === 'Temperature') {
     selectedSoilVarIndex = 4;
   } else if (selectedOutcome === 'Moisture') {
@@ -147,6 +206,7 @@ function Chart(params){
 
   useEffect(() => {
     fetchLandPlotsData.then((successData) => {
+      maxAndMinValues = getMaxAndMinValues(successData);
       fetchedData = successData;
       
       var monthsSoilVar = [];
@@ -180,12 +240,12 @@ function Chart(params){
         }
       }
       //console.log(monthsSoilVar);
+      updateColumnColours(monthsSoilVar, selectedChartType);
       setValuesToPlotState(monthsSoilVar);
       //console.log(plots_of_land);
     });
   }, []);
 
-  var clicked = false;
   if(params.refresh === "true"){
     if(fetchedData ){
       console.log("hey");
@@ -211,12 +271,7 @@ function Chart(params){
         labels = weekLabels;
         valuesToPlot = weekAvgSoilVars;
       }
-
-    }else if(clicked==true){
-      // var myvar = selectedDate;
-      // console.log(myvar);
-      // var index = selectedSoilVarIndex -1;
-      // valuesToPlot = [myvar[0][index],myvar[1][index],myvar[2][index],myvar[3][index]];
+      updateColumnColours(valuesToPlot, selectedChartType);
     }
   }
   console.log(valuesToPlot);
@@ -235,7 +290,6 @@ function Chart(params){
   const onClick = (event) => {
 
     if(getElementsAtEvent(chartRef.current, event)[0] && selectedDate == null){
-      clicked = true;
       var chartIndex = getElementsAtEvent(chartRef.current, event)[0].index + 1;
       var monthIndex = chartIndex < 10? "0"+chartIndex : chartIndex.toString();
 
@@ -251,6 +305,7 @@ function Chart(params){
     }
   };
 
+  console.log(selectedChartType === 'Bar'? "#36A2EB": lineColors);
   return (
     <div className = "chart">
       <div className="dropdowns">
@@ -271,8 +326,8 @@ function Chart(params){
           datasets: [
             {
               label: `Temperature - Plot ${selectedLandPlot}`, 
-              backgroundColor: 'rgba(54, 162, 235, 1)',
-              borderColor: "rgba(54, 162, 235, 1)",
+              backgroundColor: columnColours,
+              borderColor: (selectedChartType === 'Bar'? "rgba(0, 0, 0, 0.1)": lineColors),
               data: fetchedData? valuesToPlot : valuesToPlotState,
               borderWidth: 2
             },
