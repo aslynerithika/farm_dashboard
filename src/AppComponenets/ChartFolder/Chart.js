@@ -245,6 +245,9 @@ function Chart(params){
       //setValuesToPlotState(weekAvgSoilVars);
       //setLabels(weekLabels);
 
+    }else if(selectedDate != null){
+      setSelectedDate(null);
+      //console.log("here");
     }
   };
 
