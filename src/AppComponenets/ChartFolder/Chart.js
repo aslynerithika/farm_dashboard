@@ -17,27 +17,111 @@ const API_SOIL_VARS = {
 
 var fetchedData = null;
 
-var months = {
-  "01": {monthName:"January", avgVals:{}},
-  "02": {monthName:"February", avgVals:{}},
-  "03": {monthName:"March", avgVals:{}},
-  "04": {monthName:"April", avgVals:{}},
-  "05": {monthName:"May", avgVals:{}},
-  "06": {monthName:"June", avgVals:{}},
-  "07": {monthName:"July", avgVals:{}},
-  "08": {monthName:"August", avgVals:{}},
-  "09": {monthName:"September", avgVals:{}},
-  "10": {monthName:"October", avgVals:{}},
-  "11": {monthName:"November", avgVals:{}},
-  "12": {monthName:"December", avgVals:{}}
+// var monthsBluePrint = {
+//   "01": {monthName:"January", avgVals:{}, weeks:{}},
+//   "02": {monthName:"February", avgVals:{}, weeks:{}},
+//   "03": {monthName:"March", avgVals:{}, weeks:{}},
+//   "04": {monthName:"April", avgVals:{}, weeks:{}},
+//   "05": {monthName:"May", avgVals:{}, weeks:{}},
+//   "06": {monthName:"June", avgVals:{}, weeks:{}},
+//   "07": {monthName:"July", avgVals:{}, weeks:{}},
+//   "08": {monthName:"August", avgVals:{}, weeks:{}},
+//   "09": {monthName:"September", avgVals:{}, weeks:{}},
+//   "10": {monthName:"October", avgVals:{}, weeks:{}},
+//   "11": {monthName:"November", avgVals:{}, weeks:{}},
+//   "12": {monthName:"December", avgVals:{}, weeks:{}}
+// }
+
+function createMonths(){
+  return {
+    "months": {
+      "01": {monthName:"January", avgVals:{}, weeks:{}},
+      "02": {monthName:"February", avgVals:{}, weeks:{}},
+      "03": {monthName:"March", avgVals:{}, weeks:{}},
+      "04": {monthName:"April", avgVals:{}, weeks:{}},
+      "05": {monthName:"May", avgVals:{}, weeks:{}},
+      "06": {monthName:"June", avgVals:{}, weeks:{}},
+      "07": {monthName:"July", avgVals:{}, weeks:{}},
+      "08": {monthName:"August", avgVals:{}, weeks:{}},
+      "09": {monthName:"September", avgVals:{}, weeks:{}},
+      "10": {monthName:"October", avgVals:{}, weeks:{}},
+      "11": {monthName:"November", avgVals:{}, weeks:{}},
+      "12": {monthName:"December", avgVals:{}, weeks:{}}
+    }
+  }
 }
-var valuesToDisplay = []
-var weeksAvgs = [];
+var plots_of_land = [];
+ // 1 : {months : Object.create(monthsBluePrint)},
+
+function reOrganizeDays(plotMonthData){
+  var monthDays = [];
+  for(var i = 0; i < plotMonthData.length; i++){
+    var dayNum = parseInt(plotMonthData[i]["Date"].value.split("-")[2]);
+    var daySoilVars = []
+    Object.keys(API_SOIL_VARS).forEach((index, key) => {
+      daySoilVars.push(plotMonthData[i][API_SOIL_VARS[index]]);
+    });
+    monthDays.push({"day":dayNum, "soilVars":{"moisture":daySoilVars[0],"PH":daySoilVars[1],"sunlight":daySoilVars[2],"temp":daySoilVars[3]}});
+  }
+  return monthDays;
+}
+
+function createWeeks(monthDays){
+  var weeks = [];
+  var c = 0;
+  for(var i = 0; i < monthDays.length; i++){
+    if(!weeks[c]){
+      weeks.push([]);
+    }
+    //console.log(weeks);
+    weeks[c].push(monthDays[i]);
+    if((i+1)%7 == 0){
+      c++;
+    }
+  }
+  return weeks;
+}
+ 
+const SOIL_VARS = {
+  1:"moisture",
+  2:"PH", 
+  3:"sunlight", 
+  4:"temp"
+};    
+function getWeekSoilVarAvgs(weeks){
+  var weekAvgs = [];
+
+  for(var i=0; i<weeks.length; i++){
+    var soilVarsTotal = {
+      1 : 0,
+      2 : 0,
+      3 : 0,
+      4 : 0
+    }
+    Object.keys(weeks[i]).forEach((day, key) => {
+      Object.keys(soilVarsTotal).forEach((value, index) => {
+        soilVarsTotal[value] += weeks[i][day].soilVars[SOIL_VARS[value]];
+      });
+    });
+
+    Object.keys(soilVarsTotal).forEach((value,index) =>{
+      var avgVal = soilVarsTotal[value]/weeks[i].length;
+      if(value != 2){
+        soilVarsTotal[value] = Math.trunc(avgVal);
+      }else{
+        soilVarsTotal[value] = parseFloat(avgVal.toFixed(1));
+      }
+    });
+    var soilVarsTotalArr = [soilVarsTotal[1], soilVarsTotal[2], soilVarsTotal[3], soilVarsTotal[4]];
+    weekAvgs.push(soilVarsTotalArr);
+  }
+  return weekAvgs;
+}
+
+//var weeksAvgs = [];
 function Chart(params){
 
   const monthLabels = ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"];
-  const weekLabels = [];
-  const [labels, setLabels] = useState(monthLabels);
   // Initializes states for selected outcomes
   const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
   const {selectedDate, setSelectedDate} = useContext(selectedDateContext);
@@ -47,6 +131,7 @@ function Chart(params){
 
   const [valuesToPlotState, setValuesToPlotState] = useState([2,2,2,2,2,2,2,2,2,2,2,2]);
   var valuesToPlot = [2,2,2,2,2,2,2,2,2,2,2,2];
+  var labels = monthLabels;
   
   var selectedSoilVarIndex;
   if (selectedOutcome === 'Temperature') {
@@ -62,48 +147,70 @@ function Chart(params){
   useEffect(() => {
     fetchLandPlotsData.then((successData) => {
       fetchedData = successData;
-      var plotdata = getPlotData(successData, selectedLandPlot);
-      for(var i=1; i<=12; i++){
-        var monthIndex = i < 10? "0"+i : i.toString();
-        var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
-        var plotMonthSoilVarAvgs = getSoilVarsAvg(plotMonthData);
-        months[monthIndex].avgVals = plotMonthSoilVarAvgs;
-      }
+      
       var monthsSoilVar = [];
-      for(var i = 1; i<=12; i++){
-        var monthIndex = i < 10? "0"+i : i.toString();
-        monthsSoilVar.push(months[monthIndex].avgVals[selectedSoilVarIndex]);
-        valuesToDisplay = monthsSoilVar;
-        valuesToPlot = valuesToDisplay;
-        setValuesToPlotState(valuesToDisplay);
+
+      //initialize plots of land object
+      for(var i=1; i<=10; i++){
+        let newMonths = new createMonths();
+        plots_of_land.push(newMonths);
       }
+
+      for(var j=1; j<=10; j++){
+        var plotdata = getPlotData(successData, j);
+        for(var i=1; i<=12; i++){
+          var monthIndex = i < 10? "0"+i : i.toString();
+          var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
+          var plotMonthSoilVarAvgs = getSoilVarsAvg(plotMonthData);
+          plots_of_land[j-1]["months"][monthIndex].avgVals = plotMonthSoilVarAvgs;
+
+          var monthDays = reOrganizeDays(plotMonthData);
+          var weeks = createWeeks(monthDays);
+          var weekAvgs = getWeekSoilVarAvgs(weeks);
+          plots_of_land[j-1]["months"][monthIndex].weeks = weekAvgs;
+
+          if(j==selectedLandPlot){
+            monthsSoilVar.push(plots_of_land[selectedLandPlot-1]["months"][monthIndex].avgVals[selectedSoilVarIndex]);
+          }
+        }
+      }
+      //console.log(monthsSoilVar);
+      setValuesToPlotState(monthsSoilVar);
+      //console.log(plots_of_land);
     });
   }, []);
 
   var clicked = false;
   if(params.refresh === "true"){
-    if(fetchedData && clicked == false){
+    if(fetchedData ){
       console.log("hey");
 
-      var plotdata = getPlotData(fetchedData, selectedLandPlot);
-      for(var i=1; i<=12; i++){
-        var monthIndex = i < 10? "0"+i : i.toString();
-        var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
-        var plotMonthSoilVarAvgs = getSoilVarsAvg(plotMonthData);
-        months[monthIndex].avgVals = plotMonthSoilVarAvgs;
+      //var plotdata = getPlotData(fetchedData, selectedLandPlot);
+      if(!selectedDate){
+        var monthsSoilVar = [];
+        for(var i=1; i<=12; i++){
+          var monthIndex = i < 10? "0"+i : i.toString();
+          monthsSoilVar.push(plots_of_land[selectedLandPlot-1]["months"][monthIndex].avgVals[selectedSoilVarIndex]);
+          //monthsSoilVar.push(months[monthIndex].avgVals[selectedSoilVarIndex]);
+        }
+        valuesToPlot = monthsSoilVar;
+      }else{
+        var weekLabels = [];
+        var weekAvgSoilVars = [];
+        //console.log(plots_of_land[selectedLandPlot-1]["months"][selectedDate].weeks);
+        plots_of_land[selectedLandPlot-1]["months"][selectedDate].weeks.forEach((value, i) => {
+          weekLabels.push("Week "+(i+1));
+          weekAvgSoilVars.push(value[selectedSoilVarIndex-1]);
+        });
+        labels = weekLabels;
+        valuesToPlot = weekAvgSoilVars;
       }
-      var monthsSoilVar = [];
-      for(var i = 1; i<=12; i++){
-        var monthIndex = i < 10? "0"+i : i.toString();
-        monthsSoilVar.push(months[monthIndex].avgVals[selectedSoilVarIndex]);
-        valuesToDisplay = monthsSoilVar;
-        valuesToPlot = valuesToDisplay;
-      }
+
     }else if(clicked==true){
-      var myvar = selectedDate;
-      console.log(myvar);
-      var index = selectedSoilVarIndex -1;
-      valuesToPlot = [myvar[0][index],myvar[1][index],myvar[2][index],myvar[3][index]];
+      // var myvar = selectedDate;
+      // console.log(myvar);
+      // var index = selectedSoilVarIndex -1;
+      // valuesToPlot = [myvar[0][index],myvar[1][index],myvar[2][index],myvar[3][index]];
     }
   }
   console.log(valuesToPlot);
@@ -115,92 +222,22 @@ function Chart(params){
   const handleChartTypeChange = (event) => {
     setSelectedChartType(event.target.value); // Updates the type of chart shown when user changes the outcome
   }
-  
-  // Array.from(months).forEach((month, key) => {
-  //   var monthsSoilVar = [];
-  //   monthsSoilVar.push(month[1][selectedSoilVarIndex]);
-  //   console.log(monthsSoilVar);
-  //   valuesToDisplay = monthsSoilVar;
-  // });
 
   const ChartComponent = selectedChartType === 'Bar' ? Bar : Line;
 
   const chartRef = useRef();
   const onClick = (event) => {
 
-    if(getElementsAtEvent(chartRef.current, event)[0] && selectedDate[0] == "02"){
+    if(getElementsAtEvent(chartRef.current, event)[0] && selectedDate == null){
       clicked = true;
       var chartIndex = getElementsAtEvent(chartRef.current, event)[0].index + 1;
       var monthIndex = chartIndex < 10? "0"+chartIndex : chartIndex.toString();
-      var plotdata = getPlotData(fetchedData, selectedLandPlot);
-      var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
 
-      var monthDays = [];
-
-      const SOIL_VARS = {
-        1:"moisture",
-        2:"PH", 
-        3:"sunlight", 
-        4:"temp"
-      };    
-
-      for(var i = 0; i < plotMonthData.length; i++){
-        var dayNum = parseInt(plotMonthData[i]["Date"].value.split("-")[2]);
-        var daySoilVars = []
-        Object.keys(API_SOIL_VARS).forEach((index, key) => {
-          daySoilVars.push(plotMonthData[i][API_SOIL_VARS[index]]);
-        });
-        monthDays.push({"day":dayNum, "soilVars":{"moisture":daySoilVars[0],"PH":daySoilVars[1],"sunlight":daySoilVars[2],"temp":daySoilVars[3]}});
-      }
-      var sortedMonthDays = monthDays.sort((a,b)=>(a.day-b.day));
-      //console.log(sortedMonthDays);
-      //console.log(weekCount);
-      var weeks = [];
-      var c = 0;
-      for(var i = 0; i < monthDays.length; i++){
-        if(!weeks[c]){
-          weeks.push([]);
-        }
-        //console.log(weeks);
-        weeks[c].push(monthDays[i]);
-        if((i+1)%7 == 0){
-          c++;
-        }
-      }
-      
-      var weekAvgs = [];
-      for(var i=0; i<weeks.length; i++){
-        var soilVarsTotal = {
-          1 : 0,
-          2 : 0,
-          3 : 0,
-          4 : 0
-        }
-        weekLabels.push("Week "+(i+1));
-        Object.keys(weeks[i]).forEach((day, key) => {
-          Object.keys(soilVarsTotal).forEach((value, index) => {
-            //console.log(weeks[i][day].soilVars[SOIL_VARS[value]]);
-            soilVarsTotal[value] += weeks[i][day].soilVars[SOIL_VARS[value]];
-          });
-        });
-
-        Object.keys(soilVarsTotal).forEach((value,index) =>{
-          var avgVal = soilVarsTotal[value]/weeks[i].length;
-          if(value != 2){
-            soilVarsTotal[value] = Math.trunc(avgVal);
-          }else{
-            soilVarsTotal[value] = parseFloat(avgVal.toFixed(1));
-          }
-        });
-        var soilVarsTotalArr = [soilVarsTotal[1], soilVarsTotal[2], soilVarsTotal[3], soilVarsTotal[4]];
-        weeksAvgs.push(soilVarsTotalArr);
-        weekAvgs.push(soilVarsTotalArr[selectedSoilVarIndex-1]);
-      }
-      setSelectedDate(weeksAvgs);
-      console.log(selectedDate);
-      console.log(weekAvgs);
-      setValuesToPlotState(weekAvgs);
-      setLabels(weekLabels);
+      setSelectedDate(monthIndex);
+      //console.log(selectedDate);
+      //console.log(weekAvgs);
+      //setValuesToPlotState(weekAvgSoilVars);
+      //setLabels(weekLabels);
 
     }
   };

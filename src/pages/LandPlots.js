@@ -28,7 +28,7 @@ const section_2 = {
 }
 function LandPlots() {
   const [selectedLandPlot, setSelectedLandPlot] = useState(1);
-  const [selectedDate, setSelectedDate] = useState(["02"]);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   return(
     <>
