@@ -56,7 +56,7 @@ const cropList = {
           
 
   },
-
+  
   "Sugar Beet" : {
     name  : "Sugar Beet",
     desc  : "Sugar beet is a plant that is primarily grown for its sugar-rich root. The root is harvested and processed to extract the sugar, which is then used for various purposes such as food production, sweeteners, and biofuels.",
