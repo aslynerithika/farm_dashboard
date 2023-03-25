@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import cropList from '../../CustomHooks/FetchCropInfo';
 import './CropInfo.css';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Tooltip from '@mui/material/Tooltip';
+ 
 
 function CropInfo() {
   const [cropName, setCropName] = useState('Wheat');
@@ -24,16 +28,25 @@ function CropInfo() {
   return (
     <div className="CropInfo_box fill_in_box">
       <div className="Cropshow-container"> 
-        <img src={crop.image} alt="Image of wheat"></img> 
         <div className="Caption"> 
-          <h1>{crop.name}</h1>
+        <div class = "Cropinformation">
+        <h1>{crop.name}</h1> 
+          <img src={crop.image} alt="Image of Crop"></img> 
           <p>{crop.desc}</p>
-          <ul>
-            <li> <img src="../Images/money-bag-icon.png" alt="Image description"></img>The expenses and upkeep required for cultivating {crop.name}: {crop.Cost} </li>
-            <li>The yield potential of {crop.name} crops: {crop.Yield}</li>
-            <li>The typical duration of a {crop.name} growth: {crop.GrowTime}</li>
+          </div> 
+          <div class = "Image_icons">
+             <ul> 
+             <Tooltip class="Tooltip" title="Maintenance Cost" arrow>
+               <li> <img src="./Images/App/money-bag-icon.png"></img>{crop.Cost}</li>
+             </Tooltip>
+             <Tooltip class="Tooltip" title="Yield" arrow>
+            <li> <img src="./Images/App/yield-icon.png"></img>{crop.Yield}</li>
+             </Tooltip>
+            <Tooltip class="Tooltip" title="Growth Time" arrow>
+            <li> <img src="./Images/App/timer-icon.png"></img>{crop.GrowTime}</li>
+            </Tooltip>
           </ul> 
-       
+          </div>
         </div>  
         <div className='CropNavigationbtn'>
           <Button variant="contained" size="small" onClick={handlePrevious}>Previous</Button>
