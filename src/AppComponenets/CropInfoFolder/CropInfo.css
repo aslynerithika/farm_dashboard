@@ -1,10 +1,25 @@
 .Cropshow-container img {
   max-width: 40%;
-  height: auto;
   right: 20px;
 }
 
+.Cropinformation img {
+  max-width: 250px;
+  min-width: 400px;
+  max-height: 200px;
+  min-height: 200px;
+}
 
+.Cropinformation p {
+  max-width: 700px;
+  min-width: 700px;
+  min-height: 50px;
+  max-height: 50px;
+}
+
+.Caption{
+padding: 20PX;
+}
 .Caption h1 {
   font-size: 30px;
   margin-bottom: 1rem;
@@ -17,18 +32,31 @@
   font-size: 15px;
 }
 
+
+
 .Caption li {
   text-align: left;
   margin: 30px;
+  list-style: none;
+  display: inline;
+  height: 250px;
+  width: 250px;
   
 }
+
+
 
 
 .CropNavigationbtn button {
   font-size: 11px;
   padding: 3px 10px; 
   text-transform: none;
-  margin-top: 10px;
+  margin-top: 50px;
   margin-right: 20px;
-}
 
+  }
+
+
+  .Image_icons ul li img {
+    display: inline;
+  }
