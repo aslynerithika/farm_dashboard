@@ -202,7 +202,7 @@ function Chart(params){
     selectedSoilVarIndex = 4;
   } else if (selectedOutcome === 'Moisture') {
     selectedSoilVarIndex = 1;
-  } else if (selectedOutcome === 'PH Level') {
+  } else if (selectedOutcome === 'pH Level') {
     selectedSoilVarIndex = 2;
   } else if (selectedOutcome === 'Sunlight') {
     selectedSoilVarIndex = 3;
@@ -316,7 +316,7 @@ function Chart(params){
         <select value={selectedOutcome} onChange={handleOutcomeChange}>
           <option value="Temperature">Temperature</option>
           <option value="Moisture">Moisture</option>
-          <option value="PH Level">PH Level</option>
+          <option value="pH Level">pH Level</option>
           <option value="Sunlight">Sunlight</option>
         </select>
         <select value={selectedChartType} onChange={handleChartTypeChange}>
@@ -329,7 +329,7 @@ function Chart(params){
           labels: labels,
           datasets: [
             {
-              label: `Temperature - Plot ${selectedLandPlot}`, 
+              label: `${selectedOutcome} - Avg`, 
               backgroundColor: columnColours,
               borderColor: (selectedChartType === 'Bar'? "rgba(0, 0, 0, 0.1)": lineColors),
               data: fetchedData? valuesToPlot : valuesToPlotState,

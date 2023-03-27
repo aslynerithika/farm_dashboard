@@ -23,7 +23,7 @@ const section_1 = {
   marginTop: "30px"
 }
 const section_2 = {
-  height: "570px",
+  height: "fit-content",
   marginTop: "30px"
 }
 function LandPlots() {
