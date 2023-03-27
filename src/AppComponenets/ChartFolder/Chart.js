@@ -292,6 +292,7 @@ function Chart(params){
   };
 
   console.log(selectedChartType === 'Bar'? "#36A2EB": lineColors);
+  var chartLabel = selectedDate? plots_of_land[selectedLandPlot-1]["months"][selectedDate].monthName : "Annual";
   return (
     <div className = "chart">
       <div className="dropdowns">
@@ -311,7 +312,7 @@ function Chart(params){
           labels: labels,
           datasets: [
             {
-              label: `${selectedOutcome} - Avg`, 
+              label: `${selectedOutcome} - ${chartLabel}`, 
               backgroundColor: columnColours,
               borderColor: (selectedChartType === 'Bar'? "rgba(0, 0, 0, 0.1)": lineColors),
               data: fetchedData? valuesToPlot : valuesToPlotState,
