@@ -5,7 +5,7 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
 import { selectedDateContext } from '../../pages/LandPlots';
 import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
-import { getPlotData, getMonthDataFromPlot, getSoilVarsAvg } from '../AdjustSoilConFolder/FilterData.js';
+import { getPlotData, getMonthDataFromPlot, getSoilVarsAvg, getMaxAndMinValues } from '../AdjustSoilConFolder/FilterData.js';
 import React from 'react';
 import Gradient from "javascript-color-gradient";
 
@@ -134,26 +134,8 @@ const phGradient = new Gradient()
 const moistGradient = new Gradient()
   .setColorGradient("#00e8ff", "#006cff")
   .setMidpoint(100);
+
 var maxAndMinValues;
-function getMaxAndMinValues(successData){
-  var soilVariablesList = {
-    1 : {min : null, max : null},
-    2 : {min : null, max : null},
-    3 : {min : null, max : null},
-    4 : {min : null, max : null}
-  };
-  for(var i = 0; i < successData.length; i++){
-    for(var j = 1; j <= Object.keys(soilVariablesList).length; j++){
-      if(soilVariablesList[j].max == null || successData[i][API_SOIL_VARS[j]] > soilVariablesList[j].max){
-        soilVariablesList[j].max = successData[i][API_SOIL_VARS[j]];
-      }
-      if(soilVariablesList[j].min == null || successData[i][API_SOIL_VARS[j]] < soilVariablesList[j].min){
-        soilVariablesList[j].min = successData[i][API_SOIL_VARS[j]];
-      }
-    }
-  }
-  return soilVariablesList;
-}
 
 var selectedSoilVarIndex;
 function updateColumnColours(columnValues, selectedChartType){
@@ -225,7 +207,7 @@ function Chart(params){
         var plotdata = getPlotData(successData, j);
         for(var i=1; i<=12; i++){
           var monthIndex = i < 10? "0"+i : i.toString();
-          var plotMonthData = getMonthDataFromPlot(plotdata, [monthIndex]);
+          var plotMonthData = getMonthDataFromPlot(plotdata, monthIndex);
           var plotMonthSoilVarAvgs = getSoilVarsAvg(plotMonthData);
           plots_of_land[j-1]["months"][monthIndex].avgVals = plotMonthSoilVarAvgs;
 

@@ -8,7 +8,8 @@ import Gradient from "javascript-color-gradient";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
-import { getPlotData, getSoilVarsAvg } from './FilterData';
+import { selectedDateContext } from '../../pages/LandPlots';
+import { getPlotData, getSoilVarsAvg, getMaxAndMinValues, getMonthDataFromPlot } from './FilterData';
 
 const MoistDefaultValue = 30;
 const phDefaultValue = 7;
@@ -158,8 +159,28 @@ class AvgText extends React.Component{
   }
 }
 
+function createMonths(){
+  return {
+    "01": {monthName:"January", avgVals:{}},
+    "02": {monthName:"February", avgVals:{}},
+    "03": {monthName:"March", avgVals:{}},
+    "04": {monthName:"April", avgVals:{}},
+    "05": {monthName:"May", avgVals:{}},
+    "06": {monthName:"June", avgVals:{}},
+    "07": {monthName:"July", avgVals:{}},
+    "08": {monthName:"August", avgVals:{}},
+    "09": {monthName:"September", avgVals:{}},
+    "10": {monthName:"October", avgVals:{}},
+    "11": {monthName:"November", avgVals:{}},
+    "12": {monthName:"December", avgVals:{}}
+  }
+}
+var plots_of_land = [];
+
 function AdjustSoilCon(params){
   var soil_box_title = "Adjust";
+
+  const {selectedDate, setSelectedDate} = useContext(selectedDateContext);
   const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
 
   const [MoistMaxAndMin, setMoistMaxAndMin] = useState({min:0, max:250});
@@ -204,22 +225,24 @@ function AdjustSoilCon(params){
     //console.log(landPlotsData);
     landPlotsData.then((successData) => {
       fetchedData = successData;
-      var soilVariablesList = {
-        1 : {min : null, max : null},
-        2 : {min : null, max : null},
-        3 : {min : null, max : null},
-        4 : {min : null, max : null}
-      };
-      for(var i = 0; i < successData.length; i++){
-        for(var j = 1; j <= Object.keys(soilVariablesList).length; j++){
-          if(soilVariablesList[j].max == null || successData[i][API_SOIL_VARS[j]] > soilVariablesList[j].max){
-            soilVariablesList[j].max = successData[i][API_SOIL_VARS[j]];
-          }
-          if(soilVariablesList[j].min == null || successData[i][API_SOIL_VARS[j]] < soilVariablesList[j].min){
-            soilVariablesList[j].min = successData[i][API_SOIL_VARS[j]];
-          }
+
+      //get annual avg data
+      for(var i=1; i<=10; i++){
+        var plotData = getPlotData(fetchedData, i);
+        var annualSoilVarsAvg = getSoilVarsAvg(plotData);
+        let months = new createMonths();
+        plots_of_land.push({"annual_avg":annualSoilVarsAvg, months});
+
+        //get monthly avg data
+        for(var j=1; j<=12; j++){
+          var monthIndex = j < 10? "0"+j : j.toString();
+          var plotMonthData = getMonthDataFromPlot(plotData, monthIndex);
+          var plotMonthSoilVarAvgs = getSoilVarsAvg(plotMonthData);
+          plots_of_land[i-1].months[monthIndex].avgVals = plotMonthSoilVarAvgs;
         }
       }
+
+      var soilVariablesList = getMaxAndMinValues(fetchedData);
 
       var sliderMarksList = {
         1 : null,
@@ -258,14 +281,6 @@ function AdjustSoilCon(params){
       console.log(failMsg);
     });
   }, []);
-
-  // useEffect(() => {
-  //   console.log("test");
-  //   var sliderInputs = document.getElementsByClassName("MuiInputBase-input");
-  //   for(var i = 1; i < sliderInputs.length+1; i++){
-  //     onChangeFunc(i, parseFloat(sliderInputs[i-1].value), minAndMaxValues);
-  //   }
-  // }, [2]);
 
   var classToAdd;
   if(params.disableAdjustSoilCon === "true"){
@@ -330,16 +345,18 @@ function AdjustSoilCon(params){
   var soilBoxStyle = (null);
   if(params.mode === "landPlot"){
     if(fetchedData){
-      // For average soil text
-      soilBoxStyle = {gridTemplateRows: "80px 20px 1fr 100px"};
-      //const soil_box = document.getElementsByClassName("adjust_soil_box")[0];
-      //soil_box.setAttribute.gridTemplateRows = "grid-template-rows: 80px 20px 1fr 100px";
 
-      soil_box_title = "Annual"
-      const plotData = getPlotData(fetchedData, selectedLandPlot);
-      var soilVarsAvg = getSoilVarsAvg(plotData);
+      soilBoxStyle = {gridTemplateRows: "80px 20px 1fr 100px"};
+
+      soil_box_title = selectedDate? plots_of_land[selectedLandPlot-1].months[selectedDate].monthName : "Annual";
+      // const plotData = getPlotData(fetchedData, selectedLandPlot);
+      // var soilVarsAvg = getSoilVarsAvg(plotData);
       for(let i = 1; i <= 4; i++){
-        SliderVarsLandPlot[i].value = soilVarsAvg[i];
+        if(selectedDate){
+          SliderVarsLandPlot[i].value = plots_of_land[selectedLandPlot-1].months[selectedDate].avgVals[i];
+        }else{
+          SliderVarsLandPlot[i].value = plots_of_land[selectedLandPlot-1].annual_avg[i];
+        }
         onChangeFunc(i, SliderVarsLandPlot[i].value, minAndMaxValues, sliderMarks);
       }
     }
