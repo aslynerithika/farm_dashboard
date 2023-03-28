@@ -154,7 +154,7 @@ class AvgText extends React.Component{
     var titleTextHtml = (null);
     if(this.props.enabled){
       var titleText = "Average values*";
-      if(this.props.cropView){
+      if(this.props.cropView == true){
         titleText += " for ideal soil conditions";
       }
       titleTextHtml = <a>{titleText}</a>;
@@ -477,7 +477,7 @@ function AdjustSoilCon(params){
     <>
       <div class={"adjust_soil_box fill_in_box" + classToAdd} style={soilBoxStyle}>
         <h1>{soil_box_title} soil conditions</h1>
-        <AvgText enabled={params.mode === "landPlot" || params.mode === "cropView"? true : false} cropView = {true}></AvgText>
+        <AvgText enabled={params.mode === "landPlot" || params.mode === "cropView"? true : false} cropView = {params.mode === "cropView"? true : false}></AvgText>
         <div class="slider_container">
           {SlidersTitles}
           {Sliders}
