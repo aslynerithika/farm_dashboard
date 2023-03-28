@@ -10,6 +10,7 @@ import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
 import { selectedDateContext } from '../../pages/LandPlots';
 import { getPlotData, getSoilVarsAvg, getMaxAndMinValues, getMonthDataFromPlot } from './FilterData';
+import CROP_DATA from '../CropInfoFolder/CropData';
 
 const MoistDefaultValue = 30;
 const phDefaultValue = 7;
@@ -152,12 +153,17 @@ class AvgText extends React.Component{
   render(){
     var titleTextHtml = (null);
     if(this.props.enabled){
-      const titleText = "Average values*";
+      var titleText = "Average values*";
+      if(this.props.cropView){
+        titleText += " for ideal soil conditions";
+      }
       titleTextHtml = <a>{titleText}</a>;
     }
     return titleTextHtml;
   }
 }
+
+var cropAvgSoil = {};
 
 function createMonths(){
   return {
@@ -180,6 +186,7 @@ var plots_of_land = [];
 function AdjustSoilCon(params){
   var soil_box_title = "Adjust";
 
+  const selectedCrop = "Rice";
   const {selectedDate, setSelectedDate} = useContext(selectedDateContext);
   const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
 
@@ -220,9 +227,37 @@ function AdjustSoilCon(params){
     3 : setSunlightMarks,
     4 : setTempMarks
   }
+
+  var cropSoilVars ={
+    1 : "PH",
+    2 : "moisture",
+    3 : "sunlight",
+    4 : "temp"
+  }
   useEffect(() => {
     const landPlotsData = fetchLandPlotsData;
     //console.log(landPlotsData);
+
+    cropAvgSoil = CROP_DATA;
+    //get avg crop data
+    if(params.mode === "cropView"){
+      Object.keys(cropAvgSoil).forEach((cropName,index) => {
+        for(var i=1; i<=4; i++){
+          var cropAvgSoilVal;
+          console.log(cropAvgSoil[cropName][cropSoilVars[i]]);
+          cropAvgSoil[cropName][cropSoilVars[i]].forEach((num, index) => {
+            //console.log(num);
+            var count = 0;
+            count += num;
+            if(index+1 == cropAvgSoil[cropName][cropSoilVars[i]].length){
+              cropAvgSoilVal = count/2
+            }
+          })
+          cropAvgSoil[cropName][cropSoilVars[i]] = cropAvgSoilVal;
+        }
+      });
+    }
+
     landPlotsData.then((successData) => {
       fetchedData = successData;
 
@@ -360,6 +395,34 @@ function AdjustSoilCon(params){
         onChangeFunc(i, SliderVarsLandPlot[i].value, minAndMaxValues, sliderMarks);
       }
     }
+  }else if(params.mode === "cropView"){
+    if(fetchedData){
+      soilBoxStyle = {gridTemplateRows: "80px 20px 1fr 100px"};
+
+      soil_box_title = selectedCrop;
+
+      console.log(cropAvgSoil);
+      try{
+        for(let i = 1; i <= 4; i++){
+          var cropSoilVarIndex;
+          if(i==1){
+            cropSoilVarIndex = 2;
+          }else if(i==2){
+            cropSoilVarIndex = 1;
+          }else if(i==3){
+            cropSoilVarIndex = 3;
+          }else if(i==4){
+            cropSoilVarIndex = 4;
+          }
+          //console.log();
+          SliderVarsLandPlot[i].value = cropAvgSoil[selectedCrop][cropSoilVars[cropSoilVarIndex]];
+          console.log("hye");
+          onChangeFunc(i, SliderVarsLandPlot[i].value, minAndMaxValues, sliderMarks);
+        }
+      }catch(errormsg){
+        console.log(errormsg);
+      }
+    }
   }
   for (let i = 1; i <= 4; i++){
     Sliders.push(
@@ -374,7 +437,7 @@ function AdjustSoilCon(params){
           color={"slider_"+i}
           marks={sliderMarks[i]}
 
-          value={params.mode === "landPlot"? SliderVarsLandPlot[i].value : SliderVars[i][0]}
+          value={params.mode === "landPlot" || params.mode === "cropView"? SliderVarsLandPlot[i].value : SliderVars[i][0]}
           onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
         />
       </ThemeProvider>
@@ -385,7 +448,7 @@ function AdjustSoilCon(params){
         <div class="slider_input_container">
           <a>{sliderInputUnitMeasure[i]}</a>
           <Input
-            value={params.mode === "landPlot"? SliderVarsLandPlot[i].value : SliderVars[i][0]}
+            value={params.mode === "landPlot" || params.mode === "cropView"? SliderVarsLandPlot[i].value : SliderVars[i][0]}
             size="small"
             onChange={(event) => SliderVars[i][1](event.target.value) & onChangeFunc(i, event.target.value, minAndMaxValues)}
             inputProps={{
@@ -414,7 +477,7 @@ function AdjustSoilCon(params){
     <>
       <div class={"adjust_soil_box fill_in_box" + classToAdd} style={soilBoxStyle}>
         <h1>{soil_box_title} soil conditions</h1>
-        <AvgText enabled={params.mode === "landPlot"? true : false}></AvgText>
+        <AvgText enabled={params.mode === "landPlot" || params.mode === "cropView"? true : false} cropView = {true}></AvgText>
         <div class="slider_container">
           {SlidersTitles}
           {Sliders}
