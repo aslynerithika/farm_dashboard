@@ -4,10 +4,12 @@
 }
 
 .Cropinformation img {
-  max-width: 250px;
-  min-width: 400px;
+  max-width: 450px;
+  min-width: 450px;
   max-height: 200px;
   min-height: 200px;
+  border-radius: 20%;
+
 }
 
 .Cropinformation p {
@@ -45,8 +47,6 @@ padding: 20PX;
 }
 
 
-
-
 .CropNavigationbtn button {
   font-size: 11px;
   padding: 3px 10px; 
@@ -59,4 +59,25 @@ padding: 20PX;
 
   .Image_icons ul li img {
     display: inline;
+  }
+  
+  
+  #maintenance-cost .MuiTooltip-tooltip {
+    font-size: 15px;
+    background-color: #0067b1;
+
+
+  }
+
+
+  #Yield .MuiTooltip-tooltip {
+    font-size: 15px;
+    background-color: #0067b1;
+
+
+  }
+
+  #Growth-time .MuiTooltip-tooltip {
+    font-size: 15px;
+    background-color: #0067b1;
   }

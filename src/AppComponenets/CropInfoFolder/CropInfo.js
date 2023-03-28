@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import cropList from '../../CustomHooks/FetchCropInfo';
 import './CropInfo.css';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Tooltip from '@mui/material/Tooltip';
+import { blue } from '@mui/material/colors';
+import { padding } from '@mui/system';
  
 
 function CropInfo() {
@@ -36,13 +36,13 @@ function CropInfo() {
           </div> 
           <div class = "Image_icons">
              <ul> 
-             <Tooltip class="Tooltip" title="Maintenance Cost" arrow>
+             <Tooltip id="maintenance-cost" title="Maintenance Cost">
                <li> <img src="./Images/App/money-bag-icon.png"></img>{crop.Cost}</li>
              </Tooltip>
-             <Tooltip class="Tooltip" title="Yield" arrow>
+             <Tooltip id="Yield"  title="Yield" >
             <li> <img src="./Images/App/yield-icon.png"></img>{crop.Yield}</li>
              </Tooltip>
-            <Tooltip class="Tooltip" title="Growth Time" arrow>
+            <Tooltip id="Growth-time" title="Growth Time">
             <li> <img src="./Images/App/timer-icon.png"></img>{crop.GrowTime}</li>
             </Tooltip>
           </ul> 
