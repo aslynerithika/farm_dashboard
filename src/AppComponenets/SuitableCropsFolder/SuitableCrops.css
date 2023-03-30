@@ -24,17 +24,25 @@ body{
     border-right: 1px solid black;
 }
 
-.cropInfo {
-    width: 65%;
+.cropInfo{
+    width: 55%;
     padding-left: 2.5%;
+}
+
+.cropInfo h3{
+    width: 30%;
 }
 .cropInfo h3{
     margin-top:  0;
     margin-bottom: 0;
     padding-bottom: 0;
     
-    
 }
+
+.cropGrowthTime{
+    border-left: 1px solid black;
+}
+
 .cropInfo p {
     float: left;
     width: 100%;
@@ -55,15 +63,6 @@ body{
 
 }
 
-/*.cropRank h3{
-    text-shadow:
-            -1.5px -1px 0 #000,
-            1.5px -1px 0 #000,
-            -1.5px 1px 0 #000,
-            1.5px 1px 0 #000;
-}*/
-
-/* sets colours for ranks. Need to find better solution */
 .cropRankValue0{
 
     color:#23EB00;
@@ -104,6 +103,32 @@ body{
     
 }
 
+.cropInfo h3{
+    width: 100%;
+}
+
+.cropGrowthTime p {
+    width: 100%;
+    font-size: 0.7em;
+    margin: auto;
+    margin-left: 15%;
+    text-align: center;
+}
+.imgTimer{
+    margin-left: 30%;
+    margin-top: 15%;
+}
+
 .suitable_crops_box{
     overflow: scroll;
+}
+
+.tooltip{
+    list-style-type: none;
+    float: left;
+    margin-left: 15%;
+}
+
+.suitable_crops_box h1{
+    text-align: center;    
 }

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59def36c-c1c3-43c7-8dd4-c9df0949c1ca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/Images/App/information.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.js" afterDir="false" />
@@ -50,6 +49,7 @@
       <workItem from="1678867595254" duration="11893000" />
       <workItem from="1678983891859" duration="8357000" />
       <workItem from="1679324395864" duration="5661000" />
+      <workItem from="1680190623686" duration="1772000" />
     </task>
     <servers />
   </component>
