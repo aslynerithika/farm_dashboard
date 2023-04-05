@@ -399,8 +399,8 @@ function AdjustSoilCon(params){
       }
     }
   }else if(params.mode === "cropView"){
+    soilBoxStyle = {gridTemplateRows: "80px 20px 1fr 100px"};
     if(fetchedData){
-      soilBoxStyle = {gridTemplateRows: "80px 20px 1fr 100px"};
 
       soil_box_title = selectedCrop;
 
