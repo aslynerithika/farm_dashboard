@@ -186,7 +186,18 @@ var plots_of_land = [];
 function AdjustSoilCon(params){
   var soil_box_title = "Adjust";
 
-  const selectedCrop = "Rice";
+  const queryParameters = new URLSearchParams(window.location.search);
+  //Default is Wheat
+  let cropNameURL = 'Wheat';
+  /*Checks to see if a crop name has been added into the URL.
+  if it has, set the current crop name to the name given in the URL
+   */
+  if(queryParameters.get("crop") != null){
+    cropNameURL = queryParameters.get("crop");
+  }
+  const [selectedCrop, setSelectedCrop] = useState(cropNameURL);
+  //const selectedCrop = "Rice";
+
   const {selectedDate, setSelectedDate} = useContext(selectedDateContext);
   const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
 
@@ -240,7 +251,7 @@ function AdjustSoilCon(params){
 
     cropAvgSoil = CROP_DATA;
     //get avg crop data
-    if(params.mode === "cropView"){
+    if(params.mode === "cropView" && cropAvgSoil["Wheat"]["PH"][1]){
       Object.keys(cropAvgSoil).forEach((cropName,index) => {
         for(var i=1; i<=4; i++){
           var cropAvgSoilVal;
