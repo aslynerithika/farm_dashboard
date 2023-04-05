@@ -3,8 +3,8 @@ import Button from '@mui/material/Button';
 import cropList from '../../CustomHooks/FetchCropInfo';
 import './CropInfo.css';
 import Tooltip from '@mui/material/Tooltip';
-import { blue } from '@mui/material/colors';
-import { padding } from '@mui/system';
+// import { blue } from '@mui/material/colors';
+// import { padding } from '@mui/system';
  
 
 function CropInfo() {
@@ -35,17 +35,12 @@ function CropInfo() {
           <p>{crop.desc}</p>
           </div> 
           <div class = "Image_icons">
-             <ul> 
-             <Tooltip id="maintenance-cost" title="Maintenance Cost">
-               <li> <img src="./Images/App/money-bag-icon.png"></img>{crop.Cost}</li>
-             </Tooltip>
-             <Tooltip id="Yield"  title="Yield" >
-            <li> <img src="./Images/App/yield-icon.png"></img>{crop.Yield}</li>
-             </Tooltip>
-            <Tooltip id="Growth-time" title="Growth Time">
-            <li> <img src="./Images/App/timer-icon.png"></img>{crop.GrowTime}</li>
-            </Tooltip>
-          </ul> 
+             <Tooltip id="maintenance-cost" title="Maintenance Cost"> 
+                <img src="./Images/App/money-bag-icon.png"></img></Tooltip>   <p>{crop.Cost}</p>   
+              <Tooltip id="Yield"  title="Yield" > 
+             <img src="./Images/App/yield-icon.png"></img></Tooltip>  <p>{crop.Yield}</p>  
+           <Tooltip id="Growth-time" title="Growth Time"> 
+             <img src="./Images/App/timer-icon.png"></img></Tooltip>  <p>{crop.GrowTime}</p>  
           </div>
         </div>  
         <div className='CropNavigationbtn'>

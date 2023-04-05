@@ -156,7 +156,7 @@ const cropList = {
     desc  : "Millet is a small, gluten-free cereal grain that is widely grown and consumed in many parts of the world. It is a good source of protein, fiber, and essential nutrients such as magnesium and phosphorus. Millet is a versatile ingredient that can be used in a variety of dishes, including porridge, bread, and pilaf ",
     Yield : "£370",
     Cost  : "£85",
-    GrowTime : "35Days",
+    GrowTime : "35 Days",
     image : "../Images/Cropimages/Millet.jpeg"
           
 
