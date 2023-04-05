@@ -254,16 +254,8 @@ function AdjustSoilCon(params){
     if(params.mode === "cropView" && cropAvgSoil["Wheat"]["PH"][1]){
       Object.keys(cropAvgSoil).forEach((cropName,index) => {
         for(var i=1; i<=4; i++){
-          var cropAvgSoilVal;
-          console.log(cropAvgSoil[cropName][cropSoilVars[i]]);
-          cropAvgSoil[cropName][cropSoilVars[i]].forEach((num, index) => {
-            //console.log(num);
-            var count = 0;
-            count += num;
-            if(index+1 == cropAvgSoil[cropName][cropSoilVars[i]].length){
-              cropAvgSoilVal = count/2
-            }
-          })
+          var cropAvgSoilVal = (cropAvgSoil[cropName][cropSoilVars[i]][0] + cropAvgSoil[cropName][cropSoilVars[i]][1]) / 2;
+          console.log(cropAvgSoilVal);
           cropAvgSoil[cropName][cropSoilVars[i]] = cropAvgSoilVal;
         }
       });
