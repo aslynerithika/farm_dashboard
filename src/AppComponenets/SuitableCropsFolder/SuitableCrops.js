@@ -2,6 +2,8 @@ import './SuitableCrops.css';
 import React, { useEffect, useState } from 'react';
 import {Container} from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
+import {Routes, Route, useNavigate, Link} from 'react-router-dom';
+import Button from "@mui/material/Button";
 
 
 let lowerPHLimit;
@@ -57,10 +59,10 @@ const oats = Crop('Oats','6.2','6.6','15','25','25',
 const straw = Crop('Straw','5.8','6.3','18','24','35',
     '64','20','60','50','250','28','1','Straw.jpeg')
 
-const sugarBeat = Crop('Sugar Beat','4.7','7.2','15','22','30',
+const sugarBeat = Crop('Sugar Beet','4.7','7.2','15','22','30',
     '50','25','55','70','280','35','1','Sugar-Beet .jpeg')
 
-const oilseed = Crop('Oil Seed','5.0','7.8','20','26','28',
+const oilseed = Crop('Oilseed','5.0','7.8','20','26','28',
     '68','30','100','85','320','25','1','Oilseed.jpeg')
 
 const peas = Crop('Peas','3.6','5.0','15','20','15',
@@ -146,16 +148,6 @@ function GetRankExtension(key){
     return extension
 }
 
-function CreatePopup(){
-    return(
-        <>
-            <div className={"test"}>
-                <p>The value shown is the maintainance cost for the crop</p>
-            </div>
-        </>
-    )
-}
-
 function GetOpacity(key){
     let test;
 
@@ -168,19 +160,19 @@ function GetOpacity(key){
         return{opacity: .4}
     }
 }
-const background = .4
+
+
 const CreateCropInfoBox = (crop, key) =>{
-    const [isShown, showInformation] = useState(false);
     return(
         <>
-            
+            <Link to={"/cropview?crop="+crop.name} className={"copInfoLink"}>
             <div className ="cropInfoBox" style={GetOpacity(key)} id={'test' + key}>
                 <div className={"column cropRank"} >
                     <h3 className = {'cropRankValue' + key}> {key + 1}{GetRankExtension(key)} </h3>
-
+                   
                     <p><Tooltip className="tooltip" title="Maintainance cost" arrow>
                         <li> <img src="/Images/App/information.png"></img>{crop.GrowTime}</li>
-                    </Tooltip>  £{crop.cropYield}</p>
+                    </Tooltip>  £{crop.costAndMaintainance}</p>
                 </div>
                 <div className="column cropImage">
                     <img src={"/Images/Cropimages/"+crop.imageURL} width="100%" height="100%" alt={crop.name}></img>
@@ -197,15 +189,9 @@ const CreateCropInfoBox = (crop, key) =>{
                     <p>Growth time: </p>
                     <p>{crop.growthTime} days</p>
                 </div>
-
-
+            
             </div>
-
-            <div>
-                {isShown && (CreatePopup()
-
-                )}
-            </div>
+            </Link>
         </>
     );
 }

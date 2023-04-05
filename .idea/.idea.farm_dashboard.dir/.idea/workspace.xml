@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="59def36c-c1c3-43c7-8dd4-c9df0949c1ca" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.farm_dashboard.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AppComponenets/CropInfoFolder/CropInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/CropInfoFolder/CropInfo.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/AppComponenets/SuitableCropsFolder/SuitableCrops.js" afterDir="false" />
     </list>
@@ -49,7 +50,9 @@
       <workItem from="1678867595254" duration="11893000" />
       <workItem from="1678983891859" duration="8357000" />
       <workItem from="1679324395864" duration="5661000" />
-      <workItem from="1680190623686" duration="1772000" />
+      <workItem from="1680190623686" duration="2652000" />
+      <workItem from="1680457389184" duration="1543000" />
+      <workItem from="1680698114764" duration="5761000" />
     </task>
     <servers />
   </component>
