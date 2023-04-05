@@ -76,25 +76,29 @@
 
 
   
-  @media only screen and (max-width: 1000px){
-    
+  @media only screen and (max-width: 1350px){
 
-    .Cropshow-container{
-      display: flex;
-      flex-direction: column;
-      
-    }
   
-    .Image_icons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: inherit;
+
+    .Image_icons{
+      position: relative; bottom: 50px; left:30px ;
+      padding: 0;
     }
+
+    .Image_icons p {
+ 
+      position: relative; right: 80px; top: 50px;
+    }
+
+    .CropNavigationbtn {
+     position: relative; top: 55px; 
+    }
+ 
+
+
     .Cropinformation h1{
         font-size: 25px;
-        position: relative ; bottom: 20px;
+        /* position: relative ; bottom: 20px; */
         position: inherit;
     }
   .Cropinformation img{
@@ -102,7 +106,7 @@
          max-width: 130px;
          min-height: 130px;
          max-height: 130px;
-         position: inherit; right:100px;
+         position: relative; right:110px;
 
   }
 
@@ -111,7 +115,7 @@
     max-width: 200px;
     max-height: 70px;
     min-height: 100px;
-    position: relative; left: 180px; bottom: 160px;
+    position: relative; left: 180px; bottom: 150px;
   }
 
 
