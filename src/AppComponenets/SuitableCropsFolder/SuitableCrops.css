@@ -132,3 +132,7 @@ body{
 .suitable_crops_box h1{
     text-align: center;    
 }
+
+.cropInfoLink{
+    text-decoration: none;
+}

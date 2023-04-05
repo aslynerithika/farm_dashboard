@@ -8,7 +8,17 @@ import Tooltip from '@mui/material/Tooltip';
  
 
 function CropInfo() {
-  const [cropName, setCropName] = useState('Wheat');
+
+  const queryParameters = new URLSearchParams(window.location.search)
+  //Default is Wheat
+  let cropNameURL = 'Wheat'
+  /*Checks to see if a crop name has been added into the URL.
+  if it has, set the current crop name to the name given in the URL
+   */
+  if(queryParameters.get("crop") != null){
+    cropNameURL = queryParameters.get("crop")
+  }
+  const [cropName, setCropName] = useState(cropNameURL);
   const crop = cropList[cropName];
 
   const handlePrevious = () => {

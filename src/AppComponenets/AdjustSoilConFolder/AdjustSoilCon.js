@@ -186,7 +186,18 @@ var plots_of_land = [];
 function AdjustSoilCon(params){
   var soil_box_title = "Adjust";
 
-  const selectedCrop = "Rice";
+  const queryParameters = new URLSearchParams(window.location.search);
+  //Default is Wheat
+  let cropNameURL = 'Wheat';
+  /*Checks to see if a crop name has been added into the URL.
+  if it has, set the current crop name to the name given in the URL
+   */
+  if(queryParameters.get("crop") != null){
+    cropNameURL = queryParameters.get("crop");
+  }
+  const [selectedCrop, setSelectedCrop] = useState(cropNameURL);
+  //const selectedCrop = "Rice";
+
   const {selectedDate, setSelectedDate} = useContext(selectedDateContext);
   const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
 
@@ -240,19 +251,11 @@ function AdjustSoilCon(params){
 
     cropAvgSoil = CROP_DATA;
     //get avg crop data
-    if(params.mode === "cropView"){
+    if(params.mode === "cropView" && cropAvgSoil["Wheat"]["PH"][1]){
       Object.keys(cropAvgSoil).forEach((cropName,index) => {
         for(var i=1; i<=4; i++){
-          var cropAvgSoilVal;
-          console.log(cropAvgSoil[cropName][cropSoilVars[i]]);
-          cropAvgSoil[cropName][cropSoilVars[i]].forEach((num, index) => {
-            //console.log(num);
-            var count = 0;
-            count += num;
-            if(index+1 == cropAvgSoil[cropName][cropSoilVars[i]].length){
-              cropAvgSoilVal = count/2
-            }
-          })
+          var cropAvgSoilVal = (cropAvgSoil[cropName][cropSoilVars[i]][0] + cropAvgSoil[cropName][cropSoilVars[i]][1]) / 2;
+          console.log(cropAvgSoilVal);
           cropAvgSoil[cropName][cropSoilVars[i]] = cropAvgSoilVal;
         }
       });
@@ -396,8 +399,8 @@ function AdjustSoilCon(params){
       }
     }
   }else if(params.mode === "cropView"){
+    soilBoxStyle = {gridTemplateRows: "80px 20px 1fr 100px"};
     if(fetchedData){
-      soilBoxStyle = {gridTemplateRows: "80px 20px 1fr 100px"};
 
       soil_box_title = selectedCrop;
 
