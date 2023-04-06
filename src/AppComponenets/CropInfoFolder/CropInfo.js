@@ -8,7 +8,6 @@ import Tooltip from '@mui/material/Tooltip';
  
 
 function CropInfo() {
-
   const queryParameters = new URLSearchParams(window.location.search)
   //Default is Wheat
   let cropNameURL = 'Wheat'
@@ -25,14 +24,20 @@ function CropInfo() {
     const cropNames = Object.keys(cropList);
     const currentIndex = cropNames.indexOf(cropName);
     const previousIndex = currentIndex === 0 ? cropNames.length - 1 : currentIndex - 1;
-    setCropName(cropNames[previousIndex]);
+    const previousCropName = cropNames[previousIndex];
+    setCropName(previousCropName);
+    window.history.pushState(null, null, `?crop=${previousCropName}`);
+
+
   };
 
   const handleNext = () => {
     const cropNames = Object.keys(cropList);
     const currentIndex = cropNames.indexOf(cropName);
     const nextIndex = currentIndex === cropNames.length - 1 ? 0 : currentIndex + 1;
-    setCropName(cropNames[nextIndex]);
+    const nextCropName = cropNames[nextIndex];
+    setCropName(nextCropName);
+    window.history.pushState(null, null, `?crop=${nextCropName}`);
   };
 
   return (
@@ -45,10 +50,12 @@ function CropInfo() {
           <p>{crop.desc}</p>
           </div> 
           <div class = "Image_icons">
+
              <Tooltip id="maintenance-cost" title="Maintenance Cost"> 
                 <img src="./Images/App/money-bag-icon.png"></img></Tooltip>   <p>{crop.Cost}</p>   
               <Tooltip id="Yield"  title="Yield" > 
              <img src="./Images/App/yield-icon.png"></img></Tooltip>  <p>{crop.Yield}</p>  
+
            <Tooltip id="Growth-time" title="Growth Time"> 
              <img src="./Images/App/timer-icon.png"></img></Tooltip>  <p>{crop.GrowTime}</p>  
           </div>
