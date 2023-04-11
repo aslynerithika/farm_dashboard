@@ -290,6 +290,13 @@ function Chart(params){
       //console.log("here");
     }
   };
+  const onHover = (event, chartElement) => {
+    if(chartElement.length == 1 || selectedDate != null){
+      event.native.target.style.cursor = "pointer";
+    }else if(chartElement.length == 0){
+      event.native.target.style.cursor = "auto";
+    }
+  }
 
   console.log(selectedChartType === 'Bar'? "#36A2EB": lineColors);
   var chartLabel = selectedDate? plots_of_land[selectedLandPlot-1]["months"][selectedDate].monthName : "Annual";
@@ -321,6 +328,9 @@ function Chart(params){
           ],
         }}
         onClick={onClick}
+        options={{
+          onHover: onHover
+        }}
         ref = {chartRef}
        />
     </div>
