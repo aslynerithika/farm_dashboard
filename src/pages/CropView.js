@@ -1,6 +1,8 @@
 import AdjustSoilCon from '../AppComponenets/AdjustSoilConFolder/AdjustSoilCon.js';
 import CropInfo from '../AppComponenets/CropInfoFolder/CropInfo.js';
 import '../../src/CSS/index.css';
+import React, { useState } from 'react';
+export const selectedCropContext = React.createContext("");
 
 const AdjustSoilConBoxStyle = {
   marginLeft: "auto"
@@ -13,16 +15,19 @@ const CropInfoBoxStyle = {
   marginRight: "auto"
 }
 function CropView() {
+  const [selectedCrop, setSelectedCrop] = useState("");
   return(
     <>
-      <div class="page_content">
-        <div style={AdjustSoilConBoxStyle} class="page_box border_none">
-          <AdjustSoilCon disableAdjustSoilCon="true" mode="cropView"></AdjustSoilCon>
+      <selectedCropContext.Provider value={{selectedCrop: selectedCrop, setSelectedCrop: setSelectedCrop}}>
+        <div class="page_content">
+          <div style={AdjustSoilConBoxStyle} class="page_box border_none">
+            <AdjustSoilCon disableAdjustSoilCon="true" mode="cropView"></AdjustSoilCon>
+          </div>
+          <div style={CropInfoBoxStyle} class="page_box border_none">
+            <CropInfo></CropInfo>
+          </div>
         </div>
-        <div style={CropInfoBoxStyle} class="page_box">
-          <CropInfo></CropInfo>
-        </div>
-      </div>
+      </selectedCropContext.Provider>
     </>
   );
 }

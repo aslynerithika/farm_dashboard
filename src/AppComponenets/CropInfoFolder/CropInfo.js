@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@mui/material/Button';
 import cropList from '../../CustomHooks/FetchCropInfo';
 import './CropInfo.css';
 import Tooltip from '@mui/material/Tooltip';
+import { selectedCropContext } from '../../pages/CropView';
 // import { blue } from '@mui/material/colors';
 // import { padding } from '@mui/system';
  
 
 function CropInfo() {
   const queryParameters = new URLSearchParams(window.location.search)
+
+  const {selectedCrop, setSelectedCrop} = useContext(selectedCropContext);
+
   //Default is Wheat
   let cropNameURL = 'Wheat'
   /*Checks to see if a crop name has been added into the URL.
@@ -26,6 +30,7 @@ function CropInfo() {
     const previousIndex = currentIndex === 0 ? cropNames.length - 1 : currentIndex - 1;
     const previousCropName = cropNames[previousIndex];
     setCropName(previousCropName);
+    setSelectedCrop(previousCropName);
     window.history.pushState(null, null, `?crop=${previousCropName}`);
 
 
@@ -37,6 +42,7 @@ function CropInfo() {
     const nextIndex = currentIndex === cropNames.length - 1 ? 0 : currentIndex + 1;
     const nextCropName = cropNames[nextIndex];
     setCropName(nextCropName);
+    setSelectedCrop(nextCropName);
     window.history.pushState(null, null, `?crop=${nextCropName}`);
   };
 

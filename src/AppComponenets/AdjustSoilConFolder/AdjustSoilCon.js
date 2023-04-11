@@ -9,6 +9,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import fetchLandPlotsData from '../../CustomHooks/FetchData.js';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
 import { selectedDateContext } from '../../pages/LandPlots';
+import { selectedCropContext } from '../../pages/CropView';
 import { getPlotData, getSoilVarsAvg, getMaxAndMinValues, getMonthDataFromPlot } from './FilterData';
 import CROP_DATA from '../CropInfoFolder/CropData';
 
@@ -186,17 +187,22 @@ var plots_of_land = [];
 function AdjustSoilCon(params){
   var soil_box_title = "Adjust";
 
-  const queryParameters = new URLSearchParams(window.location.search);
-  //Default is Wheat
-  let cropNameURL = 'Wheat';
-  /*Checks to see if a crop name has been added into the URL.
-  if it has, set the current crop name to the name given in the URL
-   */
-  if(queryParameters.get("crop") != null){
-    cropNameURL = queryParameters.get("crop");
+  const {selectedCrop, setSelectedCrop} = useContext(selectedCropContext);
+
+  if(params.mode === "cropView"){
+    const queryParameters = new URLSearchParams(window.location.search);
+    //Default is Wheat
+    let cropNameURL = 'Wheat';
+    /*Checks to see if a crop name has been added into the URL.
+    if it has, set the current crop name to the name given in the URL
+     */
+    if(queryParameters.get("crop") != null){
+      cropNameURL = queryParameters.get("crop");
+    }
+    setSelectedCrop(cropNameURL);
+    //const [selectedCrop, setSelectedCrop] = useState(cropNameURL);
+    //const selectedCrop = "Rice";
   }
-  const [selectedCrop, setSelectedCrop] = useState(cropNameURL);
-  //const selectedCrop = "Rice";
 
   const {selectedDate, setSelectedDate} = useContext(selectedDateContext);
   const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
