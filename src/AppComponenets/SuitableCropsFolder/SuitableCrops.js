@@ -1,10 +1,11 @@
 import './SuitableCrops.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {Container} from "@mui/material";
 import Tooltip from '@mui/material/Tooltip';
 import {Routes, Route, useNavigate, Link} from 'react-router-dom';
 import Button from "@mui/material/Button";
-
+import { selectedDateContext } from '../../pages/LandPlots';
+import { selectedLandPlotContext } from '../../pages/LandPlots';
 
 let lowerPHLimit;
 let upperPHLimit;
@@ -201,12 +202,13 @@ function SuitableCrops(){
     const [phValue, setphValue] = useState(7);
     const [sunlightValue, setsunlightValue] = useState(30);
     const [tempValue, settempValue] = useState(23);
+    const {selectedDate, setSelectedDate} = useContext(selectedDateContext);
+    const {selectedLandPlot, setSelectedLandPlot} = useContext(selectedLandPlotContext);
+    const setSoilVariableArray = [
+        setmoistValue, setphValue, setsunlightValue, settempValue
+    ];
 
     useEffect(() => {
-        const setSoilVariableArray = [
-            setmoistValue, setphValue, setsunlightValue, settempValue
-        ];
-
         const search_crops_btn = document.getElementById("search_crops_btn");
         const [moisture, pH, sunlight, temp] = document.getElementsByTagName("input");
 
@@ -216,7 +218,16 @@ function SuitableCrops(){
             ];
             setSoilVariableArray.map((setSoilVar, indexNum) => {setSoilVar(SoilVariableArray[indexNum])})
         });
+
     }, []);
+
+    useEffect(() => {
+        const [moisture, pH, sunlight, temp] = document.getElementsByTagName("input");
+        var SoilVariableArray = [
+            moisture.value, pH.value, sunlight.value, temp.value
+        ];
+        setSoilVariableArray.map((setSoilVar, indexNum) => {setSoilVar(SoilVariableArray[indexNum])})
+    },[selectedDate, selectedLandPlot])// could have adjust soil slide values in a state variable instead and listen to those changes.
 
     const bestCropArray = GetBestCrops(moistValue,phValue,sunlightValue,tempValue);
 
