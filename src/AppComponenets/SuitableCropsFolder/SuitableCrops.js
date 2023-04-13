@@ -6,6 +6,7 @@ import {Routes, Route, useNavigate, Link} from 'react-router-dom';
 import Button from "@mui/material/Button";
 import { selectedDateContext } from '../../pages/LandPlots';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
+import cropList from '../../CustomHooks/FetchCropInfo';
 
 let lowerPHLimit;
 let upperPHLimit;
@@ -181,7 +182,7 @@ const CreateCropInfoBox = (crop, key) =>{
                 <div className="column cropInfo">
                     
                         <h3>{crop.name}</h3>
-                        <p>This is the description of the crops. The crop description will be shown here.</p>
+                        <p>{cropList[crop.name].desc}</p>
                         <p className = "cropIdealConditions">PH: {crop.lowerPHLimit} - {crop.upperPHLimit} | Humidity: {crop.lowerHumidityLimit}%
                             - {crop.upperHumidityLimit}% | {crop.lowerTempLimit}°C - {crop.upperTempLimit}°C</p>
                 </div>

@@ -48,7 +48,9 @@ body{
     width: 100%;
     margin: auto;
     padding-bottom: 5px;
-    clear-after: end;
+    height: 40px;
+    overflow: hidden;
+    line-height: 1.4em;
 }
 
 .cropIdealConditions{
