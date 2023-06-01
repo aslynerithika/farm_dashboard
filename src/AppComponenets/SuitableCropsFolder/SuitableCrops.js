@@ -168,35 +168,62 @@ function GetOpacity(key){
     }
 }
 
+const ToolTipStyle = {
+    "display":"flex",
+    "flex-direction": "row",
+    "text-align": "center",
+    "grid-area": "2 / span 2",
+    "justify-content": "center",
+    "height": "fit-content",
+    "align-items": "center"
+};
+const ToolTipStyle2 = {
+    "display":"flex",
+    "flex-direction": "row",
+    "text-align": "center",
+    "grid-area": "3 / span 2",
+    "justify-content": "center",
+    "height": "fit-content",
+    "align-items": "center",
+};
+
 
 const CreateCropInfoBox = (crop, key) =>{
     return(
         <>
             <Link to={"/cropview?crop="+crop.name} className={"cropInfoLink"}>
             <div className ="cropInfoBox" id={'test' + key}>
-                <div className={"column cropRank"} >
+                <div className={"cropRank"} >
                     <h3 style={{color: rankColorGradient.getColor(key+1)}}> {key + 1}{GetRankExtension(key)} </h3>
-                   
-                    <p><Tooltip className="tooltip" title="Maintainance cost" arrow>
-                        <li> <img src="/Images/App/information.png"></img>{crop.GrowTime}</li>
-                    </Tooltip>  £{crop.costAndMaintainance}</p>
+                    <Tooltip class="tooltip" title="Maintainance cost" arrow>
+                        <div style={ToolTipStyle} class="innerMaintenanceCostBox">
+                            <img style={{height: "15px"}}src="/Images/App/info.png"></img>
+                            <a style={{height: "fit-content"}}>£{crop.costAndMaintainance}</a>
+                        </div>
+                    </Tooltip>
+                    <Tooltip class="tooltip" title="Growth time" arrow>
+                        <div style={ToolTipStyle2} class="innerMaintenanceCostBox cropGrowthTime">
+                            <img style={{height: "15px"}}src="/Images/App/timer.png"></img>
+                            <a style={{height: "fit-content"}}>{crop.growthTime} days</a>
+                        </div>
+                    </Tooltip>
                 </div>
-                <div className="column cropImage">
-                    <img src={"/Images/Cropimages/"+crop.imageURL} width="100%" height="100%" alt={crop.name}></img>
-                </div>
-                <div className="column cropInfo">
+                <img src={"/Images/Cropimages/"+crop.imageURL} width="100%" height="100%" alt={crop.name}></img>
+                <div className="cropInfo">
                     
                         <h3>{crop.name}</h3>
                         <p>{cropList[crop.name].desc}</p>
-                        <p className = "cropIdealConditions">PH: {crop.lowerPHLimit} - {crop.upperPHLimit} | Humidity: {crop.lowerHumidityLimit}%
-                            - {crop.upperHumidityLimit}% | {crop.lowerTempLimit}°C - {crop.upperTempLimit}°C</p>
+                        <div class="cropIdealConditions">
+                            <img src="/Images/App/moist.png"></img>
+                            <a> {crop.lowerHumidityLimit}% - {crop.upperHumidityLimit}%</a>
+                            <img src="/Images/App/ph.png"></img>
+                            <a> {crop.lowerPHLimit} - {crop.upperPHLimit}</a>
+                            <img src="/Images/App/sun.png"></img>
+                            <a> {crop.lowerLightLimit}% - {crop.upperLightLimit}%</a>
+                            <img src="/Images/App/temp.png"></img>
+                            <a> {crop.lowerTempLimit}°C - {crop.upperTempLimit}°C</a>
+                        </div>
                 </div>
-                <div className="column cropGrowthTime">
-                    <img className={"imgTimer"} src={"/Images/App/timer-icon.png"} height={"50px"} width={"50px"}></img>
-                    <p>Growth time: </p>
-                    <p>{crop.growthTime} days</p>
-                </div>
-            
             </div>
             </Link>
         </>

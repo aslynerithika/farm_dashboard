@@ -4,26 +4,20 @@ body{
 
 .cropInfoBox{
     width: 80%;
-    margin-left: 10%;
     border: 1px solid black;
     border-radius: 20px;
-    height: 95px;
-    margin-top: 2.5%;
-    position: relative;
-}
-.column {
-    float: left;
-    height: 95px;
-}
-
-.cropRank, .cropImage{
-    width: 90px;
-    border-right: 1px solid black;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 90px 90px 10px auto;
+    grid-template-rows: 100%;
 }
 
 .cropInfo{
-    width: 55%;
-    padding-left: 2.5%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-area: 1 / 4;
 }
 
 .cropInfo h3{
@@ -35,11 +29,19 @@ body{
     padding-bottom: 0;
     
 }
-
 .cropGrowthTime{
-    border-left: 1px solid black;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 30px 40px;
+    margin-right: 4px;
 }
-
+.cropGrowthTime * {
+    justify-self: right;
+}
+.cropGrowthTime p{
+    margin: 0px;
+    font-size: 12px;
+}
 .cropInfo p {
     float: left;
     width: 100%;
@@ -52,35 +54,25 @@ body{
 
 .cropIdealConditions{
     font-size: 0.8em;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 25px auto 25px auto 25px auto 25px auto;
+    height: 100%;
+    justify-content: left;
+    align-items: center;
 }
-
+.cropIdealConditions a{
+    height: fit-content;
+}
+.cropIdealConditions img{
+    width: 100%;
+}
 
 .cropRank {
     text-align: center;
     /*background-color: #007aff;*/
     border-radius: 18px  0  0 18px;
 
-}
-
-.cropRankValue0{
-
-    color:#23EB00;
-}
-.cropRankValue1{
-
-    color:#B0FA00;
-}
-.cropRankValue2{
-
-    color:#D4EB00;
-}
-.cropRankValue3{
-
-    color:#EBA900;
-}
-.cropRankValue4{
-
-    color:#F05001;
 }
 
 .test {
@@ -98,29 +90,18 @@ body{
     vertical-align: middle;
     padding-left: 3px;
     padding-right: 3px;
-    
-    
 }
 
 .cropInfo h3{
     width: 100%;
 }
 
-.cropGrowthTime p {
-    width: 100%;
-    font-size: 0.7em;
-    margin: auto;
-    margin-left: 15%;
-    text-align: center;
-}
-.imgTimer{
-    margin-left: 30%;
-    margin-top: 15%;
-}
-
 .suitable_crops_innerBox{
     overflow: scroll;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
 }
 .suitable_crops_innerBox{
         --mask: linear-gradient(to bottom, 
@@ -150,4 +131,26 @@ body{
 .cropInfoLink{
     text-decoration: none;
     color: black !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100px;
+}
+.cropInfoBox * {
+    height: 100%;
+}
+.cropRank{
+    display: grid;
+    grid-template-rows: 50px 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+.cropRank h3{grid-area: 1 / span 2; height: fit-content;}
+.cropRank *{
+    margin: 0px;
+}
+
+.innerMaintenanceCostBox a{
+    height: fit-content;
 }
