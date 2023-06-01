@@ -57,13 +57,13 @@ function CropInfo() {
           </div> 
           <div class = "Image_icons">
 
-             <Tooltip id="maintenance-cost" title="Maintenance Cost"> 
-                <img src="./Images/App/money-bag-icon.png"></img></Tooltip>   <p>{crop.Cost}</p>   
-              <Tooltip id="Yield"  title="Yield" > 
-             <img src="./Images/App/yield-icon.png"></img></Tooltip>  <p>{crop.Yield}</p>  
+             <Tooltip id="maintenance-cost" placement="top" title="Maintenance Cost" arrow> 
+                <img src="./Images/App/repairCost.png"></img></Tooltip>   <p>{crop.Cost}</p>   
+              <Tooltip id="Yield" placement="top" title="Yield" arrow> 
+             <img src="./Images/App/yieldBlack.png"></img></Tooltip>  <p>{crop.Yield}</p>  
 
-           <Tooltip id="Growth-time" title="Growth Time"> 
-             <img src="./Images/App/timer-icon.png"></img></Tooltip>  <p>{crop.GrowTime}</p>  
+           <Tooltip id="Growth-time" placement="top" title="Growth Time" arrow> 
+             <img src="./Images/App/timer.png"></img></Tooltip>  <p>{crop.GrowTime}</p>  
           </div>
         </div>  
         <div className='CropNavigationbtn'>
