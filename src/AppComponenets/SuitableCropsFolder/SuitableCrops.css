@@ -121,9 +121,23 @@ body{
     margin-top: 15%;
 }
 
-.suitable_crops_box{
+.suitable_crops_innerBox{
     overflow: scroll;
     overflow-x: hidden;
+}
+.suitable_crops_innerBox{
+        --mask: linear-gradient(to bottom, 
+        rgba(0,0,0, 1) 0,   rgba(0,0,0, 1) 90%, 
+        rgba(0,0,0, 0) 95%, rgba(0,0,0, 0) 0
+    ) 100% 50% / 100% 100% repeat-x;
+
+    -webkit-mask: var(--mask); 
+    mask: var(--mask);
+}
+.suitable_crops_box{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 80px auto;
 }
 
 .tooltip{
@@ -138,4 +152,5 @@ body{
 
 .cropInfoLink{
     text-decoration: none;
+    color: black !important;
 }

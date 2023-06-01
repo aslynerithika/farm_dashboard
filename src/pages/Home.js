@@ -19,7 +19,7 @@ function Home(parms){
         <div style={AdjustSoilConBoxStyle} class="page_box border_none">
           <AdjustSoilCon disableAdjustSoilCon={parms.disableAdjustSoilCon !== "true"? "false" : "true"} mode={parms.mode}></AdjustSoilCon>
         </div>
-        <div style={SuitableCropsBoxStyle} class="page_box">
+        <div style={SuitableCropsBoxStyle} class="page_box border_none">
           <SuitableCrops></SuitableCrops>
         </div>
       </div>

@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { selectedDateContext } from '../../pages/LandPlots';
 import { selectedLandPlotContext } from '../../pages/LandPlots';
 import cropList from '../../CustomHooks/FetchCropInfo';
+import Gradient from "javascript-color-gradient";
 
 let lowerPHLimit;
 let upperPHLimit;
@@ -22,6 +23,10 @@ let growthTime;
 let name;
 let cropScore
 let imageURL
+//tempGradient.getColor(TempDefaultValue)
+const rankColorGradient = new Gradient()
+  .setColorGradient("#00ff2a","#f2ff00", "#ff0000")
+  .setMidpoint(15);
 
 const Crop =
     (name,
@@ -167,10 +172,10 @@ function GetOpacity(key){
 const CreateCropInfoBox = (crop, key) =>{
     return(
         <>
-            <Link to={"/cropview?crop="+crop.name} className={"copInfoLink"}>
+            <Link to={"/cropview?crop="+crop.name} className={"cropInfoLink"}>
             <div className ="cropInfoBox" id={'test' + key}>
                 <div className={"column cropRank"} >
-                    <h3 className = {'cropRankValue' + key}> {key + 1}{GetRankExtension(key)} </h3>
+                    <h3 style={{color: rankColorGradient.getColor(key+1)}}> {key + 1}{GetRankExtension(key)} </h3>
                    
                     <p><Tooltip className="tooltip" title="Maintainance cost" arrow>
                         <li> <img src="/Images/App/information.png"></img>{crop.GrowTime}</li>
@@ -237,10 +242,9 @@ function SuitableCrops(){
             
             <div class="suitable_crops_box fill_in_box">
                 <h1>Most Suitable Crops</h1>
-                <a></a>
-                {bestCropArray.map((crop, key) =>(CreateCropInfoBox(crop, key)))}
-
-
+                <div class="suitable_crops_innerBox">
+                    {bestCropArray.map((crop, key) =>(CreateCropInfoBox(crop, key)))}
+                </div>
             </div>
         </>
 
