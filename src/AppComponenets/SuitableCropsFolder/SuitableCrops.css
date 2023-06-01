@@ -8,7 +8,7 @@ body{
     border-radius: 20px;
     height: 100%;
     display: grid;
-    grid-template-columns: 90px 90px 10px auto;
+    grid-template-columns: 90px 95px 10px auto;
     grid-template-rows: 100%;
 }
 
@@ -102,6 +102,15 @@ body{
     display: flex;
     flex-direction: column;
     row-gap: 25px;
+}
+.cropInfoBox img{
+    --mask: linear-gradient(to right, 
+    rgba(0,0,0, 1) 0,   rgba(0,0,0, 1) 55%, 
+    rgba(0,0,0, 0) 95%, rgba(0,0,0, 0) 0
+) 100% 50% / 100% 100% repeat-x;
+
+-webkit-mask: var(--mask); 
+mask: var(--mask);
 }
 .suitable_crops_innerBox{
         --mask: linear-gradient(to bottom, 
