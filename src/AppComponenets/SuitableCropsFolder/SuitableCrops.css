@@ -3,7 +3,7 @@ body{
 }
 
 .cropInfoBox{
-    width: 80%;
+    width: 100%;
     border: 1px solid black;
     border-radius: 20px;
     height: 100%;
@@ -105,6 +105,7 @@ body{
     display: flex;
     flex-direction: column;
     row-gap: 25px;
+    align-items: center;
 }
 .cropInfoBox img{
     --mask: linear-gradient(to right, 
@@ -147,6 +148,12 @@ mask: var(--mask);
     flex-direction: column;
     align-items: center;
     height: 100px;
+    transition: box-shadow .3s;
+    width: 600px;
+    border-radius: 20px;
+}
+.cropInfoLink:hover{
+    box-shadow: 0 0 11px rgba(33,33,33,.5); 
 }
 .cropInfoBox * {
     height: 100%;
