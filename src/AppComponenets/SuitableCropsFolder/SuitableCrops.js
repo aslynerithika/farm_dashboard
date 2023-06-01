@@ -168,7 +168,7 @@ const CreateCropInfoBox = (crop, key) =>{
     return(
         <>
             <Link to={"/cropview?crop="+crop.name} className={"copInfoLink"}>
-            <div className ="cropInfoBox" style={GetOpacity(key)} id={'test' + key}>
+            <div className ="cropInfoBox" id={'test' + key}>
                 <div className={"column cropRank"} >
                     <h3 className = {'cropRankValue' + key}> {key + 1}{GetRankExtension(key)} </h3>
                    

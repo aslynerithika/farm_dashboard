@@ -123,6 +123,7 @@ body{
 
 .suitable_crops_box{
     overflow: scroll;
+    overflow-x: hidden;
 }
 
 .tooltip{
