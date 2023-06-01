@@ -195,7 +195,7 @@ const CreateCropInfoBox = (crop, key) =>{
             <div className ="cropInfoBox" id={'test' + key}>
                 <div className={"cropRank"} >
                     <h3 style={{color: rankColorGradient.getColor(key+1)}}> {key + 1}{GetRankExtension(key)} </h3>
-                    <Tooltip class="tooltip" title="Maintainance cost" arrow>
+                    <Tooltip class="tooltip" placement="top" title="Maintainance cost" arrow>
                         <div style={ToolTipStyle} class="innerMaintenanceCostBox">
                             <img style={{height: "15px"}}src="/Images/App/info.png"></img>
                             <a style={{height: "fit-content"}}>£{crop.costAndMaintainance}</a>
