@@ -149,7 +149,8 @@ mask: var(--mask);
     align-items: center;
     height: 100px;
     transition: box-shadow .3s;
-    width: 600px;
+    max-width: 600px;
+    min-width: 400px;
     border-radius: 20px;
 }
 .cropInfoLink:hover{
