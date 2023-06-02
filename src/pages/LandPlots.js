@@ -2,7 +2,7 @@ import LandPlotSelect from '../AppComponenets/LandPlotSelectFolder/LandPlotSelec
 import Chart from '../AppComponenets/ChartFolder/Chart.js';
 import Home from './Home.js';
 import '../../src/CSS/landplots.css';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 export const selectedLandPlotContext = React.createContext(0);
 export const selectedDateContext = React.createContext([]);
 
@@ -26,9 +26,59 @@ const section_2 = {
   height: "fit-content",
   marginTop: "30px"
 }
-function LandPlots() {
+const section_3 = {
+  height: "0px"
+}
+
+function ChartAbove(){
+  return(
+      <>
+          <div class="section" style={section_2}>
+            <div style={ChartStyle} class="page_box">
+              <Chart refresh="true"></Chart>
+            </div>
+          </div>
+          <div class="section" style={section_3}>
+            <img id="switchBtn" src="/Images/App/switch.png"></img>
+          </div>
+          <Home switch={true} disableAdjustSoilCon="true" mode="landPlot"></Home>
+      </>)
+}
+function ChartUnder(){
+  return(
+      <>
+          <Home switch={false} disableAdjustSoilCon="true" mode="landPlot"></Home>
+          <div class="section" style={section_3}>
+            <img class="switchBtnChartUnder" id="switchBtn" src="/Images/App/switch.png"></img>
+          </div>
+          <div class="section" style={section_2}>
+            <div style={ChartStyle} class="page_box">
+              <Chart refresh="true"></Chart>
+            </div>
+          </div>
+      </>)
+}
+
+function SwitchSections(props){
+  if (props.switch) {
+    return <ChartAbove />;
+  }
+  return <ChartUnder />;
+  // return(
+  //     <>
+  //     </>)
+}
+function LandPlots(props) {
   const [selectedLandPlot, setSelectedLandPlot] = useState(1);
   const [selectedDate, setSelectedDate] = useState(null);
+  
+  const [switchBool, setSwitchBool] = useState(props.switch);
+  useEffect(() => {
+    var switchBtn = document.getElementById("switchBtn");
+    switchBtn.addEventListener("click", function() {
+      setSwitchBool(switchBool? false : true);
+    });
+  });
 
   return(
     <>
@@ -39,12 +89,7 @@ function LandPlots() {
               <LandPlotSelect></LandPlotSelect>
             </div>
           </div>
-          <div class="section" style={section_2}>
-            <div style={ChartStyle} class="page_box">
-              <Chart refresh="true"></Chart>
-            </div>
-          </div>
-          <Home disableAdjustSoilCon="true" mode="landPlot"></Home>
+          <SwitchSections switch={switchBool}></SwitchSections>
         </selectedDateContext.Provider>
       </selectedLandPlotContext.Provider>
     </>

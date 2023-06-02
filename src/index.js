@@ -14,7 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="landplots" element={<LandPlots />} />
+          <Route path="landplots" element={<LandPlots switch={true} />} />
           <Route path="cropview" element={<CropView />} />
         </Route>
       </Routes>

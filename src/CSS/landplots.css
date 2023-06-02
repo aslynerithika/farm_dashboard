@@ -5,11 +5,44 @@
   margin-left: 5px;
   margin-right: 5px;
 }
+#switchBtn{
+  height: 50px;
+  width: 50px;
+  position: relative;
+  top: 50px;
+}
+.switchBtnChartUnder{
+  top: -50px !important;
+}
+#switchBtn:hover{
+  border-radius: 30%;
+  box-shadow: 0px 0px 97px -3px rgba(19, 94, 255, 0.8);
+  background-color: rgba(19, 94, 255,0.1);
+  cursor: pointer;
+  animation: spin 2s linear infinite; 
+}
 @media only screen and (max-width: 1000px){
   .adjust_soil_box.disabled {
     grid-template-rows: 60px 20px 1fr !important;
   }
+  #switchBtn{
+    top: 0px;
+  }
+  .switchBtnChartUnder{
+    top: -37px !important;
+  }
+  .smallerPageContent{
+    height: 900px !important;
+  }
 }
 .chart canvas{
   min-height: 200px;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

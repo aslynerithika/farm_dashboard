@@ -13,9 +13,17 @@ const SuitableCropsBoxStyle = {
   marginRight: "auto"
 }
 function Home(parms){
+  var pageContentHeight;
+  if(parms.mode == "landPlot" && parms.switch){
+    pageContentHeight = "900px";
+  }else if(parms.mode == "landPlot" && !parms.switch){
+    pageContentHeight = "700px";
+  }else if(parms.mode != "landPlot"){
+    pageContentHeight = "900px";
+  }
   return(
     <>
-      <div class="page_content">
+      <div style={{height: pageContentHeight}} class={parms.mode == "landPlot" && parms.switch? "page_content": "page_content smallerPageContent"}>
         <div style={AdjustSoilConBoxStyle} class="page_box border_none">
           <AdjustSoilCon disableAdjustSoilCon={parms.disableAdjustSoilCon !== "true"? "false" : "true"} mode={parms.mode}></AdjustSoilCon>
         </div>
