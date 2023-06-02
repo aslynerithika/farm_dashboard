@@ -48,29 +48,37 @@ function CropInfo() {
 
   return (
     <div className="CropInfo_box fill_in_box">
-      <div className="Cropshow-container"> 
-        <div className="Caption"> 
-        <div class = "Cropinformation">
-        <h1>{crop.name}</h1> 
-          <img src={crop.image} alt="Image of Crop"></img> 
-          <p>{crop.desc}</p>
-          </div> 
-          <div class = "Image_icons">
+      <h1>{crop.name}</h1> 
+      <img src={crop.image} id="cropImage" alt="Image of Crop"></img> 
+      <p id="cropDesc">{crop.desc}</p>
 
-             <Tooltip id="maintenance-cost" placement="top" title="Maintenance Cost" arrow> 
-                <img src="./Images/App/repairCost.png"></img></Tooltip>   <p>{crop.Cost}</p>   
-              <Tooltip id="Yield" placement="top" title="Yield" arrow> 
-             <img src="./Images/App/yieldBlack.png"></img></Tooltip>  <p>{crop.Yield}</p>  
-
-           <Tooltip id="Growth-time" placement="top" title="Growth Time" arrow> 
-             <img src="./Images/App/timer.png"></img></Tooltip>  <p>{crop.GrowTime}</p>  
-          </div>
-        </div>  
-        <div className='CropNavigationbtn'>
-          <Button variant="contained" size="small" onClick={handlePrevious}>Previous</Button>
-          <Button variant="contained" size="small" onClick={handleNext}>Next</Button>
+      <div class = "Image_icons">
+        <div class="toolTipContainer">
+          <Tooltip id="maintenance-cost" placement="top" title="Maintenance Cost" arrow> 
+            <img src="./Images/App/repairCost.png"></img>
+          </Tooltip>
+          <p>{crop.Cost}</p>
         </div>
-      </div> 
+
+        <div class="toolTipContainer">
+          <Tooltip id="Yield" placement="top" title="Yield" arrow> 
+            <img src="./Images/App/yieldBlack.png"></img>
+          </Tooltip>  
+          <p>{crop.Yield}</p>
+        </div>
+
+        <div class="toolTipContainer">
+          <Tooltip id="Growth-time" placement="top" title="Growth Time" arrow> 
+            <img src="./Images/App/timer.png"></img>
+          </Tooltip>  
+          <p>{crop.GrowTime}</p>  
+        </div>
+
+      </div>
+      <div class='CropNavigationbtn'>
+        <Button variant="contained" size="small" onClick={handlePrevious}>Previous</Button>
+        <Button variant="contained" size="small" onClick={handleNext}>Next</Button>
+      </div>
     </div>
   );
 }

@@ -1,43 +1,16 @@
 
-.Cropinformation img {
-  max-width: 450px;
-  min-width: 450px;
-  max-height: 200px;
-  min-height: 200px;
-  border-radius: 20%;
-
-}
-
 .Image_icons {
   display: flex;
-  flex-direction: row ;
+  flex-direction: row;
   align-items: center;
+  height: 100%;
   justify-content: center;
-  padding-left: 60px;
+  column-gap: 80px;
 }
 
-
-.Image_icons p {
- 
-  position: relative; right: 100px; top: 80px;
-}
-
-.Image_icons img {
-  padding-right: 40px;
-  padding-top: 20px;
-}
-
-.Cropinformation p {
-  max-width: 700px;
-  min-width: 700px;
-  min-height: 50px;
-  max-height: 50px;
-  position: relative; left: 30px;
-}
-
-.Cropinformation img{
-  width: 270px;
-  height: 150px;
+.CropInfo_box #cropImage{
+  width: 450px;
+  height: 100%;
   border:2px solid #fff;
   box-shadow: 0px -10px 30px #ccc;
   color:white;
@@ -47,111 +20,93 @@
   border-bottom-left-radius:0px;
   border-bottom-right-radius:0px;
 }
-.Caption h1 {
-  font-size: 30px;
-  margin-bottom: 1rem;
+.CropInfo_box{
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 80px 200px 100px 180px 60px;
   text-align: center;
-
+  justify-content: center;
+  align-items: center;
+}
+.CropInfo_box h1{
+  width: fit-content;
+  justify-self: center;
+}
+.CropInfo_box img{
+  justify-self: center;
+}
+.CropInfo_box *{
+  margin: 0px;
 }
 
-.Cropshow-container {
-  text-align: center;
-  font-size: 15px;
+.CropNavigationbtn{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 20px;
 }
-
 .CropNavigationbtn button {
   font-size: 11px;
-  padding: 3px 10px; 
   text-transform: none;
-  margin-top: 50px;
-  margin-right: 20px;
-
-  }
+  margin: 0px;
+}
   
-  #maintenance-cost .MuiTooltip-tooltip {
-    font-size: 15px;
-    background-color: #0067b1;
+#maintenance-cost .MuiTooltip-tooltip {
+  font-size: 15px;
+  background-color: #0067b1;
+}
+
+
+#Yield .MuiTooltip-tooltip {
+  font-size: 15px;
+  background-color: #0067b1;
+}
+
+#Growth-time .MuiTooltip-tooltip {
+  font-size: 15px;
+  background-color: #0067b1;
+}
+.toolTipContainer{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  row-gap: 15px;
+}
+.toolTipContainer img{
+  height: 100px;
+  width: 100px;
+  background: none;
+}
+.toolTipContainer img:hover{
+  border-radius: 10%;
+  box-shadow: 0px 45px 116px -28px rgba(0,0,0,0.75);
+  background-color: rgba(0,0,0,0.05);
+}
+.toolTipContainer p{
+  font-weight: bold;
+  font-size: 20px;
+}
+.CropInfo_box #cropDesc{
+  height: 100%;
+  overflow: hidden;
+  line-height: 1.5em;
+  margin-top: 20px;
+}
+@media only screen and (max-width: 1000px){
+  .CropInfo_box{
+    grid-template-rows: 80px 150px 80px 100px 60px;
   }
-
-
-  #Yield .MuiTooltip-tooltip {
-    font-size: 15px;
-    background-color: #0067b1;
+  .CropInfo_box #cropImage {
+    width: 350px;
   }
-
-  #Growth-time .MuiTooltip-tooltip {
-    font-size: 15px;
-    background-color: #0067b1;
+  .toolTipContainer img {
+    height: 80px;
+    width: 80px;
   }
-
-
-
-  
-  @media only screen and (max-width: 1350px){
-
-  
-
-    .Image_icons{
-      position: relative; bottom: 50px; left:30px ;
-      padding: 0;
-    }
-
-    .Image_icons p {
- 
-      position: relative; right: 80px; top: 50px;
-    }
-
-    .CropNavigationbtn {
-     position: relative; top: 55px; 
-    }
- 
-
-
-    .Cropinformation h1{
-        font-size: 25px;
-        /* position: relative ; bottom: 20px; */
-        position: inherit;
-    }
-  .Cropinformation img{
-         min-width: 130px;
-         max-width: 130px;
-         min-height: 130px;
-         max-height: 130px;
-         position: relative; right:110px;
-
+  .toolTipContainer{
+    row-gap: 0px;
   }
-
-  .Cropinformation p{
-    min-width: 200px;
-    max-width: 200px;
-    max-height: 70px;
-    min-height: 100px;
-    position: relative; left: 180px; bottom: 150px;
-  }
-
-
-  .CropNavigationbtn button{
-   max-height: 23px;
-   position: inherit;
-  }
-
-
-.CropNavigationbtn button {
-  position: relative; bottom: 120px;
-  margin-right: 20px;
-
-  }
-
-  .Image_icons img {
-    width: 50px;
-    height: 50px;
-    position: inherit;
-
-  }
-
-
-
-
-
-
-  }
+}
