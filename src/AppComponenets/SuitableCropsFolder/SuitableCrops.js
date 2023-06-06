@@ -229,6 +229,15 @@ const CreateCropInfoBox = (crop, key) =>{
         </>
     );
 }
+
+function toggleFadeOnScroll(e){
+    let element = e.target;
+    if((element.scrollHeight - element.scrollTop) == element.clientHeight){
+        element.style = "--mask: none";
+    }else{
+        element.style = "--mask: linear-gradient(to bottom, rgba(0,0,0, 1) 0, rgba(0,0,0, 1) 90%, rgba(0,0,0, 0) 95%, rgba(0,0,0, 0) 0 ) 100% 50% / 100% 100% repeat-x;";
+    }
+}
 function SuitableCrops(){
 
     const [moistValue, setmoistValue] = useState(30);
@@ -269,7 +278,7 @@ function SuitableCrops(){
             
             <div class="suitable_crops_box fill_in_box">
                 <h1>Most Suitable Crops</h1>
-                <div class="suitable_crops_innerBox">
+                <div class="suitable_crops_innerBox" onScroll={(e) => toggleFadeOnScroll(e)}>
                     {bestCropArray.map((crop, key) =>(CreateCropInfoBox(crop, key)))}
                 </div>
             </div>
