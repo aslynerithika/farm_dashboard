@@ -39,7 +39,11 @@ function ChartAbove(){
             </div>
           </div>
           <div class="section" style={section_3}>
-            <img id="switchBtn" src="/Images/App/switch.png"></img>
+            <div id="switchContainer">
+              <img id="switchBtn" src="/Images/App/switch.png"></img>
+              <a class="switchToolTip toolTip_MoveLeft">Move chart</a>
+              <a class="switchToolTip toolTip_MoveRight">down</a>
+            </div>
           </div>
           <Home switch={true} disableAdjustSoilCon="true" mode="landPlot"></Home>
       </>)
@@ -49,7 +53,11 @@ function ChartUnder(){
       <>
           <Home switch={false} disableAdjustSoilCon="true" mode="landPlot"></Home>
           <div class="section" style={section_3}>
-            <img class="switchBtnChartUnder" id="switchBtn" src="/Images/App/switch.png"></img>
+            <div id="switchContainer" class="switchBtnChartUnder">
+              <img id="switchBtn" src="/Images/App/switch.png"></img>
+              <a class="switchToolTip toolTip_MoveLeft">Move chart</a>
+              <a class="switchToolTip toolTip_MoveRight">up</a>
+            </div>
           </div>
           <div class="section" style={section_2}>
             <div style={ChartStyle} class="page_box">

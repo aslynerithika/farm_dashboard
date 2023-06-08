@@ -8,8 +8,24 @@
 #switchBtn{
   height: 50px;
   width: 50px;
-  position: relative;
+  z-index: 3;
+  order: 2;
+}
+#switchContainer{
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  position:relative;
   top: 50px;
+  align-items: center;
+  column-gap: 10px;
+}
+#switchContainer a{
+  position: relative;
+  z-index: 0;
+  font-family: "Microsoft Yahei";
+  font-weight: bold;
+  width: 100px;
 }
 .switchBtnChartUnder{
   top: -50px !important;
@@ -21,11 +37,31 @@
   cursor: pointer;
   animation: spin 2s linear infinite; 
 }
+a.toolTip_MoveLeft{
+  opacity: 0;
+  right: -95px;
+  transition: right 1s ease, opacity 0.5s cubic-bezier( 0.45, 0.67, 0.99, 0.64 ) ;
+  order: 1;
+}
+a.toolTip_MoveRight{
+  opacity: 0;
+  right: 46px;
+  transition: right 1s ease, opacity 0.5s cubic-bezier( 0.45, 0.67, 0.99, 0.64 ) ;
+  order: 3;
+}
+#switchBtn:hover ~ a.toolTip_MoveLeft{
+  opacity: 1;
+  right: 0px;
+}
+#switchBtn:hover ~ a.toolTip_MoveRight{
+  opacity: 1;
+  right: 0px;
+}
 @media only screen and (max-width: 1000px){
   .adjust_soil_box.disabled {
     grid-template-rows: 60px 20px 1fr !important;
   }
-  #switchBtn{
+  #switchContainer{
     top: 0px;
   }
   .switchBtnChartUnder{
